@@ -1,0 +1,29 @@
+/* Instrumental methods page */
+
+/* Sampling-system diagram */
+.ins-pipe { fill: none; stroke: var(--rule-strong); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.ins-pipe-thin { fill: none; stroke: var(--rule-strong); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.ins-flow { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 8 10; opacity: 0; transition: opacity 0.25s ease; }
+.ins-flow.is-on { opacity: 1; }
+.ins-flow.is-gas { stroke: var(--gas); }
+.ins-flow.is-cal { stroke: var(--caution); }
+.ins-box { fill: var(--panel); stroke: var(--ink); stroke-width: 1.8; }
+.ins-box.is-lit { stroke: var(--accent); stroke-width: 2.6; }
+.ins-heat { fill: none; stroke: var(--gauge); stroke-width: 14; stroke-linecap: round; opacity: 0.16; }
+.ins-signal { fill: none; stroke: var(--ink-3); stroke-width: 1.2; stroke-dasharray: 2 4; }
+.ins-mode-text { margin: 0; }
+.ins-mode-text strong { display: block; margin-bottom: 0.2rem; }
+
+/* Converter fields */
+.ins-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.9rem 1rem; }
+.ins-fields .ctl:last-child { grid-column: 1 / -1; }
+@media (max-width: 520px) { .ins-fields { grid-template-columns: minmax(0, 1fr); } }
+.ins-work { display: grid; gap: 0.35rem; overflow-x: auto; padding-top: 0.75rem; border-top: 1px dashed var(--rule); }
+.ins-work .katex { font-size: 0.98em; }
+
+/* RATA table */
+.ins-rata td { vertical-align: middle; }
+.ins-rata input.field { width: 6.5rem; padding: 0.3rem 0.5rem; text-align: right; }
+.ins-rata input[type="checkbox"] { width: 1.1rem; height: 1.1rem; accent-color: var(--gas); cursor: pointer; }
+.ins-rata tr.is-off td { color: var(--ink-3); }
+.ins-rata tr.is-off input.field { opacity: 0.5; }

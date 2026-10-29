@@ -1,0 +1,40 @@
+/* Glossary: search, letter index, term list */
+
+.gloss-tools {
+  display: grid; gap: 0.75rem; margin: 0 0 2rem; padding: 0.9rem 1rem;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: var(--radius);
+}
+@media (min-width: 900px) {
+  .gloss-tools { position: sticky; top: calc(var(--topbar-h) + 0.75rem); z-index: 5; box-shadow: 0 10px 24px -18px rgba(10, 24, 32, 0.45); }
+  .gloss-letter, .gloss-item { scroll-margin-top: calc(var(--topbar-h) + 9.5rem); }
+}
+.gloss-search { display: flex; gap: 0.75rem; align-items: center; }
+.gloss-search .field { flex: 1; font-size: 1rem; padding: 0.6rem 0.8rem; background: var(--paper); }
+.gloss-count { font-size: 0.85rem; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.gloss-letters { display: flex; flex-wrap: wrap; gap: 2px; }
+.gloss-letters a, .gloss-letters span {
+  display: inline-grid; place-items: center; min-width: 1.85rem; height: 1.85rem; border-radius: 5px;
+  font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; line-height: 1; text-decoration: none;
+}
+.gloss-letters a { color: var(--ink); }
+.gloss-letters a:hover { background: var(--well); }
+.gloss-letters a.is-empty { color: var(--ink-3); opacity: 0.45; pointer-events: none; }
+.gloss-letters span { color: var(--ink-3); opacity: 0.45; }
+
+.gloss-letter { margin: 0 0 1.75rem; }
+.gloss-letter h3 {
+  font-size: 2.6rem; line-height: 1; color: var(--accent); margin: 0 0 0.25rem;
+  padding-bottom: 0.3rem; border-bottom: 2px solid var(--ink);
+}
+.gloss-list { margin: 0; }
+.gloss-item { padding: 0.9rem 0.25rem 0.95rem; border-bottom: 1px solid var(--rule); }
+.gloss-item:target { background: var(--caution-soft); border-radius: 6px; padding-left: 0.75rem; padding-right: 0.75rem; }
+.gloss-item dt { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.7rem; font-weight: 650; font-size: 1.06rem; line-height: 1.35; }
+.gloss-sym { font-weight: 400; color: var(--ink-2); }
+.gloss-lead { font-weight: 400; font-size: 1.15rem; min-width: 2.6rem; }
+.gloss-item dd { margin: 0.3rem 0 0; }
+.gloss-item dd p { margin: 0 0 0.3rem; font-size: 0.98rem; line-height: 1.6; }
+.gloss-more { font-size: 0.86rem; color: var(--ink-2); }
+.gloss-more a { color: var(--link); }
+.gloss-empty { padding: 1.25rem; border: 1px dashed var(--rule-strong); border-radius: var(--radius); color: var(--ink-2); }
+.gloss-symbols td:first-child { white-space: nowrap; width: 6rem; }

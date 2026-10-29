@@ -1,0 +1,47 @@
+/* More methods page */
+
+.mm-finder { margin: 1.25rem 0 3rem; }
+.mm-tools { display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; align-items: center; justify-content: space-between; }
+.mm-chips { border-radius: 14px; }
+.mm-search { flex: 1 1 15rem; max-width: 22rem; }
+.mm-search .field { border-radius: 999px; padding: 0.5rem 0.95rem; }
+.mm-count { font-size: 0.88rem; color: var(--ink-2); margin: 0.9rem 0 0.75rem; }
+
+.mm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); gap: 1rem; }
+.mm-card {
+  --cat: var(--ink-2);
+  display: flex; flex-direction: column; gap: 0.45rem;
+  padding: 1rem 1.15rem 1.05rem; background: var(--panel);
+  border: 1px solid var(--rule); border-top: 3px solid var(--cat); border-radius: var(--radius);
+}
+.mm-card[data-cat="pm"] { --cat: var(--soot); }
+.mm-card[data-cat="acid"] { --cat: var(--gauge); }
+.mm-card[data-cat="metals"] { --cat: var(--geom); }
+.mm-card[data-cat="org"] { --cat: var(--gas); }
+.mm-card[data-cat="comb"] { --cat: var(--water); }
+.mm-card[data-cat="opacity"] { --cat: var(--ink-2); }
+.mm-card[data-cat="valid"] { --cat: var(--caution-ink); }
+.mm-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; }
+.mm-num { font-family: var(--font-display); font-weight: 700; font-size: 2.6rem; line-height: 0.9; color: var(--cat); }
+.mm-card h3 { margin: 0; font-size: 1.4rem; }
+.mm-measures { margin: 0; font-size: 0.92rem; color: var(--ink); }
+.mm-measures span { color: var(--ink-3); }
+.mm-how { margin: 0; font-size: 0.93rem; color: var(--ink-2); line-height: 1.55; }
+.mm-keys { margin: 0.1rem 0 0; padding-left: 1.1em; font-size: 0.9rem; color: var(--ink-2); line-height: 1.5; }
+.mm-keys li { margin-bottom: 0.2em; }
+.mm-builds { margin: auto 0 0; padding-top: 0.6rem; border-top: 1px solid var(--rule); font-size: 0.84rem; color: var(--ink-3); }
+.mm-builds a { font-weight: 600; }
+.mm-empty { padding: 2rem 1rem; text-align: center; color: var(--ink-2); border: 1px dashed var(--rule-strong); border-radius: var(--radius); }
+
+/* Train comparison */
+.tr-zone-heat { fill: var(--gauge-soft); }
+.tr-zone-cool { fill: var(--water-soft); }
+.tr-zone-warm { fill: var(--caution-soft); }
+.tr-pipe { fill: none; stroke: var(--ink-3); stroke-width: 2.5; }
+.tr-part { fill: var(--panel); stroke: var(--ink); stroke-width: 1.8; }
+.tr-frac { fill: none; stroke: var(--ink-2); stroke-width: 1.5; }
+.tr-text p { margin: 0 0 0.4rem; }
+.tr-text dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.3rem 1rem; margin: 0; font-size: 0.94rem; }
+.tr-text dt { font-weight: 650; }
+.tr-text dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .tr-text dl { grid-template-columns: minmax(0, 1fr); } .tr-text dd { margin-bottom: 0.4rem; } }

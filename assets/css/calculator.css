@@ -1,0 +1,70 @@
+/* Worked example page: data sheet + step-by-step results */
+.calc { grid-column: wide; max-width: 68rem; margin: 0.5rem 0 2.5rem; }
+.calc-bar {
+  display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; align-items: center; justify-content: space-between;
+  padding: 0.85rem 1.1rem; background: var(--panel);
+  border: 1px solid var(--rule); border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.calc-grid {
+  display: grid; grid-template-columns: 22.5rem minmax(0, 1fr);
+  background: var(--panel); border: 1px solid var(--rule); border-top: 0;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+.calc-inputs {
+  padding: 1rem 1.1rem 1.5rem;
+  position: sticky; top: var(--topbar-h); align-self: start;
+  max-height: calc(100vh - var(--topbar-h)); overflow-y: auto; overscroll-behavior: contain;
+}
+.calc-inputs fieldset { border: 0; padding: 0; margin: 0 0 1.15rem; min-width: 0; }
+.calc-inputs legend {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; padding: 0; margin-bottom: 0.35rem;
+}
+.cf-row { display: grid; grid-template-columns: minmax(0, 1fr) 6.75rem; gap: 0.6rem; align-items: center; padding: 0.2rem 0; }
+.cf-row label { font-size: 0.86rem; color: var(--ink-2); line-height: 1.3; }
+.cf-row label .katex { font-size: 0.98em; color: var(--ink); }
+.cf-unit { display: block; color: var(--ink-3); font-size: 0.77rem; }
+.cf-row .field { padding: 0.38rem 0.5rem; }
+.cf-row .field[aria-invalid="true"] { border-color: var(--gauge); background: var(--gauge-soft); }
+
+.calc-steps { padding: 1rem 1.25rem 1.5rem; min-width: 0; border-left: 1px solid var(--rule); }
+#calc-steps { display: grid; gap: 0.85rem; }
+.calc-alert {
+  margin: 0 0 1rem; padding: 0.8rem 1rem; border-radius: var(--radius);
+  background: var(--gauge-soft); border: 1px solid color-mix(in srgb, var(--gauge) 40%, transparent);
+  font-size: 0.92rem;
+}
+.calc-alert ul { margin: 0; }
+
+.step-card {
+  border: 1px solid var(--rule); border-radius: var(--radius); background: var(--paper);
+  padding: 0.75rem 1rem 0.85rem; min-width: 0;
+}
+.step-head { display: grid; grid-template-columns: 2rem minmax(0, 1fr) auto; gap: 0.6rem; align-items: center; }
+.step-n {
+  width: 1.85rem; height: 1.85rem; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 600; font-size: 1rem;
+  border: 1.5px solid var(--accent); color: var(--accent); background: var(--panel);
+}
+.step-title { margin: 0; font-family: var(--font-body); font-size: 1rem; font-weight: 650; line-height: 1.3; }
+.step-link { font-size: 0.82rem; white-space: nowrap; }
+.step-eq { overflow-x: auto; overflow-y: hidden; padding: 0.15rem 0 0.1rem 2.6rem; }
+.step-eq .katex-display { margin: 0.35rem 0; text-align: left; }
+.step-eq .katex-display > .katex { text-align: left; }
+.step-why { margin: 0.25rem 0 0 2.6rem; font-size: 0.9rem; color: var(--ink-2); line-height: 1.5; }
+.step-why .status { margin-right: 0.35rem; vertical-align: 1px; }
+
+#sum-table th.is-cur, #sum-table td.is-cur { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+.tag.cs-pass { background: var(--gas-soft); color: var(--gas); }
+.tag.cs-fail { background: var(--gauge-soft); color: var(--gauge); }
+
+@media (max-width: 960px) {
+  .calc-grid { grid-template-columns: minmax(0, 1fr); }
+  .calc-inputs { position: static; max-height: none; border-bottom: 1px solid var(--rule); }
+  .calc-steps { border-left: 0; }
+}
+@media (max-width: 520px) {
+  .calc-steps { padding: 0.85rem 0.75rem 1.25rem; }
+  .step-eq, .step-why { padding-left: 0; margin-left: 0; }
+  .step-head { grid-template-columns: 2rem minmax(0, 1fr); }
+  .step-link { grid-column: 2; }
+}

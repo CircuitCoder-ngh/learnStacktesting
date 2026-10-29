@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>More methods | Stack Testing Field Guide</title>
+<meta name="description" content="A finder for the other EPA stack testing methods: condensable PM, PM10 and PM2.5, acid gases, metals, mercury, dioxins, VOCs, FTIR, opacity and more.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/more-methods.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/more-methods.js"></script>
+</head>
+<body data-page="more" class="accent-caution">
+<header id="site-header"></header>
+<div class="layout">
+<aside id="rail" class="rail"></aside>
+<main id="main" class="lesson">
+
+  <div class="lesson-hero">
+    <div class="numeral" aria-hidden="true">+</div>
+    <div>
+      <h1>More methods</h1>
+      <p class="cite">40 CFR Part 60 Appendix A, Part 51 Appendix M, and Part 63 Appendix A</p>
+      <p class="lede">Methods 1 through 5 are the skeleton. Most other methods keep that skeleton and swap what sits behind the filter: different impinger solutions, sorbent traps, or analyzers for one pollutant family.</p>
+    </div>
+  </div>
+
+  <dl class="glance">
+    <div><dt>Answers</dt><dd>Which method measures this pollutant, and how is its train different from Method 5?</dd></div>
+    <div><dt>Where they live</dt><dd>Part 60 Appendix A (NSPS methods), Part 51 Appendix M (201A, 202), Part 63 Appendix A (300 series)</dd></div>
+    <div><dt>Common thread</dt><dd>Most reuse Method 1 points, Method 2 flow, Method 3 gas composition and Method 4 moisture</dd></div>
+    <div><dt>Choose by</dt><dd>What the rule or permit cites. The regulation names the method; you rarely get to pick.</dd></div>
+  </dl>
+
+  <section class="prose">
+    <h2 id="finder" data-short="Method finder">Method finder</h2>
+    <p>Filter by pollutant family or search by method number, pollutant, or technique. Each card notes which of the core methods it builds on.</p>
+  </section>
+
+  <div class="mm-finder wide" id="mm-finder">
+    <div class="mm-tools">
+      <div class="seg mm-chips" id="mm-cat" role="group" aria-label="Pollutant family">
+        <button type="button" data-value="all" aria-pressed="true">All</button>
+        <button type="button" data-value="pm" aria-pressed="false">Particulate</button>
+        <button type="button" data-value="acid" aria-pressed="false">Acid gases</button>
+        <button type="button" data-value="metals" aria-pressed="false">Metals</button>
+        <button type="button" data-value="org" aria-pressed="false">Organics</button>
+        <button type="button" data-value="comb" aria-pressed="false">Combustion gases</button>
+        <button type="button" data-value="opacity" aria-pressed="false">Opacity</button>
+        <button type="button" data-value="valid" aria-pressed="false">Capture and validation</button>
+      </div>
+      <label class="mm-search">
+        <span class="visually-hidden">Search methods</span>
+        <input class="field" type="search" id="mm-q" placeholder="Search: mercury, HCl, 202, FID…" autocomplete="off">
+      </label>
+    </div>
+    <p class="mm-count" id="mm-count" aria-live="polite"></p>
+    <div class="mm-grid" id="mm-grid"></div>
+  </div>
+
+  <section class="prose">
+    <h2 id="trains" data-short="Same skeleton">Same skeleton, different back half</h2>
+    <p>Put the trains side by side and the pattern is obvious. The nozzle, heated probe and heated filter rarely change, because they come from Method 5 and keep the isokinetic sample representative. What changes is everything after the filter, and which pieces go to the lab.</p>
+  </section>
+
+  <figure class="bench wide" id="b-trains">
+    <div class="bench-head">
+      <p class="bench-title">Sampling trains compared</p>
+      <p class="bench-hint">Switch trains and compare what is analyzed.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="trains-svg" class="dg" viewBox="0 0 1000 330" role="img" aria-label="Sampling train diagram showing components from nozzle to meter box, temperature zones, and the fractions sent for analysis"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl span-all">
+          <span class="ctl-label">Train</span>
+          <div class="seg" id="tr-mode">
+            <button type="button" data-value="m5" aria-pressed="true">Method 5</button>
+            <button type="button" data-value="m202" aria-pressed="false">Method 5 + 202</button>
+            <button type="button" data-value="m26a" aria-pressed="false">Method 26A</button>
+            <button type="button" data-value="m29" aria-pressed="false">Method 29</button>
+          </div>
+        </div>
+        <div class="span-all" id="tr-text" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Solution strengths and impinger counts follow the current method text; check it and your protocol before you charge a train.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="opacity" data-short="Opacity (Method 9)">Reading opacity: Method 9</h2>
+    <p>Method 9 has no sampling train at all. A certified observer stands where they can see the plume clearly and records its opacity, the percent of background light it blocks, to the nearest 5% every 15 seconds. Twenty-four consecutive readings make one 6-minute average, which is usually what an opacity limit is written against.</p>
+    <p>Where the observer stands matters as much as their eyes. The sun must be in the 140° sector behind them, so glare does not wash out the plume, and they should look across the plume rather than along it. Readings are taken where the plume is densest but past any condensed water vapor, which is steam and not a pollutant.</p>
+  </section>
+
+  <figure class="bench wide" id="b-m9">
+    <div class="bench-head">
+      <p class="bench-title">Where to stand</p>
+      <p class="bench-hint">Move the observer and the sun. The shaded wedge is the 140° sector behind the observer.</p>
+    </div>
+    <div class="bench-body">
+      <div class="bench-stage">
+        <svg id="m9-svg" class="dg" viewBox="0 0 520 424" role="img" aria-label="Plan view of a stack, its plume, an observer, and the sun's direction"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="m9-obs">Observer position around the stack <span class="ctl-value" id="m9-obs-out"></span></label>
+          <input type="range" id="m9-obs" min="0" max="359" step="1" value="200">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="m9-sun">Sun direction <span class="ctl-value" id="m9-sun-out"></span></label>
+          <input type="range" id="m9-sun" min="0" max="359" step="1" value="160">
+        </div>
+        <div class="readouts">
+          <div class="readout is-caution"><div class="readout-label">Sun off the observer’s back</div><div class="readout-value" id="m9-sunang">—</div></div>
+          <div class="readout"><div class="readout-label">Sight line to plume</div><div class="readout-value" id="m9-plang">—</div></div>
+        </div>
+        <div id="m9-status" aria-live="polite"></div>
+        <p class="ctl-help">The wind blows the plume toward the east in this view. Directions are compass bearings.</p>
+      </div>
+    </div>
+  </figure>
+
+  <div class="callout criteria">
+    <p class="callout-title">Method 9 essentials</p>
+    <ul>
+      <li>Observer certified at a smoke school, and recertified every 6 months.</li>
+      <li>Readings to the nearest 5% opacity at 15-second intervals.</li>
+      <li>Twenty-four consecutive readings form a 6-minute average.</li>
+      <li>Sun in the 140° sector behind the observer; line of sight roughly perpendicular to the plume.</li>
+      <li>Read at the densest part of the plume where no condensed water vapor is present.</li>
+    </ul>
+  </div>
+
+  <section class="prose">
+    <h2 id="mistakes" data-short="Field mistakes">Field mistakes that cost runs</h2>
+  </section>
+  <div class="callout pitfall">
+    <p class="callout-title">Running the method you know, not the method the rule cites</p>
+    <p>A permit that cites Method 5B will not accept a Method 5 result, and a PM2.5 limit may need Method 201A and 202 together. Read the citation before you pack the truck.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Contaminating trace-level trains</p>
+    <p>Metals, mercury, and dioxin trains measure micrograms or less. Ungloved hands, unwashed glassware, or a reagent lot without a blank can swamp the sample.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Letting acid gases condense</p>
+    <p>HCl dissolves in any liquid water it meets. A cold spot ahead of the impingers, or a filter that drops below temperature, strips it out of the gas where nothing will analyze it.</p>
+  </div>
+
+  <div class="quiz" data-title="Check yourself">
+    <script type="application/json">
+    [
+      {"q":"A permit limits total PM2.5. Which combination of methods usually measures it?",
+       "options":["Method 5 alone","Method 201A plus Method 202","Method 17 plus Method 9","Method 29 plus Method 30B"],
+       "answer":1,
+       "why":"Method 201A sizes and collects filterable PM2.5 with in-stack cyclones; Method 202 adds the condensable fraction that forms particles after the gas leaves the stack."},
+      {"q":"Why does Method 26A exist alongside Method 26 for HCl?",
+       "options":["26A measures metals as well","26A is isokinetic, for streams with water droplets that carry dissolved HCl","26A uses an FTIR instead of impingers","26A replaces ion chromatography with titration"],
+       "answer":1,
+       "why":"Droplets carry dissolved acid gas. Only an isokinetic sample collects them in proportion, so wet streams such as scrubber outlets need 26A."},
+      {"q":"In a Method 29 train, what do the acidic potassium permanganate impingers collect?",
+       "options":["Lead and cadmium","Mercury","Moisture only","Hexavalent chromium"],
+       "answer":1,
+       "why":"Most metals are caught on the filter and in the nitric acid and peroxide impingers. Elemental mercury passes through and is oxidized and captured by the permanganate."},
+      {"q":"A Method 9 observer records 24 readings. What do they represent?",
+       "options":["One reading every minute for 24 minutes","A 6-minute average of 15-second readings","Twenty-four separate compliance determinations","A single opacity reading averaged across 24 observers"],
+       "answer":1,
+       "why":"Readings are taken every 15 seconds, so 24 consecutive readings span 6 minutes and are averaged."},
+      {"q":"What do Methods 5, 26A, 29 and 202 mostly have in common?",
+       "options":["The same impinger solutions","The front of the train: nozzle, heated probe, and heated filter, sampled isokinetically","They are all analyzed by FID","None needs Method 4 moisture"],
+       "answer":1,
+       "why":"They share Method 5’s isokinetic front end, which keeps the sample representative. They differ in what comes after the filter and what is analyzed."}
+    ]
+    </script>
+  </div>
+
+  <div id="lesson-end"></div>
+</main>
+</div>
+<footer id="site-footer"></footer>
+</body>
+</html>

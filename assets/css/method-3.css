@@ -1,0 +1,17 @@
+/* Method 3 page */
+
+/* KaTeX draws tall radicals with an SVG that must not be clamped by the global svg rules */
+.katex svg { max-width: none; }
+.bench-stage .katex svg { height: inherit; }
+
+.m3-eqline {
+  overflow-x: auto; overflow-y: hidden; min-width: 0;
+  background: var(--well); border-radius: var(--radius-sm); padding: 0.15rem 0.9rem;
+}
+.m3-eqline .katex-display { margin: 0.45rem 0; text-align: left; }
+.m3-eqline .katex-display > .katex { text-align: left; }
+
+.m3-flow { stroke-dasharray: 4 9; animation: m3flow 1.1s linear infinite; }
+@keyframes m3flow { to { stroke-dashoffset: -13; } }
+
+#b-orsat .bench-row .btn[aria-current="true"] { border-color: var(--accent); color: var(--accent); }

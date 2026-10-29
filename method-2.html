@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method 2: Velocity and flow rate | Stack Testing Field Guide</title>
+<meta name="description" content="EPA Method 2 explained interactively: how a Type S pitot tube reads velocity, the pitot coefficient, the velocity and flow equations, and why you average the square roots.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/method-2.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/method-2.js"></script>
+</head>
+<body data-page="m2" class="accent-gauge">
+<header id="site-header"></header>
+<div class="layout">
+<aside id="rail" class="rail"></aside>
+<main id="main" class="lesson">
+
+  <div class="lesson-hero">
+    <div class="numeral" aria-hidden="true">2</div>
+    <div>
+      <h1>Stack gas velocity and volumetric flow rate</h1>
+      <p class="cite">EPA Method 2, 40 CFR Part 60, Appendix A-1</p>
+      <p class="lede">Method 2 turns a small pressure difference across a pitot tube into the speed of the gas, then multiplies by the stack area to get the flow rate. Every pounds-per-hour result in a test depends on it.</p>
+    </div>
+  </div>
+
+  <dl class="glance">
+    <div><dt>Answers</dt><dd>How fast is the gas moving, and how many dry standard cubic feet leave the stack each hour?</dd></div>
+    <div><dt>Equipment</dt><dd>Type S pitot tube, inclined manometer, thermocouple and readout, barometer</dd></div>
+    <div><dt>Produces</dt><dd>Average stack gas velocity <span class="tex">v_s</span> and dry standard flow rate <span class="tex">Q_{sd}</span></dd></div>
+    <div><dt>Feeds into</dt><dd>Method 5 isokinetic sampling and every mass emission rate</dd></div>
+  </dl>
+
+  <section class="prose">
+    <h2 id="pitot" data-short="Pitot tubes">How a pitot tube reads velocity</h2>
+    <p>A pitot tube compares two pressures. One opening faces straight into the gas stream, so the gas stops against it and the pressure there rises by the <strong>velocity pressure</strong>. The other opening faces away from the flow. The difference between the two, called the velocity head or <span class="tex">\Delta p</span>, is read on a manometer in inches of water.</p>
+    <p>Velocity pressure is the kinetic energy of the gas per unit volume, <span class="tex">\tfrac{1}{2}\rho v^2</span>. Double the velocity and <span class="tex">\Delta p</span> goes up four times. That is why velocity depends on the square root of <span class="tex">\Delta p</span>, and why lighter or hotter gas reads a smaller <span class="tex">\Delta p</span> at the same speed.</p>
+    <p>A standard (Prandtl) pitot tube reads true velocity pressure and has a coefficient close to 0.99, but its tiny static-pressure holes plug quickly in dusty, wet stack gas. The <strong>Type S</strong> (Stausscheibe) pitot has two large openings facing in opposite directions. It resists plugging, fits through a sampling port, and rides alongside a Method 5 probe. Its downstream opening sits in the low-pressure wake behind the tube, so it reads a larger <span class="tex">\Delta p</span> than a standard pitot at the same velocity. Its coefficient is correspondingly lower, typically about 0.84.</p>
+  </section>
+
+  <figure class="bench wide" id="b-pitot">
+    <div class="bench-head">
+      <p class="bench-title">Pitot tube and inclined manometer</p>
+      <p class="bench-hint">Change the gas velocity and temperature, and compare the two pitot types.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="m2-pitot-svg" class="dg" viewBox="0 0 1000 370" role="img" aria-label="A pitot tube in an upward gas flow, connected by two lines to an inclined manometer whose red fluid rises with the velocity head"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <span class="ctl-label">Pitot type</span>
+          <div class="seg" id="pt-type"><button type="button" data-value="S" aria-pressed="true">Type S (Cp 0.84)</button><button type="button" data-value="std" aria-pressed="false">Standard (Cp 0.99)</button></div>
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="pt-v">Gas velocity <span class="ctl-value" id="pt-v-out"></span></label>
+          <input type="range" id="pt-v" min="5" max="90" step="1" value="50">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="pt-t">Stack temperature <span class="ctl-value" id="pt-t-out"></span></label>
+          <input type="range" id="pt-t" min="60" max="800" step="5" value="300">
+        </div>
+        <div class="readouts span-all">
+          <div class="readout is-gauge"><div class="readout-label">Manometer reads, Δp</div><div class="readout-value" id="pt-dp">—</div></div>
+          <div class="readout"><div class="readout-label">Impact side vs. static</div><div class="readout-value" id="pt-imp">—</div></div>
+          <div class="readout"><div class="readout-label">Other opening vs. static</div><div class="readout-value" id="pt-wake">—</div></div>
+          <div class="readout is-accent"><div class="readout-label">True velocity pressure</div><div class="readout-value" id="pt-pv">—</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Gas assumed at 29.92 in. Hg with a wet molecular weight of 29.0. Only Δp is ever measured; the split between the two openings is shown to explain why a Type S reads high. Notice that hotter gas reads a smaller Δp at the same velocity because it is less dense.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="cp" data-short="Pitot coefficient">The pitot coefficient</h2>
+    <p>The coefficient <span class="tex">C_p</span> converts what a pitot reads into what an ideal pitot would read. A Type S tube built and maintained to the geometric specifications in Method 2 may be assigned a baseline coefficient of <strong>0.84</strong> without calibration. Bent, damaged, or nonstandard tubes have to be calibrated.</p>
+    <p>Calibration is done in a wind tunnel against a standard pitot of known coefficient. The two are read at the same point and velocity, one after the other. Each face of the Type S, labeled side A and side B, is calibrated facing upstream, and the two sides must give nearly the same coefficient so the tube reads the same whichever way it is installed.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Type S coefficient from a calibration against a standard pitot</p>
+    <div class="eq-body"><div class="tex">C_{p(s)} = C_{p(std)}\sqrt{\frac{\Delta p_{std}}{\Delta p_{s}}}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">C_{p(std)}</span></dt><dd>coefficient of the standard pitot, about 0.99</dd>
+      <dt><span class="tex">\Delta p_{std},\ \Delta p_s</span></dt><dd>readings of the standard and Type S pitots at the same point and velocity</dd>
+    </dl>
+  </div>
+
+  <section class="prose">
+    <p>When the pitot is mounted on a sampling probe, Method 2 also sets minimum spacings between the pitot, the sampling nozzle and the thermocouple, so that none of them disturbs the flow the others see. A probe assembly that does not meet those spacings is calibrated as an assembly.</p>
+
+    <h2 id="traverse" data-short="Traverse procedure">Taking a velocity traverse</h2>
+    <ol class="steps">
+      <li><strong>Level and zero the manometer.</strong> An inclined manometer is printed for a gauge oil of a specific density, so use the fluid its scale was made for.</li>
+      <li><strong>Leak check the pitot lines.</strong> Blow into the impact opening until the manometer reads at least 3 in. H₂O, close it off, and make sure the reading holds steady for at least 15 seconds. Do the same on the other side using suction.</li>
+      <li><strong>Read the barometric pressure</strong> at the sampling elevation. If you use a nearby weather station, remember it reports pressure corrected to sea level; take off about 0.1 in. Hg for every 100 ft of elevation.</li>
+      <li><strong>Measure the stack static pressure.</strong> With the pitot turned sideways so neither opening faces the flow, disconnect one line and read the other against the atmosphere. One reading near the center is usually enough.</li>
+      <li><strong>Traverse.</strong> At each Method 1 point, let the reading settle, then record <span class="tex">\Delta p</span> and the stack temperature.</li>
+      <li><strong>Leak check again</strong> when the traverse is done. A failed post-test leak check means the readings cannot be trusted.</li>
+    </ol>
+  </section>
+
+  <div class="callout tip">
+    <p class="callout-title">Temperature matters as much as Δp</p>
+    <p>Velocity depends on the square root of the absolute stack temperature. The thermocouple must be accurate to within 1.5% of the minimum absolute stack temperature, and it should sit close to the pitot openings without touching them.</p>
+  </div>
+
+  <section class="prose">
+    <h2 id="equations" data-short="Equations">From Δp to flow rate</h2>
+    <p>Four equations take you from the field data sheet to a flow rate. First, the absolute pressure inside the stack and the molecular weight of the wet gas:</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Absolute stack pressure</p>
+    <div class="eq-body"><div class="tex">P_s = P_{bar} + \frac{P_g}{13.6}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">P_{bar}</span></dt><dd>barometric pressure, in. Hg</dd>
+      <dt><span class="tex">P_g</span></dt><dd>stack static pressure, in. H₂O (negative on most induced-draft stacks); 13.6 converts in. H₂O to in. Hg</dd>
+    </dl>
+  </div>
+
+  <div class="eq">
+    <p class="eq-name">Wet molecular weight of the stack gas</p>
+    <div class="eq-body"><div class="tex">M_s = M_d\,(1 - B_{ws}) + 18.0\,B_{ws}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">M_d</span></dt><dd>dry molecular weight from <a href="method-3.html">Method 3</a>, lb/lb-mol</dd>
+      <dt><span class="tex">B_{ws}</span></dt><dd>moisture fraction from <a href="method-4.html">Method 4</a>; 18.0 is the molecular weight of water</dd>
+    </dl>
+  </div>
+
+  <div class="eq">
+    <p class="eq-name">Average stack gas velocity</p>
+    <div class="eq-body"><div class="tex">v_s = K_p\,C_p\,\left(\sqrt{\Delta p}\right)_{avg}\sqrt{\frac{T_{s(abs)}}{P_s\,M_s}}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">K_p</span></dt><dd>85.49 ft/s · [(lb/lb-mol)(in. Hg) / ((°R)(in. H₂O))]<sup>½</sup></dd>
+      <dt><span class="tex">(\sqrt{\Delta p})_{avg}</span></dt><dd>average of the square roots of the Δp readings</dd>
+      <dt><span class="tex">T_{s(abs)}</span></dt><dd>average absolute stack temperature, °R (°F + 460)</dd>
+    </dl>
+  </div>
+
+  <div class="eq">
+    <p class="eq-name">Dry volumetric flow rate at standard conditions</p>
+    <div class="eq-body"><div class="tex">Q_{sd} = 3600\,(1 - B_{ws})\,v_s\,A\,\frac{T_{std}}{T_{s(abs)}}\,\frac{P_s}{P_{std}}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">A</span></dt><dd>cross-sectional area of the stack at the sampling location, ft²</dd>
+      <dt><span class="tex">T_{std},\ P_{std}</span></dt><dd>528 °R (68 °F) and 29.92 in. Hg</dd>
+      <dt><span class="tex">Q_{sd}</span></dt><dd>dry standard cubic feet per hour (dscf/hr)</dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-calc">
+    <div class="bench-head">
+      <p class="bench-title">Velocity and flow calculator</p>
+      <p class="bench-hint">Every slider feeds the equations below, with the numbers filled in.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage m2-calc-stage">
+        <div class="m2-eqs">
+          <div class="m2-eqline"><span class="m2-eqlabel">Stack pressure</span><div class="m2-tex" id="cl-eq-ps"></div></div>
+          <div class="m2-eqline"><span class="m2-eqlabel">Wet molecular weight</span><div class="m2-tex" id="cl-eq-ms"></div></div>
+          <div class="m2-eqline"><span class="m2-eqlabel">Velocity</span><div class="m2-tex" id="cl-eq-vs"></div></div>
+          <div class="m2-eqline"><span class="m2-eqlabel">Dry standard flow</span><div class="m2-tex" id="cl-eq-q"></div></div>
+          <div class="readouts">
+            <div class="readout is-gauge"><div class="readout-label">Velocity</div><div class="readout-value" id="cl-vs">—</div></div>
+            <div class="readout"><div class="readout-label">Actual flow</div><div class="readout-value" id="cl-qa">—</div></div>
+            <div class="readout is-accent"><div class="readout-label">Dry standard flow</div><div class="readout-value" id="cl-qsd">—</div></div>
+            <div class="readout"><div class="readout-label">Metric</div><div class="readout-value" id="cl-qm">—</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="cl-sq">Average √Δp <span class="ctl-value" id="cl-sq-out"></span></label>
+          <input type="range" id="cl-sq" min="0.10" max="1.50" step="0.01" value="0.85">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cl-ts">Stack temperature <span class="ctl-value" id="cl-ts-out"></span></label>
+          <input type="range" id="cl-ts" min="60" max="1000" step="1" value="345">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cl-cp">Pitot coefficient, Cp <span class="ctl-value" id="cl-cp-out"></span></label>
+          <input type="range" id="cl-cp" min="0.78" max="0.99" step="0.01" value="0.84">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cl-pbar">Barometric pressure <span class="ctl-value" id="cl-pbar-out"></span></label>
+          <input type="range" id="cl-pbar" min="24" max="31" step="0.01" value="29.40">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cl-pg">Static pressure <span class="ctl-value" id="cl-pg-out"></span></label>
+          <input type="range" id="cl-pg" min="-10" max="5" step="0.1" value="-0.8">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cl-md">Dry molecular weight <span class="ctl-value" id="cl-md-out"></span></label>
+          <input type="range" id="cl-md" min="28.0" max="31.0" step="0.01" value="30.10">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cl-bws">Moisture <span class="ctl-value" id="cl-bws-out"></span></label>
+          <input type="range" id="cl-bws" min="0" max="40" step="0.1" value="10.5">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cl-d">Stack inside diameter <span class="ctl-value" id="cl-d-out"></span></label>
+          <input type="range" id="cl-d" min="12" max="360" step="1" value="84">
+        </div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Actual flow is at stack temperature, pressure and moisture (acfm). Dry standard flow removes the water and corrects to 68 °F and 29.92 in. Hg, which is the basis emission limits use.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="sqrt" data-short="Average √Δp">Average the square roots, not the readings</h2>
+    <p>Because velocity follows <span class="tex">\sqrt{\Delta p}</span>, the average velocity comes from the average of the square roots. If you average the <span class="tex">\Delta p</span> readings first and take the root afterward, you always overstate the velocity whenever the readings differ across the stack. The more uneven the profile, the bigger the error, and it carries straight through to the flow rate and the emission rate.</p>
+  </section>
+
+  <figure class="bench wide" id="b-trav">
+    <div class="bench-head">
+      <p class="bench-title">A 12-point velocity traverse</p>
+      <p class="bench-hint">Pick a profile, or type your own readings into the table.</p>
+    </div>
+    <div class="bench-body">
+      <div class="bench-stage m2-trav-stage scroll-sm">
+        <svg id="m2-trav-svg" class="dg" viewBox="0 0 640 330" role="img" aria-label="Bar chart of the twelve Δp readings with lines for the average Δp and for the square of the average square root"></svg>
+        <div class="readouts m2-trav-readouts">
+          <div class="readout is-accent"><div class="readout-label">Average of √Δp</div><div class="readout-value" id="tv-avgsq">—</div></div>
+          <div class="readout is-gauge"><div class="readout-label">√ of average Δp</div><div class="readout-value" id="tv-sqavg">—</div></div>
+          <div class="readout is-caution"><div class="readout-label">Overstatement</div><div class="readout-value" id="tv-bias">—</div></div>
+          <div class="readout"><div class="readout-label">Velocity, correct</div><div class="readout-value" id="tv-vs">—</div></div>
+          <div class="readout"><div class="readout-label">Flow, correct</div><div class="readout-value" id="tv-q">—</div></div>
+        </div>
+        <p class="m2-trav-note" id="tv-note" aria-live="polite"></p>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <span class="ctl-label">Velocity profile</span>
+          <div class="seg" id="tv-prof"><button type="button" data-value="settled" aria-pressed="true">Settled</button><button type="button" data-value="skewed" aria-pressed="false">Skewed</button><button type="button" data-value="uneven" aria-pressed="false">Very uneven</button></div>
+        </div>
+        <button type="button" class="btn ghost small" id="tv-regen" style="justify-self:start">New set of readings</button>
+        <div class="table-wrap m2-trav-table">
+          <table class="data" id="tv-table"></table>
+        </div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Fixed conditions for this traverse: 84 in. stack, Cp 0.84, P<sub>bar</sub> 29.40 in. Hg, P<sub>g</sub> −0.60 in. H₂O, M<sub>d</sub> 30.10, B<sub>ws</sub> 10.5%. Temperatures are averaged as read, then converted to absolute.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="inputs" data-short="Other inputs">Where the other inputs come from</h2>
+    <ul>
+      <li><strong>Dry molecular weight</strong> comes from <a href="method-3.html">Method 3</a>. For a source emitting essentially air, such as a ventilation exhaust, Method 2 lets you skip the analysis and use 29.0.</li>
+      <li><strong>Moisture</strong> comes from <a href="method-4.html">Method 4</a>, usually run as part of the Method 5 train. An estimate is fine for setting up, but final results use the measured value.</li>
+      <li><strong>Traverse points</strong> come from <a href="method-1.html">Method 1</a>, including the cyclonic flow check. Method 2 assumes the gas moves straight up the stack.</li>
+    </ul>
+    <p>Small errors in each input reach the velocity in different proportions. Because most inputs sit under a square root, their effect is roughly halved:</p>
+  </section>
+
+  <div class="table-wrap">
+    <table class="data">
+      <caption>How a change in one input moves the calculated velocity</caption>
+      <thead><tr><th>Input</th><th>Change</th><th class="n">Velocity changes by</th></tr></thead>
+      <tbody>
+        <tr><td>Δp readings</td><td>10% high</td><td class="n">+4.9%</td></tr>
+        <tr><td>Absolute stack temperature</td><td>10% high</td><td class="n">+4.9%</td></tr>
+        <tr><td>Wet molecular weight</td><td>3% high</td><td class="n">−1.5%</td></tr>
+        <tr><td>Pitot coefficient</td><td>0.85 instead of 0.84</td><td class="n">+1.2%</td></tr>
+        <tr><td>Stack pressure</td><td>1 in. Hg high</td><td class="n">about −1.7%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="prose">
+    <h2 id="variants" data-short="Related methods">When Method 2 needs help</h2>
+    <ul>
+      <li><strong>Methods 2F and 2G</strong> use three-dimensional and two-dimensional probes that measure the angle of the flow as well as its speed. They are used where the gas does not travel straight up the stack, often for flow monitor audits at power plants.</li>
+      <li><strong>Method 2H</strong> corrects for the slower gas near the walls of circular stacks, which a standard traverse can under-sample.</li>
+      <li><strong>Method 2C</strong> covers small stacks and ducts using a standard pitot tube, and <strong>Methods 2A and 2D</strong> measure flow in pipes and small ducts with gas meters and rate meters.</li>
+    </ul>
+
+    <h2 id="criteria" data-short="Criteria">Acceptance criteria</h2>
+  </section>
+  <div class="callout criteria">
+    <p class="callout-title">Method 2 at a glance</p>
+    <ul>
+      <li>A Type S pitot meeting the geometric specifications may use Cp = 0.84; otherwise calibrate it against a standard pitot.</li>
+      <li>On calibration, the side A and side B coefficients must agree closely; check the current method text for the exact limits.</li>
+      <li>Pitot leak checks before and after the traverse: at least 3 in. H₂O held steady for at least 15 seconds on each side.</li>
+      <li>Temperature measured to within 1.5% of the minimum absolute stack temperature.</li>
+      <li>Traverse at the Method 1 points, after an acceptable cyclonic flow check.</li>
+      <li>Very low Δp readings, a few hundredths of an inch, need a more sensitive gauge; Method 2 gives a test for when.</li>
+    </ul>
+  </div>
+
+  <section class="prose">
+    <h2 id="mistakes" data-short="Field mistakes">Field mistakes that cost runs</h2>
+  </section>
+  <div class="callout pitfall">
+    <p class="callout-title">Averaging Δp instead of √Δp</p>
+    <p>The spreadsheet column labeled “average Δp” is the wrong number. Average the square roots, square the result only if you need an equivalent Δp.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">A plugged or wet pitot line</p>
+    <p>Particulate or condensate in a pitot line makes readings sluggish or drift toward zero. Watch for a manometer that stops responding when you move between points, and blow the lines back.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Getting the static pressure sign wrong</p>
+    <p>Most stacks behind an induced-draft fan run below atmospheric pressure, so <span class="tex">P_g</span> is negative. Entering −1.5 in. H₂O as +1.5 shifts the stack pressure by about 0.2 in. Hg.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">A pitot that is not square to the flow</p>
+    <p>The openings must face straight up and down the stack. A tube that is rotated, pitched, or bent reads low and nothing on the data sheet will show it.</p>
+  </div>
+
+  <div class="quiz" data-title="Check yourself">
+    <script type="application/json">
+    [
+      {"q":"At one traverse point Δp rises from 0.40 to 0.80 in. H₂O with nothing else changing. How much faster is the gas moving?",
+       "options":["Twice as fast","About 41% faster","About 20% faster","It depends on the pitot coefficient"],
+       "answer":1,
+       "why":"Velocity follows the square root of Δp: <span class=\"tex\">\\sqrt{0.80/0.40} = \\sqrt{2} \\approx 1.41</span>."},
+      {"q":"Why do stack testers use a Type S pitot instead of a standard pitot tube?",
+       "options":["It has a coefficient closer to 1.0","Its large openings resist plugging in dusty, wet gas","It does not need a temperature correction","It reads static pressure directly"],
+       "answer":1,
+       "why":"The standard pitot's small static holes plug in particulate and moisture. The Type S's big openings keep working, at the cost of needing a coefficient of about 0.84."},
+      {"q":"Two traverse points read 0.25 and 1.00 in. H₂O. What is the correct average √Δp?",
+       "options":["0.79","0.75","0.63","0.88"],
+       "answer":1,
+       "why":"(√0.25 + √1.00) ÷ 2 = (0.50 + 1.00) ÷ 2 = 0.75. Taking the root of the average Δp gives √0.625 = 0.79, which overstates velocity by about 5%."},
+      {"q":"The barometer reads 29.50 in. Hg and the stack static pressure is −1.36 in. H₂O. What is the absolute stack pressure?",
+       "options":["28.14 in. Hg","29.40 in. Hg","29.60 in. Hg","30.86 in. Hg"],
+       "answer":1,
+       "why":"<span class=\"tex\">P_s = 29.50 + (-1.36/13.6) = 29.50 - 0.10 = 29.40</span> in. Hg."},
+      {"q":"A Type S pitot meets every geometric specification in Method 2 but has never been calibrated. What coefficient can you use?",
+       "options":["0.99","0.84","1.00","None until it is calibrated"],
+       "answer":1,
+       "why":"Method 2 allows a baseline coefficient of 0.84 for Type S tubes that meet the geometric specifications."}
+    ]
+    </script>
+  </div>
+
+  <div id="lesson-end"></div>
+</main>
+</div>
+<footer id="site-footer"></footer>
+</body>
+</html>

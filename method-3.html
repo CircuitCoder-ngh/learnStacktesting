@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method 3: Gas composition | Stack Testing Field Guide</title>
+<meta name="description" content="EPA Methods 3, 3A and 3B explained interactively: measuring O₂ and CO₂, Orsat analysis, dry molecular weight, excess air, and correcting results to a reference oxygen level.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/method-3.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/method-3.js"></script>
+</head>
+<body data-page="m3" class="accent-gas">
+<header id="site-header"></header>
+<div class="layout">
+<aside id="rail" class="rail"></aside>
+<main id="main" class="lesson">
+
+  <div class="lesson-hero">
+    <div class="numeral" aria-hidden="true">3</div>
+    <div>
+      <h1>Gas analysis for O₂, CO₂ and dry molecular weight</h1>
+      <p class="cite">EPA Methods 3, 3A and 3B, 40 CFR Part 60, Appendix A-2</p>
+      <p class="lede">Method 3 finds out what the stack gas is made of. Oxygen and carbon dioxide set how heavy the gas is, how much extra air the burner is using, and how results are corrected to a common basis.</p>
+    </div>
+  </div>
+
+  <dl class="glance">
+    <div><dt>Answers</dt><dd>How much CO₂ and O₂ is in the gas, and what does a mole of dry gas weigh?</dd></div>
+    <div><dt>Equipment</dt><dd>Probe, sampling bag and leak-free pump, Orsat or Fyrite analyzer, or instrumental O₂ and CO₂ analyzers</dd></div>
+    <div><dt>Produces</dt><dd>%CO₂ and %O₂ (dry), dry molecular weight <span class="tex">M_d</span>, excess air</dd></div>
+    <div><dt>Feeds into</dt><dd>Method 2 velocity, Method 5 isokinetic setup, oxygen corrections and F-factor emission rates</dd></div>
+  </dl>
+
+  <section class="prose">
+    <h2 id="why" data-short="Why it matters">Why gas composition matters</h2>
+    <p>Combustion takes oxygen out of the air and puts carbon dioxide and water vapor in. That changes the gas in three ways a stack test has to account for:</p>
+    <ul>
+      <li><strong>Density.</strong> CO₂ (44 lb/lb-mol) is much heavier than the nitrogen (28) it displaces. Method 2 needs the molecular weight to turn Δp into velocity, and Method 5 needs it to set the isokinetic sampling rate.</li>
+      <li><strong>Dilution.</strong> A boiler can lower its concentration of a pollutant just by adding more air. Correcting results to a reference oxygen level, such as 7% or 15% O₂, removes that loophole.</li>
+      <li><strong>Fuel-based rates.</strong> Emission rates in pounds per million Btu use O₂ or CO₂ with fuel F-factors (EPA Method 19).</li>
+    </ul>
+    <p>All Method 3 results are on a <strong>dry basis</strong>: the water has been removed before the gas is analyzed. Moisture comes separately from <a href="method-4.html">Method 4</a>.</p>
+
+    <h2 id="md" data-short="Molecular weight">Dry molecular weight</h2>
+    <p>The dry molecular weight is a weighted average of the gases in the sample. Each gas contributes its molecular weight times its volume fraction. Nitrogen is found by difference and stands in for everything else, including the 1% of argon in air.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Dry molecular weight</p>
+    <div class="eq-body"><div class="tex">M_d = 0.440\,(\%CO_2) + 0.320\,(\%O_2) + 0.280\,(\%N_2 + \%CO)</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">0.440,\ 0.320,\ 0.280</span></dt><dd>molecular weights of CO₂ (44), O₂ (32), and N₂ and CO (28), divided by 100</dd>
+      <dt><span class="tex">\%N_2</span></dt><dd>100 − %CO₂ − %O₂ − %CO, all by volume on a dry basis</dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-mix">
+    <div class="bench-head">
+      <p class="bench-title">Composition mixer</p>
+      <p class="bench-hint">Start from a typical source, then move the sliders.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="m3-mix-svg" class="dg" viewBox="0 0 1000 250" role="img" aria-label="Stacked bars showing the dry gas composition and each gas's contribution to the dry molecular weight"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl span-all">
+          <span class="ctl-label">Typical source</span>
+          <div class="seg" id="mx-preset">
+            <button type="button" data-value="air" aria-pressed="false">Ambient air</button>
+            <button type="button" data-value="ng" aria-pressed="true">Natural gas boiler</button>
+            <button type="button" data-value="coal" aria-pressed="false">Coal boiler</button>
+            <button type="button" data-value="turbine" aria-pressed="false">Gas turbine</button>
+          </div>
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="mx-co2">CO₂ <span class="ctl-value" id="mx-co2-out"></span></label>
+          <input type="range" id="mx-co2" min="0" max="20" step="0.1" value="10.2">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="mx-o2">O₂ <span class="ctl-value" id="mx-o2-out"></span></label>
+          <input type="range" id="mx-o2" min="0" max="20.9" step="0.1" value="3.0">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="mx-co">CO <span class="ctl-value" id="mx-co-out"></span></label>
+          <input type="range" id="mx-co" min="0" max="2" step="0.05" value="0">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="mx-bws"><span>Moisture (for M<sub>s</sub>)</span> <span class="ctl-value" id="mx-bws-out"></span></label>
+          <input type="range" id="mx-bws" min="0" max="40" step="0.5" value="17">
+        </div>
+        <div class="readouts span-all">
+          <div class="readout is-accent"><div class="readout-label">Dry molecular weight, M<sub>d</sub></div><div class="readout-value" id="mx-md">—</div></div>
+          <div class="readout is-water"><div class="readout-label">Wet molecular weight, M<sub>s</sub></div><div class="readout-value" id="mx-ms">—</div></div>
+          <div class="readout"><div class="readout-label">Nitrogen by difference</div><div class="readout-value" id="mx-n2">—</div></div>
+          <div class="readout is-caution"><div class="readout-label">Excess air</div><div class="readout-value" id="mx-ea">—</div></div>
+          <div class="readout"><div class="readout-label">F<sub>o</sub> = (20.9 − O₂) ÷ CO₂</div><div class="readout-value" id="mx-fo">—</div></div>
+        </div>
+        <div class="span-all m3-eqline"><div id="mx-eq"></div></div>
+        <div id="mx-status" class="span-all" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>The presets are built from EPA Method 19 F-factors, so CO₂ and O₂ stay consistent for each fuel. F<sub>o</sub> is a quick plausibility check: each fuel burns to a characteristic ratio, about 1.75 for natural gas, 1.35 for fuel oil and 1.14 for bituminous coal. A value far from the fuel’s ratio points to an analyzer or absorption problem. Diluting the gas with air does not change F<sub>o</sub>, so it will not reveal a leak.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="sampling" data-short="Sampling">Collecting the sample</h2>
+    <p>Method 3 allows three ways to collect gas, depending on what the result is for:</p>
+    <ul>
+      <li><strong>Single-point grab sample.</strong> A quick draw from one point near the center of the stack. Good enough for molecular weight on a well-mixed stack.</li>
+      <li><strong>Single-point integrated sample.</strong> Gas pumped steadily into a flexible bag over the whole run, so the result is a time average.</li>
+      <li><strong>Multipoint integrated sample.</strong> The same, but the probe moves through the traverse points. This is the usual choice when the O₂ or CO₂ result will be used to correct an emission rate.</li>
+    </ul>
+    <p>An integrated train has a probe, a condenser to knock out moisture, a leak-free pump, a rate meter to hold the flow constant, and a bag that does not react with the gas. The whole train, bag included, is leak checked before use, because a leak pulls in room air and drags the result toward 20.9% O₂.</p>
+  </section>
+
+  <figure class="bench wide" id="b-train">
+    <div class="bench-head">
+      <p class="bench-title">Integrated bag sampling train</p>
+      <p class="bench-hint">Gas flows from the stack, left, into the bag, right.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="m3-train-svg" class="dg" viewBox="0 0 1000 220" role="img" aria-label="Sampling train: probe in the stack, condenser, valve, leak-free pump, rate meter and flexible sampling bag"></svg>
+      </div>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="orsat" data-short="Orsat analysis">Orsat analysis</h2>
+    <p>The Orsat analyzer measures gases by making them disappear. A burette draws exactly 100 mL of sample. The sample is pushed into a pipette of chemical solution that absorbs one gas, then drawn back, and the burette shows how much volume is gone. Each pipette removes a different gas:</p>
+    <ol class="steps">
+      <li><strong>Potassium hydroxide (KOH) absorbs CO₂.</strong></li>
+      <li><strong>Alkaline pyrogallol absorbs O₂.</strong> It also absorbs CO₂, which is why CO₂ has to come out first.</li>
+      <li><strong>Cuprous chloride absorbs CO.</strong> It also takes up O₂, so oxygen has to be removed before it.</li>
+    </ol>
+    <p>The gas is passed back and forth through each pipette until two readings in a row agree. What is left after the last pipette is counted as nitrogen. A <strong>Fyrite</strong> analyzer works on the same absorption principle for a single gas and is quicker, but less precise. Method 3 allows it for molecular weight, while results used to correct emission rates or calculate excess air need the more exacting procedures of Method 3B or the analyzers of Method 3A.</p>
+  </section>
+
+  <figure class="bench wide" id="b-orsat">
+    <div class="bench-head">
+      <p class="bench-title">Orsat analyzer</p>
+      <p class="bench-hint">Draw a sample, then pass it through the pipettes. Try them out of order.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="m3-orsat-svg" class="dg" viewBox="0 0 1000 400" role="img" aria-label="Orsat analyzer with a leveling bottle, a 100 mL burette, and three absorption pipettes connected by a manifold"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <span class="ctl-label">Sample</span>
+          <div class="seg" id="or-sample"><button type="button" data-value="coal" aria-pressed="true">Coal boiler</button><button type="button" data-value="ng" aria-pressed="false">Natural gas boiler</button></div>
+        </div>
+        <div class="bench-row span-all">
+          <button type="button" class="btn small" id="or-draw">Draw a 100 mL sample</button>
+          <button type="button" class="btn ghost small" data-pipette="koh" disabled>KOH</button>
+          <button type="button" class="btn ghost small" data-pipette="pyro" disabled>Pyrogallol</button>
+          <button type="button" class="btn ghost small" data-pipette="cucl" disabled>Cuprous chloride</button>
+        </div>
+        <div class="readouts">
+          <div class="readout is-accent"><div class="readout-label">Burette: gas remaining</div><div class="readout-value" id="or-vol">—</div></div>
+        </div>
+        <div class="table-wrap span-all" style="margin:0">
+          <table class="data" id="or-table"></table>
+        </div>
+        <div id="or-status" class="span-all" aria-live="polite"></div>
+      </div>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="instrumental" data-short="Method 3A">Method 3A: continuous analyzers</h2>
+    <p>Most modern tests measure O₂ and CO₂ with continuous analyzers under Method 3A instead of an Orsat. Oxygen is strongly attracted to a magnetic field, which paramagnetic O₂ analyzers exploit; others use electrochemical or zirconia cells. CO₂ absorbs a specific band of infrared light, so it is measured by nondispersive infrared (NDIR).</p>
+    <p>The gas passes through a conditioning system that chills it and drains off the water, so the analyzers read on a dry basis, the same as an Orsat. Method 3A does not set its own quality checks; it follows the calibration error, system bias, and drift procedures of Method 7E. Those are covered in <a href="instrumental.html">the instrumental analyzers lesson</a>.</p>
+
+    <h2 id="ea" data-short="Excess air">Excess air and oxygen corrections</h2>
+    <p>Burners run with more air than the fuel strictly needs, so that every bit of fuel finds oxygen. The extra is called excess air. Method 3B calculates it from the Orsat results:</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Percent excess air</p>
+    <div class="eq-body"><div class="tex">\%EA = \frac{\%O_2 - 0.5\,\%CO}{0.264\,\%N_2 - (\%O_2 - 0.5\,\%CO)} \times 100</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">0.264</span></dt><dd>the ratio of O₂ to N₂ in air (20.9 ÷ 79.1)</dd>
+      <dt><span class="tex">0.5\,\%CO</span></dt><dd>oxygen that would still be used to burn the CO to CO₂</dd>
+    </dl>
+  </div>
+
+  <section class="prose">
+    <p>Regulations then often express a concentration at a fixed oxygen level, so that diluting the exhaust with air does not make it look cleaner. Common reference levels are 3% O₂ for boilers, 7% O₂ for incinerators, and 15% O₂ for combustion turbines. Your permit or rule sets which one applies.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Correcting a concentration to a reference oxygen level</p>
+    <div class="eq-body"><div class="tex">C_{@X\%O_2} = C \times \frac{20.9 - X}{20.9 - \%O_2}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">C</span></dt><dd>measured concentration, dry basis (for example ppmvd)</dd>
+      <dt><span class="tex">X</span></dt><dd>reference O₂ level from the rule, percent</dd>
+      <dt><span class="tex">\%O_2</span></dt><dd>measured O₂ during the same run, dry basis</dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-o2">
+    <div class="bench-head">
+      <p class="bench-title">Correcting to a reference O₂</p>
+      <p class="bench-hint">Watch what extra air does to the raw reading and the corrected one.</p>
+    </div>
+    <div class="bench-body">
+      <div class="bench-stage">
+        <svg id="m3-o2-svg" class="dg" viewBox="0 0 560 300" role="img" aria-label="Bars comparing the measured concentration with the concentration corrected to the reference oxygen level"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="o2-ea">Extra air added by the burner <span class="ctl-value" id="o2-ea-out"></span></label>
+          <input type="range" id="o2-ea" min="0" max="250" step="5" value="40">
+          <span class="ctl-help">The pollutant leaving the flame stays the same; only the dilution changes.</span>
+        </div>
+        <div class="ctl">
+          <span class="ctl-label">Reference O₂</span>
+          <div class="seg" id="o2-ref"><button type="button" data-value="3" aria-pressed="false">3%</button><button type="button" data-value="7" aria-pressed="true">7%</button><button type="button" data-value="15" aria-pressed="false">15%</button></div>
+        </div>
+        <div class="readouts">
+          <div class="readout"><div class="readout-label">Measured O₂</div><div class="readout-value" id="o2-o2">—</div></div>
+          <div class="readout is-gauge"><div class="readout-label">Measured NOₓ</div><div class="readout-value" id="o2-c">—</div></div>
+          <div class="readout is-accent"><div class="readout-label">Corrected NOₓ</div><div class="readout-value" id="o2-cc">—</div></div>
+        </div>
+        <div class="m3-eqline"><div id="o2-eq"></div></div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>In this model the flame makes 100 ppmvd of NOₓ at stoichiometric conditions (0% O₂) and air dilutes it. The corrected value stays put no matter how much air is added, which is the whole point of the correction.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="sensitivity" data-short="When Md is wrong">What a wrong molecular weight costs</h2>
+    <p>Velocity depends on <span class="tex">1/\sqrt{M_s}</span>, so a molecular weight error is halved on the way to the flow rate. That is small, but it is a bias, not random noise, and it applies to every run. It is also why Method 2 only lets you assume 29.0 for a source that emits essentially air.</p>
+  </section>
+
+  <figure class="bench wide" id="b-mdwrong">
+    <div class="bench-head">
+      <p class="bench-title">Assumed versus measured molecular weight</p>
+      <p class="bench-hint">Set the real gas, then pick what you assumed.</p>
+    </div>
+    <div class="bench-body">
+      <div class="bench-stage">
+        <svg id="m3-err-svg" class="dg" viewBox="0 0 560 220" role="img" aria-label="Gauge showing the percent error in velocity from using an assumed molecular weight"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="mw-co2">Actual CO₂ <span class="ctl-value" id="mw-co2-out"></span></label>
+          <input type="range" id="mw-co2" min="0" max="16" step="0.1" value="13.1">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="mw-o2">Actual O₂ <span class="ctl-value" id="mw-o2-out"></span></label>
+          <input type="range" id="mw-o2" min="0" max="20.9" step="0.1" value="6.0">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="mw-bws">Moisture <span class="ctl-value" id="mw-bws-out"></span></label>
+          <input type="range" id="mw-bws" min="0" max="40" step="0.5" value="8">
+        </div>
+        <div class="ctl">
+          <span class="ctl-label">Assumed dry molecular weight</span>
+          <div class="seg" id="mw-assume"><button type="button" data-value="28.84" aria-pressed="false">28.84 (air)</button><button type="button" data-value="29.0" aria-pressed="true">29.0</button><button type="button" data-value="30.0" aria-pressed="false">30.0</button></div>
+        </div>
+        <div class="readouts">
+          <div class="readout is-accent"><div class="readout-label">Actual M<sub>d</sub></div><div class="readout-value" id="mw-md">—</div></div>
+          <div class="readout is-gauge"><div class="readout-label">Velocity and flow error</div><div class="readout-value" id="mw-err">—</div></div>
+        </div>
+      </div>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="criteria" data-short="Criteria">Acceptance criteria</h2>
+  </section>
+  <div class="callout criteria">
+    <p class="callout-title">Methods 3, 3A and 3B at a glance</p>
+    <ul>
+      <li>Leak check the sampling train and the bag before use.</li>
+      <li>Orsat or Fyrite for molecular weight (Method 3): repeat the analysis until three results for M<sub>d</sub> agree within 0.3 lb/lb-mol, and average them.</li>
+      <li>Results used for emission rate corrections or excess air need Method 3B (Orsat with tighter agreement between repeat analyses) or Method 3A analyzers; Fyrite is not acceptable there.</li>
+      <li>Method 3A analyzers follow Method 7E checks: calibration error within 2% of span, system bias within 5% of span, and drift within 3% of span.</li>
+      <li>An assumed M<sub>d</sub> of 29.0 is allowed only for sources emitting essentially air.</li>
+    </ul>
+    <p>See the current method text for the exact agreement limits in Method 3B.</p>
+  </div>
+
+  <section class="prose">
+    <h2 id="mistakes" data-short="Field mistakes">Field mistakes that cost runs</h2>
+  </section>
+  <div class="callout pitfall">
+    <p class="callout-title">Absorbing out of order</p>
+    <p>Pyrogallol takes CO₂ as well as O₂. Pass the sample through it first and all the CO₂ gets reported as oxygen. Always run KOH, then pyrogallol, then cuprous chloride.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Air leaking into the bag</p>
+    <p>A leak dilutes the sample with room air: O₂ reads high, CO₂ reads low, and an oxygen correction makes the corrected emissions look worse than they are. Compare the bag with the continuous analyzers or the expected O₂ for the process; F<sub>o</sub> will not help here, because air dilution leaves it unchanged.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Tired reagents</p>
+    <p>Absorbing solutions lose capacity with use. If readings keep creeping with every pass, the solution is spent. Checking the analyzer on ambient air, which should read close to 20.9% O₂, catches a weak pyrogallol pipette.</p>
+  </div>
+
+  <div class="quiz" data-title="Check yourself">
+    <script type="application/json">
+    [
+      {"q":"A stack gas is 12.0% CO₂ and 7.0% O₂ with no CO, dry basis. What is its dry molecular weight?",
+       "options":["28.84","29.00","30.20","31.48"],
+       "answer":2,
+       "why":"%N₂ = 100 − 12 − 7 = 81. <span class=\"tex\">M_d = 0.44(12) + 0.32(7) + 0.28(81) = 5.28 + 2.24 + 22.68 = 30.20</span>."},
+      {"q":"In what order must the Orsat pipettes be used?",
+       "options":["Pyrogallol, KOH, cuprous chloride","KOH, pyrogallol, cuprous chloride","Cuprous chloride, KOH, pyrogallol","Any order, as long as each is passed until readings agree"],
+       "answer":1,
+       "why":"Pyrogallol also absorbs CO₂, and cuprous chloride also absorbs O₂, so CO₂ must be removed first and O₂ second."},
+      {"q":"When can a tester skip the gas analysis and use a dry molecular weight of 29.0 in Method 2?",
+       "options":["For any natural gas fired source","When the source emits essentially air","When moisture is below 5%","Whenever Method 3A analyzers are not available"],
+       "answer":1,
+       "why":"Method 2 allows 29.0 only for processes emitting essentially air, such as ventilation exhausts."},
+      {"q":"NOₓ measures 50 ppmvd at 10.0% O₂. What is it corrected to 7% O₂?",
+       "options":["35 ppmvd","50 ppmvd","64 ppmvd","73 ppmvd"],
+       "answer":2,
+       "why":"<span class=\"tex\">50 \\times (20.9 - 7)/(20.9 - 10.0) = 50 \\times 13.9/10.9 = 63.8</span> ppmvd."},
+      {"q":"An integrated bag sample from a coal boiler reads 9.0% CO₂ and 10.6% O₂, while the analyzers in the trailer show 13.0% CO₂ and 6.0% O₂. What is the most likely cause?",
+       "options":["The bag was sampled at a higher load","Air leaked into the bag sampling train","The Orsat KOH pipette is exhausted","The coal changed during the run"],
+       "answer":1,
+       "why":"Room air dilutes the sample, raising O₂ and lowering CO₂ together. Notice that F<sub>o</sub> does not move: (20.9 − 10.6) ÷ 9.0 = 1.14 for the bag against 1.15 for the analyzers. Dilution scales both CO₂ and (20.9 − O₂), so F<sub>o</sub> catches analyzer errors, not leaks."}
+    ]
+    </script>
+  </div>
+
+  <div id="lesson-end"></div>
+</main>
+</div>
+<footer id="site-footer"></footer>
+</body>
+</html>

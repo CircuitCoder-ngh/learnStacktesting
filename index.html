@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stack Testing Field Guide</title>
+<meta name="description" content="An interactive guide to stationary source emissions testing: EPA Methods 1 through 5, instrumental analyzers, and the calculations that turn field data into pounds per hour.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/home.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/home.js"></script>
+</head>
+<body data-page="home" class="home">
+<header id="site-header"></header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <h1 id="hero-title">Stack testing, from the port to the report.</h1>
+      <p class="lede">Stack testing is how a facility proves what comes out of its exhaust. This guide walks through the EPA reference methods in the order a test crew runs them, with live diagrams you can adjust to see why each step matters.</p>
+      <div class="hero-actions">
+        <a class="btn" href="overview.html">Start the course</a>
+        <a class="btn ghost" href="#methods">Browse the methods</a>
+      </div>
+      <p class="hero-note" id="hero-progress" hidden><span data-progress-count>0</span> of 9 lessons complete. <a href="overview.html">Pick up where you left off</a>.</p>
+    </div>
+
+    <figure class="hero-rig">
+      <div class="rig-stage">
+        <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      </div>
+      <div class="rig-readouts" aria-hidden="true">
+        <div><span class="rig-label">Traverse point</span><span class="rig-value" id="rd-point">A-1</span><span class="rig-sub">of 12</span></div>
+        <div><span class="rig-label">Velocity head, Δp</span><span class="rig-value is-gauge" id="rd-dp">0.00</span><span class="rig-sub">in. H₂O</span></div>
+        <div><span class="rig-label">Orifice, ΔH</span><span class="rig-value" id="rd-dh">0.00</span><span class="rig-sub">in. H₂O</span></div>
+        <div><span class="rig-label">Stack temperature</span><span class="rig-value" id="rd-ts">312</span><span class="rig-sub">°F</span></div>
+        <div><span class="rig-label">Run clock</span><span class="rig-value" id="rd-clock">00:00</span><span class="rig-sub">of 60:00</span></div>
+        <div><span class="rig-label">Isokinetic rate</span><span class="rig-value is-gas" id="rd-iso">100.0</span><span class="rig-sub">%</span></div>
+      </div>
+      <figcaption class="rig-caption">A Method 5 probe working through a 12-point traverse. At each point the crew reads the pitot Δp and sets the meter box ΔH so the nozzle samples at the same speed as the gas around it.</figcaption>
+    </figure>
+  </section>
+
+  <section class="home-section" aria-labelledby="what-title">
+    <div class="home-split">
+      <div class="home-text">
+        <h2 id="what-title">What a stack test measures</h2>
+        <p>A stack test, also called a source test or performance test, measures the pollutants leaving a stationary source such as a boiler, kiln, turbine, or incinerator. A crew climbs to sampling ports on the stack, pulls exhaust gas through carefully controlled sampling trains, and follows the EPA reference methods to the letter so the numbers hold up in front of a regulator.</p>
+        <p>Almost every answer a test produces is a concentration multiplied by a flow. Methods 1 through 4 work out how much gas leaves the stack. Method 5 and the instrumental analyzers work out how much pollutant is in each cubic foot. Multiply them and you have an emission rate you can compare to a permit limit.</p>
+        <p class="muted small">Why facilities test: to show compliance with permit limits, New Source Performance Standards (40 CFR 60) and NESHAP rules (40 CFR 63); to measure control device efficiency; and to certify continuous emission monitors.</p>
+      </div>
+      <div class="flowmap" id="flowmap">
+        <svg class="flowmap-wires" id="flowmap-wires" aria-hidden="true"></svg>
+        <div class="fm-col fm-sources">
+          <p class="fm-group">How much gas</p>
+          <a class="fm-node" href="method-1.html" data-to="flow"><b>1</b><span>Where to measure</span></a>
+          <a class="fm-node" href="method-2.html" data-to="flow"><b>2</b><span>How fast it moves</span></a>
+          <a class="fm-node" href="method-3.html" data-to="flow conc"><b>3</b><span>What it’s made of</span></a>
+          <a class="fm-node" href="method-4.html" data-to="flow conc"><b>4</b><span>How wet it is</span></a>
+          <p class="fm-group">How much pollutant</p>
+          <a class="fm-node is-soot" href="method-5.html" data-to="conc"><b>5</b><span>Particulate catch</span></a>
+          <a class="fm-node is-gas" href="instrumental.html" data-to="conc"><b>7E</b><span>Gas analyzers</span></a>
+        </div>
+        <div class="fm-col fm-mid">
+          <div class="fm-result" id="fm-flow" data-to="rate"><span class="fm-k">Flow rate</span><span class="fm-sym tex-inline"><span class="tex">Q_{sd}</span></span><span class="fm-u">dry standard ft³/hr</span></div>
+          <div class="fm-result" id="fm-conc" data-to="rate"><span class="fm-k">Concentration</span><span class="fm-sym tex-inline"><span class="tex">C</span></span><span class="fm-u">gr/dscf or ppmvd</span></div>
+        </div>
+        <div class="fm-col fm-end">
+          <div class="fm-rate" id="fm-rate"><span class="fm-k">Emission rate</span><span class="fm-sym tex-inline"><span class="tex">E = C \times Q_{sd}</span></span><span class="fm-u">lb/hr, compared with the permit limit</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-section" id="methods" aria-labelledby="methods-title">
+    <h2 id="methods-title">The methods</h2>
+    <p class="section-intro">Each lesson covers what a method answers, the equipment, the procedure, the acceptance criteria, and the field mistakes that void runs. Every one has at least one model you can adjust.</p>
+    <div class="method-grid">
+      <a class="method-tile accent-geom" href="method-1.html">
+        <span class="mt-num">1</span>
+        <span class="mt-title">Traverse points</span>
+        <span class="mt-desc">Choose a sampling location and lay out points that represent the whole cross-section.</span>
+        <span class="mt-try">Site planner, equal-area layout, cyclonic flow check</span>
+      </a>
+      <a class="method-tile accent-gauge" href="method-2.html">
+        <span class="mt-num">2</span>
+        <span class="mt-title">Velocity and flow rate</span>
+        <span class="mt-desc">Turn the pressure difference across an S-type pitot tube into gas velocity and volumetric flow.</span>
+        <span class="mt-try">Pitot and manometer, velocity profile, flow calculator</span>
+      </a>
+      <a class="method-tile accent-gas" href="method-3.html">
+        <span class="mt-num">3</span>
+        <span class="mt-title">Gas composition</span>
+        <span class="mt-desc">Measure O₂ and CO₂ to get the dry molecular weight and excess air.</span>
+        <span class="mt-try">Composition mixer, molecular weight calculator</span>
+      </a>
+      <a class="method-tile accent-water" href="method-4.html">
+        <span class="mt-num">4</span>
+        <span class="mt-title">Moisture</span>
+        <span class="mt-desc">Condense and weigh the water vapor to find what fraction of the gas is water.</span>
+        <span class="mt-try">Impinger train, saturation check</span>
+      </a>
+      <a class="method-tile accent-soot is-feature" href="method-5.html">
+        <span class="mt-num">5</span>
+        <span class="mt-title">Particulate matter</span>
+        <span class="mt-desc">Pull a sample isokinetically through a heated filter and weigh what it catches. The method that ties the first four together.</span>
+        <span class="mt-try">Sampling train explorer, isokinetic simulator, nozzle and K-factor calculator</span>
+      </a>
+      <a class="method-tile accent-gas" href="instrumental.html">
+        <span class="mt-num">7E</span>
+        <span class="mt-title">Instrumental analyzers</span>
+        <span class="mt-desc">Continuous analyzers for O₂, CO₂, NOₓ, SO₂, CO and hydrocarbons, and the checks that keep them honest.</span>
+        <span class="mt-try">Calibration, bias and drift simulator, stratification test</span>
+      </a>
+      <a class="method-tile accent-caution" href="more-methods.html">
+        <span class="mt-num">+</span>
+        <span class="mt-title">More methods</span>
+        <span class="mt-desc">Condensable PM, acid gases, metals, dioxins, VOCs, FTIR, and visible emissions.</span>
+        <span class="mt-try">Method finder by pollutant</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="home-section" aria-labelledby="day-title">
+    <h2 id="day-title">A test, in order</h2>
+    <p class="section-intro">A compliance test is weeks of planning around a few long days on the platform. <a href="overview.html">The first lesson</a> walks through each stage.</p>
+    <ol class="dayline">
+      <li><span class="dl-when">Weeks before</span><span class="dl-what">Plan and notify</span><span class="dl-more">Test protocol, agency notification, site survey</span></li>
+      <li><span class="dl-when">Arrival</span><span class="dl-what">Rig up</span><span class="dl-more">Platform setup, calibrations, leak checks</span></li>
+      <li><span class="dl-when">Before run 1</span><span class="dl-what">Preliminaries</span><span class="dl-more">Traverse points, cyclonic check, velocity and moisture estimates</span></li>
+      <li><span class="dl-when">Test day</span><span class="dl-what">Three runs</span><span class="dl-more">Usually about an hour each, with the process at representative load</span></li>
+      <li><span class="dl-when">Between runs</span><span class="dl-what">Recovery</span><span class="dl-more">Rinse, seal and label every sample fraction</span></li>
+      <li><span class="dl-when">Back at base</span><span class="dl-what">Lab and math</span><span class="dl-more">Gravimetric analysis, calculations, QA review</span></li>
+      <li><span class="dl-when">Weeks after</span><span class="dl-what">Report</span><span class="dl-more">Results against limits, submitted to the agency</span></li>
+    </ol>
+  </section>
+</main>
+
+<footer id="site-footer"></footer>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method 4: Moisture | Stack Testing Field Guide</title>
+<meta name="description" content="EPA Method 4 explained interactively: the impinger train, measuring condensate and silica gel gain, calculating Bws, and the saturation check.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/method-4.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/method-4.js"></script>
+</head>
+<body data-page="m4" class="accent-water">
+<header id="site-header"></header>
+<div class="layout">
+<aside id="rail" class="rail"></aside>
+<main id="main" class="lesson">
+
+  <div class="lesson-hero">
+    <div class="numeral" aria-hidden="true">4</div>
+    <div>
+      <h1>Moisture content</h1>
+      <p class="cite">EPA Method 4, 40 CFR Part 60, Appendix A-3</p>
+      <p class="lede">Stack gas is part water vapor, sometimes a large part. Method 4 pulls a measured sample through ice-cold impingers, catches the water, and weighs it, so every other result can be stated on a dry basis.</p>
+    </div>
+  </div>
+
+  <dl class="glance">
+    <div><dt>Answers</dt><dd>What fraction of the stack gas, by volume, is water vapor?</dd></div>
+    <div><dt>Equipment</dt><dd>Heated probe, impingers in an ice bath, indicating silica gel, pump, dry gas meter, balance or graduated cylinder</dd></div>
+    <div><dt>Produces</dt><dd>The moisture fraction <span class="tex">B_{ws}</span>, a number between 0 and 1</dd></div>
+    <div><dt>Feeds into</dt><dd>Wet molecular weight for Method 2, isokinetic setup for Method 5, and every dry-basis concentration</dd></div>
+  </dl>
+
+  <section class="prose">
+    <h2 id="why" data-short="Why moisture matters">Why moisture matters</h2>
+    <p>Emission limits are almost always written on a <strong>dry basis</strong>: grains per dry standard cubic foot, ppm by volume dry, pounds per hour calculated from dry standard flow. The sampling equipment agrees. The impingers strip the water out before the gas reaches the dry gas meter, so the meter only ever measures the dry part of the sample.</p>
+    <p>Moisture also changes how heavy the gas is. Water (18 lb/lb-mole) is lighter than dry flue gas (about 29–30 lb/lb-mole), so wet gas has a lower molecular weight, <span class="tex">M_s</span>. Method 2 uses <span class="tex">M_s</span> to turn the pitot reading into velocity, and Method 5 uses it to set the isokinetic sampling rate. Get moisture wrong and the flow, the isokinetic rate, and the dry-basis concentration all move with it.</p>
+  </section>
+
+  <figure class="bench wide" id="b-why">
+    <div class="bench-head">
+      <p class="bench-title">What moisture does to the numbers</p>
+      <p class="bench-hint">Change the moisture and watch velocity and concentration respond.</p>
+    </div>
+    <div class="bench-body">
+      <div class="bench-stage">
+        <svg id="m4-why-svg" class="dg" viewBox="0 0 560 300" role="img" aria-label="Bar showing one cubic foot of stack gas split into dry gas and water vapor, and the smaller dry volume the meter sees"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="wy-bws"><span>Moisture, <span class="tex">B_{ws}</span></span> <span class="ctl-value" id="wy-bws-out"></span></label>
+          <input type="range" id="wy-bws" min="0" max="40" step="0.5" value="12">
+        </div>
+        <div class="readouts">
+          <div class="readout is-water"><div class="readout-label">Wet molecular weight, <span class="tex">M_s</span></div><div class="readout-value" id="wy-ms">—</div></div>
+          <div class="readout is-gauge"><div class="readout-label">Stack velocity</div><div class="readout-value" id="wy-vs">—</div></div>
+          <div class="readout is-caution"><div class="readout-label">Velocity error if moisture is ignored</div><div class="readout-value" id="wy-err">—</div></div>
+          <div class="readout is-gas"><div class="readout-label">A 100 ppm wet reading, dry basis</div><div class="readout-value" id="wy-dry">—</div></div>
+        </div>
+        <p class="ctl-help">Fixed conditions: dry molecular weight 30.16 lb/lb-mole, stack temperature 350 °F, stack pressure 29.5 in. Hg, average <span class="tex">\sqrt{\Delta p}</span> of 0.90, and <span class="tex">C_p</span> = 0.84.</p>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Ignoring moisture makes the gas look heavier than it is, so the calculated velocity comes out low. A wet-basis analyzer reading has to be divided by <span class="tex">(1 - B_{ws})</span> to put it on the same dry basis as the limit.</p></div>
+  </figure>
+
+  <div class="eq">
+    <p class="eq-name">Dry and wet concentrations</p>
+    <div class="eq-body"><div class="tex">C_{dry} = \frac{C_{wet}}{1 - B_{ws}} \qquad M_s = M_d\,(1 - B_{ws}) + 18.0\,B_{ws}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">M_d</span></dt><dd>dry molecular weight from Method 3, lb/lb-mole</dd>
+      <dt><span class="tex">18.0</span></dt><dd>molecular weight of water, lb/lb-mole</dd>
+    </dl>
+  </div>
+
+  <section class="prose">
+    <h2 id="approaches" data-short="Two approaches">The reference method and the quick estimates</h2>
+    <p>Method 4 describes two kinds of measurement, and they serve different purposes.</p>
+    <ul>
+      <li><strong>The reference method</strong> condenses and collects the water from a measured volume of gas, then weighs or measures it. This is the value you report. In most particulate tests it comes straight out of the Method 5 train, whose impingers are a Method 4 train.</li>
+      <li><strong>Approximation methods</strong> give a quick estimate before the test so you can choose a nozzle and set the isokinetic rate. Options include wet-bulb and dry-bulb temperatures, a short run with a small condensation train, a combustion calculation, or data from an earlier test at the same source.</li>
+    </ul>
+    <p>An approximation is a setup tool. It never replaces the reference value in the results.</p>
+  </section>
+
+  <section class="prose">
+    <h2 id="train" data-short="The train">The sampling train</h2>
+    <p>Gas leaves the stack through a heated probe, which keeps the water as vapor until it reaches the collection system. It then bubbles through a series of glass impingers sitting in an ice bath:</p>
+    <ol class="steps">
+      <li><strong>Impinger 1, 100 mL of water.</strong> Most of the water vapor condenses here as the gas cools.</li>
+      <li><strong>Impinger 2, 100 mL of water.</strong> Catches what the first one missed.</li>
+      <li><strong>Impinger 3, empty.</strong> Traps carryover droplets.</li>
+      <li><strong>Impinger 4, about 200–300 g of indicating silica gel.</strong> Adsorbs the last of the vapor. The gel changes color as it loads, so you can see when it is close to spent.</li>
+    </ol>
+    <p>A temperature sensor sits at the silica gel outlet. After that come the umbilical, a vacuum gauge, a leak-free pump, and the dry gas meter that measures how much dry gas was sampled.</p>
+  </section>
+
+  <figure class="bench wide" id="b-train">
+    <div class="bench-head">
+      <p class="bench-title">Impinger train during a 60-minute run</p>
+      <p class="bench-hint">Change the stack moisture, or let the ice melt to see what goes wrong.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="m4-train-svg" class="dg" viewBox="0 0 1000 410" role="img" aria-label="Animated Method 4 impinger train: heated probe, four impingers in an ice bath, outlet thermometer, and dry gas meter"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="tr-bws">Stack moisture <span class="ctl-value" id="tr-bws-out"></span></label>
+          <input type="range" id="tr-bws" min="2" max="30" step="1" value="12">
+        </div>
+        <div class="ctl">
+          <span class="ctl-label">Ice bath</span>
+          <div class="seg" id="tr-ice"><button type="button" data-value="iced" aria-pressed="true">Kept iced</button><button type="button" data-value="melted" aria-pressed="false">Ice melted</button></div>
+          <button type="button" class="btn ghost small" id="tr-restart" style="justify-self:start;margin-top:.4rem">Restart run</button>
+        </div>
+        <div class="readouts">
+          <div class="readout"><div class="readout-label">Run clock</div><div class="readout-value" id="tr-clock">—</div></div>
+          <div class="readout is-water"><div class="readout-label">Condensate gained</div><div class="readout-value" id="tr-cond">—</div></div>
+          <div class="readout is-water"><div class="readout-label">Silica gel gain</div><div class="readout-value" id="tr-gel">—</div></div>
+          <div class="readout is-caution"><div class="readout-label">Gel outlet temperature</div><div class="readout-value" id="tr-temp">—</div></div>
+          <div class="readout is-accent"><div class="readout-label">Measured moisture</div><div class="readout-value" id="tr-meas">—</div></div>
+        </div>
+        <div id="tr-status" class="span-all" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>An illustration, not a lab model. When the bath stays iced, almost all the water condenses in the first two impingers and the gel only polishes the gas. When the ice melts, more vapor reaches the gel, warm gel holds less, and the excess passes uncounted into the meter, so the measured moisture comes out low.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="procedure" data-short="Running it">Running the measurement</h2>
+    <ol class="steps">
+      <li><strong>Prepare the impingers.</strong> Add the water and silica gel, then weigh each impinger (or measure the water volume) and record the starting values.</li>
+      <li><strong>Assemble and leak check.</strong> Pack the impingers in ice, connect the train, and leak check at about 15 in. Hg of vacuum. The leak rate limit is the same as Method 5: no more than 0.020 cfm or 4% of the average sampling rate, whichever is less.</li>
+      <li><strong>Sample.</strong> In a particulate test the moisture train simply rides along with the Method 5 run. Run on its own, Method 4 samples at a steady rate across the Method 1 traverse points.</li>
+      <li><strong>Keep it cold.</strong> Add ice as needed so the gas leaving the silica gel stays at or below 68 °F (20 °C).</li>
+      <li><strong>Finish with a leak check.</strong> A post-test leak check is mandatory, at a vacuum at least as high as the highest reached during the run.</li>
+      <li><strong>Measure the water.</strong> Weigh the impingers again, or measure the condensate to the nearest milliliter, and weigh the silica gel. The gains are the water collected.</li>
+    </ol>
+  </section>
+
+  <div class="callout tip">
+    <p class="callout-title">Weigh rather than pour</p>
+    <p>Many crews weigh each impinger on a field balance instead of pouring the contents into a graduated cylinder. It is faster, avoids losing drops on the glassware, and leaves the impinger contents intact for any later analysis.</p>
+  </div>
+
+  <section class="prose">
+    <h2 id="calc" data-short="Calculate Bws">Calculating the moisture fraction</h2>
+    <p>The calculation turns everything into the same units, standard cubic feet at 68 °F and 29.92 in. Hg, and then asks what share of the total was water. Liquid water is converted to the volume it would occupy as vapor at standard conditions: one milliliter of water becomes about 0.047 standard cubic feet of vapor.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Water vapor condensed in the impingers, and adsorbed on the silica gel</p>
+    <div class="eq-body"><div class="tex">V_{wc(std)} = 0.04706\,(V_f - V_i) \qquad V_{wsg(std)} = 0.04715\,(W_f - W_i)</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">V_f - V_i</span></dt><dd>condensate gained, mL (0.04706 ft³/mL); if you weigh the impingers instead, use the weight gain in grams with 0.04715 ft³/g</dd>
+      <dt><span class="tex">W_f - W_i</span></dt><dd>silica gel weight gain, g (0.04715 ft³/g)</dd>
+    </dl>
+  </div>
+
+  <div class="eq">
+    <p class="eq-name">Dry gas volume at standard conditions, and the moisture fraction</p>
+    <div class="eq-body"><div class="tex">V_{m(std)} = 17.64\,Y\,V_m\,\frac{P_{bar} + \Delta H/13.6}{T_m} \qquad B_{ws} = \frac{V_{wc(std)} + V_{wsg(std)}}{V_{wc(std)} + V_{wsg(std)} + V_{m(std)}}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">V_m</span></dt><dd>dry gas meter volume, ft³</dd>
+      <dt><span class="tex">Y</span></dt><dd>dry gas meter calibration factor</dd>
+      <dt><span class="tex">P_{bar}</span></dt><dd>barometric pressure, in. Hg</dd>
+      <dt><span class="tex">\Delta H</span></dt><dd>average orifice pressure differential, in. H₂O (13.6 converts it to in. Hg)</dd>
+      <dt><span class="tex">T_m</span></dt><dd>average meter temperature, °R (°F + 460)</dd>
+      <dt><span class="tex">17.64</span></dt><dd>528 °R ÷ 29.92 in. Hg, the standard temperature over standard pressure</dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-calc">
+    <div class="bench-head">
+      <p class="bench-title">Moisture calculator</p>
+      <p class="bench-hint">Enter the field weighings. The equations update with your numbers.</p>
+    </div>
+    <div class="bench-body even">
+      <div class="bench-side" style="border-left:0">
+        <div class="ctl">
+          <span class="ctl-label">Condensate measured by</span>
+          <div class="seg" id="mc-mode"><button type="button" data-value="vol" aria-pressed="true">Volume (mL)</button><button type="button" data-value="wt" aria-pressed="false">Weight (g)</button></div>
+        </div>
+        <div class="m4-fields">
+          <label for="mc-vi"><span id="mc-vi-lab">Impinger water, initial</span><span class="m4-unit" id="mc-u1">mL</span></label><input class="field" id="mc-vi" type="number" step="0.1" value="200.0">
+          <label for="mc-vf"><span id="mc-vf-lab">Impinger water, final</span><span class="m4-unit" id="mc-u2">mL</span></label><input class="field" id="mc-vf" type="number" step="0.1" value="312.4">
+          <label for="mc-wi">Silica gel, initial<span class="m4-unit">g</span></label><input class="field" id="mc-wi" type="number" step="0.1" value="225.0">
+          <label for="mc-wf">Silica gel, final<span class="m4-unit">g</span></label><input class="field" id="mc-wf" type="number" step="0.1" value="236.1">
+          <label for="mc-vm"><span>Meter volume, <span class="tex">V_m</span></span><span class="m4-unit">ft³</span></label><input class="field" id="mc-vm" type="number" step="0.001" value="42.315">
+          <label for="mc-y"><span>Meter factor, <span class="tex">Y</span></span><span class="m4-unit"></span></label><input class="field" id="mc-y" type="number" step="0.001" value="0.998">
+          <label for="mc-pb">Barometric pressure<span class="m4-unit">in. Hg</span></label><input class="field" id="mc-pb" type="number" step="0.01" value="29.42">
+          <label for="mc-dh"><span>Average <span class="tex">\Delta H</span></span><span class="m4-unit">in. H₂O</span></label><input class="field" id="mc-dh" type="number" step="0.01" value="1.85">
+          <label for="mc-tm">Average meter temp<span class="m4-unit">°F</span></label><input class="field" id="mc-tm" type="number" step="1" value="78">
+        </div>
+      </div>
+      <div class="bench-side">
+        <div class="m4-step"><p class="eq-name">Water condensed in the impingers</p><div class="eq-body" id="mc-eq1"></div></div>
+        <div class="m4-step"><p class="eq-name">Water adsorbed on the silica gel</p><div class="eq-body" id="mc-eq2"></div></div>
+        <div class="m4-step"><p class="eq-name">Dry gas sampled, standard conditions</p><div class="eq-body" id="mc-eq3"></div></div>
+        <div class="m4-step"><p class="eq-name">Moisture fraction</p><div class="eq-body" id="mc-eq4"></div></div>
+        <div id="mc-status" aria-live="polite"></div>
+      </div>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="saturation" data-short="Saturation check">Saturated and droplet-laden gas</h2>
+    <p>Gas can only hold so much water vapor at a given temperature. Above that limit the extra water exists as droplets, a fog. Downstream of wet scrubbers and quench towers the gas is often saturated and full of droplets, and the impingers cannot tell the difference: they collect droplets and vapor alike. The measured value then overstates the vapor fraction, which is what the velocity and dry-basis calculations need.</p>
+    <p>Method 4 handles this with a simple comparison. Calculate the saturation moisture at the stack temperature and pressure, compare it with the measured value, and <strong>use the lower of the two</strong>.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Saturation moisture at the stack temperature</p>
+    <div class="eq-body"><div class="tex">B_{ws,sat} = \frac{p_v(T_s)}{P_s}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">p_v(T_s)</span></dt><dd>vapor pressure of water at the stack temperature, from steam tables or the Antoine equation, in. Hg</dd>
+      <dt><span class="tex">P_s</span></dt><dd>absolute stack pressure, in. Hg</dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-sat">
+    <div class="bench-head">
+      <p class="bench-title">Saturation check</p>
+      <p class="bench-hint">Move the stack temperature and the measured moisture. Points above the curve are carrying droplets.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="m4-sat-svg" class="dg" viewBox="0 0 1000 380" role="img" aria-label="Chart of saturation moisture fraction against stack temperature, with the measured point"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="sa-ts">Stack temperature <span class="ctl-value" id="sa-ts-out"></span></label>
+          <input type="range" id="sa-ts" min="60" max="220" step="1" value="130">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="sa-meas">Measured moisture <span class="ctl-value" id="sa-meas-out"></span></label>
+          <input type="range" id="sa-meas" min="0" max="60" step="0.5" value="18">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="sa-ps">Stack pressure <span class="ctl-value" id="sa-ps-out"></span></label>
+          <input type="range" id="sa-ps" min="24" max="31" step="0.05" value="29.5">
+        </div>
+        <div class="readouts">
+          <div class="readout is-water"><div class="readout-label">Saturation moisture</div><div class="readout-value" id="sa-sat">—</div></div>
+          <div class="readout is-accent"><div class="readout-label">Value to use</div><div class="readout-value" id="sa-use">—</div></div>
+        </div>
+        <div id="sa-status" class="span-all" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Vapor pressure from the Antoine equation for water. At 212 °F and atmospheric pressure the saturation fraction reaches 100%: the gas could be pure steam. Hot, dry combustion gas sits far below the curve, so the check only bites at wet, cool sources.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="criteria" data-short="Criteria">Acceptance criteria</h2>
+  </section>
+  <div class="callout criteria">
+    <p class="callout-title">Method 4 at a glance</p>
+    <ul>
+      <li>Gas leaving the silica gel at or below 68 °F (20 °C) throughout the run.</li>
+      <li>Leak rate no more than 0.020 cfm or 4% of the average sampling rate, whichever is less. The post-test leak check is mandatory.</li>
+      <li>Impinger 1 and 2 start with 100 mL of water each; impinger 3 starts empty; impinger 4 holds about 200–300 g of indicating silica gel.</li>
+      <li>Condensate measured to the nearest milliliter (or weighed), silica gel weighed.</li>
+      <li>For saturated or droplet-laden gas, report the lower of the measured and saturation moisture values.</li>
+    </ul>
+    <p>When Method 4 is run by itself rather than inside a Method 5 train, it adds rules on the sampling rate and minimum sample volume. Check the current method text for those values.</p>
+  </div>
+
+  <section class="prose">
+    <h2 id="mistakes" data-short="Field mistakes">Field mistakes that cost runs</h2>
+  </section>
+  <div class="callout pitfall">
+    <p class="callout-title">Letting the ice run low</p>
+    <p>On a hot platform an ice bath can melt within a run. Once the outlet climbs above 68 °F, vapor slips past the silica gel and the moisture comes out low. Check the outlet temperature at every traverse point and keep a cooler of ice on the platform.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Condensation in the probe</p>
+    <p>If the probe runs cold, water condenses in the liner. In a Method 5 train it ends up in the probe rinse instead of the impingers, so moisture reads low and the particulate catch picks up dissolved material. Keep the probe heated and check it.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Spent silica gel</p>
+    <p>If the gel has changed color all the way through before the run ends, it has stopped adsorbing and water is reaching the meter. Use enough gel for the expected moisture, and swap it between runs.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Reporting a supersaturated value</p>
+    <p>A measured 25% moisture at a 120 °F scrubber outlet is not vapor; it is droplets. Always run the saturation check on wet sources before the number goes into the velocity calculation.</p>
+  </div>
+
+  <div class="quiz" data-title="Check yourself">
+    <script type="application/json">
+    [
+      {"q":"Why must the gas leaving the silica gel stay at or below 68 °F?",
+       "options":["So the dry gas meter reads in standard cubic feet","Because warm gas carries water past the train, so moisture is undercounted","To keep the pump from overheating","Because the method’s equations assume a 68 °F meter temperature"],
+       "answer":1,
+       "why":"Cold gas holds little vapor, so the impingers and gel can strip it out. Warm gas carries water past them into the meter, and that water never gets weighed."},
+      {"q":"A scrubber outlet at 125 °F measures 22% moisture. The saturation value at that temperature is 13%. What moisture do you use?",
+       "options":["22%, because it was measured","13%, the lower of the two","17.5%, the average","Repeat the run until they agree"],
+       "answer":1,
+       "why":"Above saturation the extra water is droplets, which the impingers collect but which do not behave as vapor. Method 4 says to use the lower value."},
+      {"q":"A run collects 5.0 scf of water vapor (impingers plus gel) and 45.0 dscf of dry gas. What is <span class=\"tex\">B_{ws}</span>?",
+       "options":["0.111","0.100","0.050","0.900"],
+       "answer":1,
+       "why":"<span class=\"tex\">B_{ws} = 5.0 / (5.0 + 45.0) = 0.100</span>. The denominator is the total, wet and dry together."},
+      {"q":"The stack gas is 15% water with a dry molecular weight of 30.0. If you ignore the moisture and use 30.0 in the velocity equation, the velocity comes out:",
+       "options":["About 3% low","About 3% high","About 15% low","Unchanged, because moisture does not affect pitot readings"],
+       "answer":0,
+       "why":"<span class=\"tex\">M_s = 30.0(0.85) + 18.0(0.15) = 28.2</span>. Velocity goes with <span class=\"tex\">1/\\sqrt{M}</span>, so using 30.0 instead of 28.2 gives <span class=\"tex\">\\sqrt{28.2/30.0} = 0.97</span>, about 3% low."},
+      {"q":"What is a wet-bulb/dry-bulb moisture estimate used for?",
+       "options":["The reported moisture for the test","Choosing a nozzle and setting the isokinetic rate before the run","Replacing the post-test leak check","Correcting analyzer readings to 7% O₂"],
+       "answer":1,
+       "why":"Approximation methods are setup tools. The reported value comes from the reference method, which in a particulate test is the Method 5 impinger catch."}
+    ]
+    </script>
+  </div>
+
+  <div id="lesson-end"></div>
+</main>
+</div>
+<footer id="site-footer"></footer>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The test, start to finish | Stack Testing Field Guide</title>
+<meta name="description" content="How a stationary source emissions test works from planning to report: why facilities test, the rules behind it, the stages of a test, and a day on the platform.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/overview.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/overview.js"></script>
+</head>
+<body data-page="overview" class="accent-geom">
+<header id="site-header"></header>
+<div class="layout">
+<aside id="rail" class="rail"></aside>
+<main id="main" class="lesson">
+
+  <div class="lesson-hero">
+    <div class="numeral" aria-hidden="true">0</div>
+    <div>
+      <h1>The test, start to finish</h1>
+      <p class="cite">Before Method 1: why tests happen and how they run</p>
+      <p class="lede">A stack test is a few long days on a platform, wrapped in weeks of planning and weeks of analysis. This lesson walks the whole arc, so each method you learn next has a place to fit.</p>
+    </div>
+  </div>
+
+  <dl class="glance">
+    <div><dt>Answers</dt><dd>Why facilities test, who is involved, which rules apply, and what happens in what order</dd></div>
+    <div><dt>Covers</dt><dd>Planning, site survey, calibrations, test day, sample recovery, lab work, calculations, reporting</dd></div>
+    <div><dt>Produces</dt><dd>A test report the regulator can accept as proof of what the source emits</dd></div>
+    <div><dt>Leads into</dt><dd>Methods 1 through 5 and the instrumental methods, in the order a crew runs them</dd></div>
+  </dl>
+
+  <section class="prose">
+    <h2 id="what" data-short="What a test is">What a stack test is</h2>
+    <p>A stack test, also called a source test, emissions test, or performance test, measures the pollutants a stationary source releases through a stack or duct. A test crew samples the exhaust at specific points inside the stack, while the facility runs its process at agreed conditions. The result is a concentration, a gas flow rate, and an emission rate that can be compared with a limit.</p>
+    <p>Facilities test because something requires it or because they need the numbers:</p>
+    <ul>
+      <li><strong>Permit limits.</strong> Air permits set emission limits and usually require testing to show the source meets them, once after startup and often periodically after that.</li>
+      <li><strong>Federal standards.</strong> New Source Performance Standards (NSPS, 40 CFR Part 60) and National Emission Standards for Hazardous Air Pollutants (NESHAP, 40 CFR Parts 61 and 63) require performance tests for the source categories they cover.</li>
+      <li><strong>Control device performance.</strong> Testing at the inlet and outlet of a baghouse, scrubber, or oxidizer shows its removal or destruction efficiency.</li>
+      <li><strong>Monitor certification.</strong> Continuous emission monitoring systems (CEMS) are certified and audited against reference method measurements in a relative accuracy test audit (RATA).</li>
+      <li><strong>Engineering data.</strong> Emission factors, permit applications, troubleshooting, and design of new controls.</li>
+    </ul>
+    <p>Because the result can decide whether a facility is in compliance, every step follows a written, standardized procedure. The procedures are EPA’s <strong>reference methods</strong>, and the rest of this course teaches them.</p>
+  </section>
+
+  <section class="prose">
+    <h3>Who is involved</h3>
+  </section>
+  <dl class="roles">
+    <div><dt>The facility</dt><dd>Owns the source and the obligation to test. Runs the process at the required conditions, records process data for each run, and provides safe ports, platforms, access, and power.</dd></div>
+    <div><dt>The test contractor</dt><dd>The stack testing crew. Writes the test protocol, calibrates equipment, runs the sampling, recovers samples, does the calculations, and writes the report.</dd></div>
+    <div><dt>The regulatory agency</dt><dd>The state, local, or EPA regional office that receives the notification and report. It may approve the test plan and send an observer to watch the runs.</dd></div>
+    <div><dt>The laboratory</dt><dd>Analyzes samples that cannot be finished in the field: gravimetric weighing, ion chromatography, metals, organics. Often in-house at the test company.</dd></div>
+  </dl>
+
+  <section class="prose">
+    <h2 id="rules" data-short="Where the rules live">Where the rules come from</h2>
+    <p>Two kinds of rules shape a test. The <strong>applicable standard or permit</strong> says what to measure, the limit, its units, how long each run must be, and the operating conditions. The <strong>reference methods</strong> say how to measure it. Both live in Title 40 of the Code of Federal Regulations.</p>
+  </section>
+
+  <div class="table-wrap">
+    <table class="data nowrap-first">
+      <caption>Where the test methods are published</caption>
+      <thead><tr><th>Location in 40 CFR</th><th>What it contains</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>Part 60, Appendix A</td><td>The core reference methods used for NSPS and most permits</td><td>Methods 1–5, 6C, 7E, 10, 25A, 26A, 29</td></tr>
+        <tr><td>Part 51, Appendix M</td><td>Methods developed for state implementation plans</td><td>Method 201A (PM₁₀ and PM₂.₅), Method 202 (condensable PM)</td></tr>
+        <tr><td>Part 63, Appendix A</td><td>Methods developed for hazardous air pollutant standards</td><td>Method 301 (method validation), Method 320 (FTIR)</td></tr>
+        <tr><td>Part 60, Appendices B and F</td><td>Performance specifications and quality assurance for CEMS</td><td>Performance Specification 2, RATA procedures</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="prose">
+    <h3>The general provisions</h3>
+    <p>Each NSPS and NESHAP has general provisions that set the ground rules for testing. For NSPS (40 CFR 60.8), the main points are:</p>
+    <ul>
+      <li>The initial performance test happens within 60 days of reaching the maximum production rate, and no later than 180 days after initial startup.</li>
+      <li>The facility notifies the agency at least 30 days before the test, so an observer can attend.</li>
+      <li>The test runs under conditions that represent the source’s performance, as the standard or the agency specifies. The facility documents those conditions.</li>
+      <li>A test is normally three separate runs, and compliance is judged on the average of the three.</li>
+      <li>The facility provides sampling ports, safe platforms, safe access to them, and utilities.</li>
+    </ul>
+    <p>NESHAP general provisions (40 CFR 63.7) follow the same pattern with tighter planning: typically a longer notice period, and a site-specific test plan the agency can ask to review and approve before the test. Reports are commonly due within 60 days of the test. Subparts and permits can override any of these, so always read the specific rule that applies.</p>
+  </section>
+
+  <div class="callout tip">
+    <p class="callout-title">Read the subpart first</p>
+    <p>The individual standard often changes the defaults: minimum run times or sample volumes, required methods, operating limits set during the test, or the oxygen level results must be corrected to. A test run correctly by the method but in the wrong conditions still fails.</p>
+  </div>
+
+  <section class="prose">
+    <h2 id="lifecycle" data-short="Test lifecycle">The test lifecycle</h2>
+    <p>Every compliance test moves through the same stages, whatever the pollutant. Step through them below. Each stage has the deliverables it produces and a short checklist of the things that most often go wrong; tick items off to see how much there is to track.</p>
+  </section>
+
+  <figure class="bench wide" id="b-life">
+    <div class="bench-head">
+      <p class="bench-title">Nine stages of a stack test</p>
+      <p class="bench-hint">Select a stage, or step through with Next.</p>
+    </div>
+    <div class="life">
+      <div class="life-track" id="life-track" role="tablist" aria-label="Stages of a stack test">
+        <div class="life-line" aria-hidden="true"><span class="life-fill" id="life-fill"></span></div>
+      </div>
+      <div class="life-panel" id="life-panel" role="tabpanel" tabindex="0"></div>
+      <div class="life-nav">
+        <button type="button" class="btn ghost small" id="life-prev">Previous stage</button>
+        <span class="life-count" id="life-count" aria-live="polite"></span>
+        <button type="button" class="btn small" id="life-next">Next stage</button>
+      </div>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="test-day" data-short="Test day">A day on the platform</h2>
+    <p>A typical compliance test day starts before sunrise and runs three test runs back to back. The crew splits: some work on the platform at the sampling ports, some work in the mobile lab or trailer at the base of the stack running analyzers and recovering samples. The facility keeps the process steady the whole time.</p>
+    <p>The schedule below follows a common setup: a Method 5 particulate train traversing two ports, run alongside instrumental analyzers for O₂, CO₂, NOₓ, and CO. Drag the time marker to see what each group is doing.</p>
+  </section>
+
+  <figure class="bench wide" id="b-day">
+    <div class="bench-head">
+      <p class="bench-title">A three-run test day</p>
+      <p class="bench-hint">Drag across the timeline, use the slider, or press Play.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="day-svg" class="dg" viewBox="0 0 1000 300" role="img" aria-label="Timeline of a test day with lanes for the platform crew, trailer and lab crew, and facility"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl span-all">
+          <div class="day-clock-row">
+            <span class="day-clock" id="day-clock">9:30 am</span>
+            <span class="day-phase" id="day-phase"></span>
+          </div>
+          <label class="visually-hidden" for="day-time">Time of day</label>
+          <input type="range" id="day-time" min="360" max="930" step="5" value="570">
+        </div>
+        <div class="day-now span-all" id="day-now" aria-live="polite"></div>
+        <div class="day-legend span-all" id="day-legend"></div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Times are illustrative. Run length is set by the applicable standard: one hour or more of sampling per run is common for particulate. Each Method 5 run here includes a port change partway through.</p></div>
+  </figure>
+
+  <div class="callout pitfall">
+    <p class="callout-title">The process is part of the test</p>
+    <p>If the unit trips, the load drops, or the control device misbehaves during a run, the samples no longer represent the required conditions. Crews pause sampling, note the time, and agree with the facility and observer whether to continue or repeat the run. Process data logged during every run is what proves the conditions were right.</p>
+  </div>
+
+  <section class="prose">
+    <h2 id="methods" data-short="How methods connect">How the methods fit together</h2>
+    <p>The reference methods are not independent tests; each one feeds the next. Below they are in dependency order. This course follows the method numbers, but notice that Method 2 needs results from Methods 3 and 4 before it can produce a velocity. The <a href="index.html#what-title">flow map on the home page</a> shows the same chain as a diagram.</p>
+    <ol class="steps chain">
+      <li data-badge="1"><strong><a href="method-1.html">Method 1: traverse points</a></strong>Picks the sampling location and the points inside the stack. Every other method samples at those points.</li>
+      <li data-badge="3"><strong><a href="method-3.html">Method 3: gas composition</a></strong>Measures O₂ and CO₂ to get the dry molecular weight of the gas.</li>
+      <li data-badge="4"><strong><a href="method-4.html">Method 4: moisture</a></strong>Measures the water vapor fraction. With Method 3 it gives the wet molecular weight, and it converts wet volumes to a dry basis.</li>
+      <li data-badge="2"><strong><a href="method-2.html">Method 2: velocity and flow rate</a></strong>Turns pitot readings into velocity using the molecular weight from Methods 3 and 4, then into a dry standard flow rate.</li>
+      <li data-badge="5"><strong><a href="method-5.html">Method 5: particulate matter</a></strong>Uses all of the above to sample isokinetically, then reports a concentration and, with the flow rate, an emission rate.</li>
+      <li data-badge="7E"><strong><a href="instrumental.html">Instrumental methods</a></strong>Measure gaseous pollutants continuously. Their concentrations combine with the Method 2 flow rate the same way.</li>
+    </ol>
+    <p>In practice Methods 2, 3, and 4 run at the same time as Method 5: the pitot tube is mounted on the probe, the impingers in the Method 5 train collect the moisture, and a bag or analyzer collects the gas composition sample.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">The quantity most tests come down to: emission rate</p>
+    <div class="eq-body"><div class="tex">E\;[\text{lb/hr}] \;=\; \frac{c_s\;[\text{gr/dscf}] \times Q_{sd}\;[\text{dscf/hr}]}{7000\ \text{gr/lb}}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">c_s</span></dt><dd>pollutant concentration on a dry standard basis (Method 5 or an analyzer)</dd>
+      <dt><span class="tex">Q_{sd}</span></dt><dd>dry standard volumetric flow rate (Methods 1 through 4)</dd>
+    </dl>
+  </div>
+
+  <section class="prose">
+    <h2 id="safety" data-short="Safety">Safety on the platform</h2>
+    <p>Stack sampling platforms can be well over a hundred feet up, next to hot steel, on a stack full of combustion gas. Most test companies run a job safety analysis at the start of every day. The hazards to plan for:</p>
+  </section>
+
+  <div class="table-wrap">
+    <table class="data">
+      <thead><tr><th>Hazard</th><th>What it looks like</th><th>Typical controls</th></tr></thead>
+      <tbody>
+        <tr><td>Falls</td><td>Climbing fixed ladders with equipment, open platform edges, gaps around ports</td><td>Fall protection on ladders and unguarded edges, hoists for equipment instead of carrying it, intact guardrails and toe boards</td></tr>
+        <tr><td>Falling objects</td><td>Tools, probes, and glassware dropped from the platform</td><td>Barricade the area below, tool lanyards, toe boards, hard hats on the ground crew</td></tr>
+        <tr><td>Heat and hot surfaces</td><td>Stack walls, ports, and probes withdrawn from a hot stack; summer heat on the platform</td><td>Heat-resistant gloves, probe rests, hydration and rest breaks</td></tr>
+        <tr><td>Stack gas exposure</td><td>Gas blowing out of an open port on a positive-pressure duct: CO, SO₂, H₂S, low O₂</td><td>Know the duct pressure before opening ports, stand upwind, personal gas monitors, port seals</td></tr>
+        <tr><td>Electrical</td><td>Heaters, pumps, and long extension cords in wet weather</td><td>Ground-fault protection, inspected cords, cords kept clear of hot surfaces and walkways</td></tr>
+        <tr><td>Weather</td><td>Lightning, high wind, ice</td><td>Leave the platform when lightning is near; stop work in high wind or icing conditions</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout criteria">
+    <p class="callout-title">Before the first run, confirm</p>
+    <ul>
+      <li>The applicable limits, methods, run times, and operating conditions are agreed and written in the test plan.</li>
+      <li>The agency was notified on time, and you know whether an observer is coming.</li>
+      <li>Equipment calibrations are current and the records travel with the crew.</li>
+      <li>The facility knows the schedule and who records process data for each run.</li>
+      <li>The platform, access, and power were checked during the site survey.</li>
+    </ul>
+  </div>
+
+  <div class="quiz" data-title="Check yourself">
+    <script type="application/json">
+    [
+      {"q":"For most NSPS performance tests, how is the result compared with the emission limit?",
+       "options":["The highest of three runs","The average of three separate runs","The best two of three runs","The final run, once conditions are stable"],
+       "answer":1,
+       "why":"The NSPS general provisions treat a performance test as three separate runs and use their arithmetic mean to judge compliance, unless the subpart says otherwise."},
+      {"q":"Why does the facility record process data during every run?",
+       "options":["To calculate the stack gas velocity","To prove the test ran at the required operating conditions","Because the reference methods need it to compute moisture","To schedule the next test"],
+       "answer":1,
+       "why":"Emission results only mean something for the conditions they were measured under. Process data (production rate, fuel use, control device settings) shows the runs represent the operation the rule or permit requires."},
+      {"q":"The preliminary velocity traverse and moisture estimate are mainly used to:",
+       "options":["Replace the three test runs","Pick a nozzle size and set up isokinetic sampling","Calibrate the gas analyzers","Decide where to put the ports"],
+       "answer":1,
+       "why":"Knowing the velocity range, temperature, moisture, and molecular weight ahead of time lets the crew choose a nozzle that can sample isokinetically and work out the ΔH to set for each Δp reading."},
+      {"q":"Under the NSPS general provisions, how much notice must a facility give before a performance test?",
+       "options":["7 days","At least 30 days","At least 90 days","None, if the test contractor is accredited"],
+       "answer":1,
+       "why":"NSPS requires notice at least 30 days ahead so the agency can arrange to observe. Many NESHAP and permits require more notice and a test plan in advance."},
+      {"q":"A sample arrives at the lab with a broken seal and no chain-of-custody signatures. What is the problem?",
+       "options":["None, as long as the filter is intact","The sample’s integrity cannot be demonstrated, so its result may be rejected","The lab must reweigh the filter twice","The acetone blank must be doubled"],
+       "answer":1,
+       "why":"Seals and chain-of-custody records are the evidence that the sample analyzed is the one collected, unaltered. Without them the result can be challenged or thrown out."}
+    ]
+    </script>
+  </div>
+
+  <div id="lesson-end"></div>
+</main>
+</div>
+<footer id="site-footer"></footer>
+</body>
+</html>

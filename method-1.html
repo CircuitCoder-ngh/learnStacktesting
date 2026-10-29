@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method 1: Traverse points | Stack Testing Field Guide</title>
+<meta name="description" content="EPA Method 1 explained interactively: the 8-and-2 rule, how many traverse points you need, equal-area point locations, and the cyclonic flow check.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/method-1.js"></script>
+</head>
+<body data-page="m1" class="accent-geom">
+<header id="site-header"></header>
+<div class="layout">
+<aside id="rail" class="rail"></aside>
+<main id="main" class="lesson">
+
+  <div class="lesson-hero">
+    <div class="numeral" aria-hidden="true">1</div>
+    <div>
+      <h1>Sample and velocity traverses</h1>
+      <p class="cite">EPA Method 1, 40 CFR Part 60, Appendix A-1</p>
+      <p class="lede">Before any gas is sampled, Method 1 decides where on the stack to measure and exactly which points inside it to visit. Every number later in the test inherits these choices.</p>
+    </div>
+  </div>
+
+  <dl class="glance">
+    <div><dt>Answers</dt><dd>Where do the ports go, how many points are needed, where is each point, and is the flow straight enough to measure?</dd></div>
+    <div><dt>Equipment</dt><dd>Tape or stack gauge, Type S pitot tube, inclined manometer, angle-measuring device</dd></div>
+    <div><dt>Produces</dt><dd>A traverse point layout and the probe markings for each point</dd></div>
+    <div><dt>Feeds into</dt><dd>Methods 2, 3, 4, 5 and the instrumental methods</dd></div>
+  </dl>
+
+  <section class="prose">
+    <h2 id="why" data-short="Why traverse">Why one point is never enough</h2>
+    <p>Gas does not move up a stack as a uniform column. Friction slows it near the walls, so the center runs faster than the edges. Anything that bends, narrows, widens, or stirs the flow—an elbow, a fan, a damper, a scrubber inlet—pushes the fast-moving core off to one side, and it takes several diameters of straight duct for the flow to settle again.</p>
+    <p>Pollutant concentration can be uneven too, especially for particulate, where heavy particles get flung to the outside of bends. A single measurement at one spot can therefore be badly wrong. Method 1 solves this two ways: it pushes the sampling location far from disturbances, and it spreads measurements over a grid of points that each represent an equal share of the cross-section.</p>
+  </section>
+
+  <figure class="bench wide" id="b-profile">
+    <div class="bench-head">
+      <p class="bench-title">Flow recovering after a bend</p>
+      <p class="bench-hint">Move the measurement plane along the duct.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="profile-svg" class="dg" viewBox="0 0 1000 270" role="img" aria-label="Side view of a duct after a 90 degree bend, with velocity arrows across the measurement plane"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="pf-dist">Distance downstream of the bend <span class="ctl-value" id="pf-dist-out"></span></label>
+          <input type="range" id="pf-dist" min="0.5" max="9" step="0.1" value="1.5">
+        </div>
+        <div class="readouts">
+          <div class="readout is-accent"><div class="readout-label">Peak ÷ average velocity</div><div class="readout-value" id="pf-peak">—</div></div>
+          <div class="readout is-gauge"><div class="readout-label">Error, one center point</div><div class="readout-value" id="pf-one">—</div></div>
+          <div class="readout is-gas"><div class="readout-label">Error, 12-point traverse</div><div class="readout-value" id="pf-trav">—</div></div>
+        </div>
+        <p class="ctl-help">A simplified model: a 1/7-power turbulent profile skewed toward the outer wall of the bend, with the skew decaying downstream. The area-average velocity stays the same at every distance.</p>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Even in perfectly settled flow, the centerline runs about 22% faster than the average. The equal-area traverse lands within about 1% because each point stands for the same slice of area.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="site" data-short="Choose the site">Choosing the measurement site</h2>
+    <p>Method 1 measures distances in <strong>stack diameters</strong>, so the same rule works on a 2-foot vent and a 20-foot power plant stack. Two distances matter:</p>
+    <ul>
+      <li><strong>Distance B</strong> runs from the nearest disturbance <em>upstream</em> of the port (where the gas came from) to the port. The flow needs this length to recover.</li>
+      <li><strong>Distance A</strong> runs from the port to the nearest disturbance <em>downstream</em> (where the gas is going), often the stack exit. Flow starts to rearrange itself before it reaches an obstacle.</li>
+    </ul>
+    <p>The ideal site is at least <strong>8 diameters downstream</strong> and <strong>2 diameters upstream</strong> of any disturbance: the “8-and-2 rule.” A disturbance is anything that changes the flow—bends, expansions, contractions, fans, dampers, control devices, or a visible flame. Meet 8-and-2 and you sample the minimum number of points. Fall short and you need more points, read from Figure 1-1 of the method. Below <strong>2 diameters downstream</strong> or <strong>0.5 diameters upstream</strong> the site is unacceptable without the regulator’s approval.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Equivalent diameter for a rectangular duct</p>
+    <div class="eq-body"><div class="tex">D_e = \frac{2\,L\,W}{L + W}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">L, W</span></dt><dd>inside length and width of the duct</dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-site">
+    <div class="bench-head">
+      <p class="bench-title">Site planner and Figure 1-1</p>
+      <p class="bench-hint">Drag the port up and down the stack, or use the sliders.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="site-svg" class="dg" viewBox="0 0 1000 420" role="img" aria-label="Stack elevation with port location and a step chart of the minimum number of traverse points"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <span class="ctl-label">Stack shape</span>
+          <div class="seg" id="st-shape"><button type="button" data-value="circ" aria-pressed="true">Circular</button><button type="button" data-value="rect" aria-pressed="false">Rectangular</button></div>
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="st-d">Inside diameter <span class="ctl-value" id="st-d-out"></span></label>
+          <input type="range" id="st-d" min="6" max="240" step="1" value="60">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="st-run">Straight run between disturbances <span class="ctl-value" id="st-run-out"></span></label>
+          <input type="range" id="st-run" min="2.5" max="14" step="0.1" value="9">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="st-b">Port height above the inlet <span class="ctl-value" id="st-b-out"></span></label>
+          <input type="range" id="st-b" min="0" max="9" step="0.1" value="6">
+        </div>
+        <div class="readouts">
+          <div class="readout"><div class="readout-label">Distance B</div><div class="readout-value" id="st-bv">—</div></div>
+          <div class="readout"><div class="readout-label">Distance A</div><div class="readout-value" id="st-av">—</div></div>
+          <div class="readout is-accent"><div class="readout-label">Minimum points</div><div class="readout-value" id="st-pts">—</div></div>
+        </div>
+        <div id="st-status" class="span-all" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Figure 1-1 applies to particulate traverses. Read the number of points for distance B (bottom axis) and for distance A (top axis), then use the larger. For a circular stack, round up to a multiple of four so each of the two diameters gets the same count.</p></div>
+  </figure>
+
+  <div class="callout criteria">
+    <p class="callout-title">Minimum points when the 8-and-2 rule is met</p>
+    <ul>
+      <li><strong>12 points</strong> for circular or rectangular stacks wider than 24 in. (0.61 m)</li>
+      <li><strong>8 points</strong> for circular stacks 12 to 24 in. (0.30–0.61 m)</li>
+      <li><strong>9 points</strong> for rectangular stacks with an equivalent diameter of 12 to 24 in.</li>
+    </ul>
+    <p>Method 1 applies to stacks larger than 12 in. diameter (or 113 in.² area). Smaller ducts, from 4 to 12 in., use Method 1A. Velocity-only traverses can use Figure 1-2, which allows fewer points than Figure 1-1.</p>
+  </div>
+
+  <section class="prose">
+    <h2 id="points" data-short="Locate the points">Locating the points: equal areas</h2>
+    <p>Each traverse point must represent the same share of the cross-sectional area, so that a simple average of the readings is a true area-weighted average. For a circular stack, Method 1 divides the circle into concentric rings of equal area and places each point at the radius that splits its ring into two equal halves. Two traverse diameters, at right angles through two ports, cover the stack.</p>
+    <p>Because the outer rings are thin and the inner ones are wide, the points crowd toward the walls. That is deliberate: the wall region holds a lot of area even though it looks narrow.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Point location on a diameter, as a percent of the inside diameter from the near wall (Table 1-2)</p>
+    <div class="eq-body"><div class="tex">P_i = 50\left[\,1 - \sqrt{\frac{n - 2i + 1}{n}}\;\right] \qquad i = 1,\dots,\tfrac{n}{2}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">n</span></dt><dd>number of points on one diameter (half the total for a circular stack)</dd>
+      <dt><span class="tex">i</span></dt><dd>point number counted from the near wall</dd>
+      <dt><span class="tex">P_{n+1-i}</span></dt><dd>the far half mirrors the near half: <span class="tex">100 - P_i</span></dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-layout">
+    <div class="bench-head">
+      <p class="bench-title">Equal-area layout and probe markings</p>
+      <p class="bench-hint">Change the point count and stack size. Shaded bands have equal area.</p>
+    </div>
+    <div class="bench-body">
+      <div class="bench-stage">
+        <svg id="layout-svg" class="dg" viewBox="0 0 440 440" role="img" aria-label="Cross-section of the stack showing equal-area divisions and traverse point locations"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <span class="ctl-label">Stack shape</span>
+          <div class="seg" id="ly-shape"><button type="button" data-value="circ" aria-pressed="true">Circular</button><button type="button" data-value="rect" aria-pressed="false">Rectangular</button></div>
+        </div>
+        <div class="ctl">
+          <span class="ctl-label">Total traverse points</span>
+          <div class="seg" id="ly-n"></div>
+        </div>
+        <div class="ctl" data-shape="circ">
+          <label class="ctl-label" for="ly-d">Inside diameter <span class="ctl-value" id="ly-d-out"></span></label>
+          <input type="range" id="ly-d" min="12" max="240" step="1" value="48">
+        </div>
+        <div class="ctl" data-shape="circ">
+          <label class="ctl-label" for="ly-port">Port depth (nipple + wall) <span class="ctl-value" id="ly-port-out"></span></label>
+          <input type="range" id="ly-port" min="0" max="18" step="0.5" value="6">
+        </div>
+        <div class="ctl" data-shape="rect" hidden>
+          <label class="ctl-label" for="ly-l">Inside length <span class="ctl-value" id="ly-l-out"></span></label>
+          <input type="range" id="ly-l" min="12" max="240" step="1" value="96">
+        </div>
+        <div class="ctl" data-shape="rect" hidden>
+          <label class="ctl-label" for="ly-w">Inside width <span class="ctl-value" id="ly-w-out"></span></label>
+          <input type="range" id="ly-w" min="12" max="240" step="1" value="60">
+        </div>
+        <div id="ly-note" class="ctl-help" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin:0">
+      <table class="data" id="ly-table"></table>
+    </div>
+    <div class="bench-foot" id="ly-foot"></div>
+  </figure>
+
+  <section class="prose">
+    <h3>Keeping points off the wall</h3>
+    <p>On small stacks the outermost points can land so close to the wall that the nozzle or pitot would touch it. Method 1 moves them:</p>
+    <ul>
+      <li>Stacks wider than 24 in.: no point closer than <strong>1.0 in.</strong> to the wall, or the nozzle inside diameter if that is larger.</li>
+      <li>Stacks 24 in. or smaller: no point closer than <strong>0.5 in.</strong>, or the nozzle inside diameter if larger.</li>
+    </ul>
+    <p>If two neighboring points collapse onto the same adjusted location, you still treat them as two separate points: sample there twice as long and record two readings.</p>
+
+    <h3>Rectangular ducts</h3>
+    <p>Rectangular ducts are split into a grid of equal rectangles with a point at the center of each. Table 1-1 sets the grid, with more points along the longer side. Each small rectangle should have a length-to-width ratio between 1.0 and 2.0, so the grid stays close to square.</p>
+  </section>
+
+  <div class="table-wrap">
+    <table class="data">
+      <caption>Table 1-1: Grid layouts for rectangular stacks</caption>
+      <thead><tr><th class="n">Points</th><th>Matrix layout</th><th class="n">Points</th><th>Matrix layout</th></tr></thead>
+      <tbody>
+        <tr><td class="n">9</td><td>3 × 3</td><td class="n">30</td><td>6 × 5</td></tr>
+        <tr><td class="n">12</td><td>4 × 3</td><td class="n">36</td><td>6 × 6</td></tr>
+        <tr><td class="n">16</td><td>4 × 4</td><td class="n">42</td><td>7 × 6</td></tr>
+        <tr><td class="n">20</td><td>5 × 4</td><td class="n">49</td><td>7 × 7</td></tr>
+        <tr><td class="n">25</td><td>5 × 5</td><td></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="prose">
+    <h2 id="cyclonic" data-short="Cyclonic flow check">Checking for cyclonic flow</h2>
+    <p>Methods 2 and 5 assume the gas moves straight up the stack. Downstream of cyclones, tangential inlets, wet scrubbers, and some fans, the gas can instead spiral. A pitot tube aimed straight up would then read the wrong velocity, and a nozzle facing straight down would sample at the wrong angle.</p>
+    <p>The check uses the Type S pitot tube in a sideways position, called the <strong>0° reference</strong>: the planes of the two openings are perpendicular to the stack cross-section, so gas moving straight up flows across both openings equally and the manometer reads zero (a “null”). If the gas is swirling, it hits one opening harder and the manometer reads something. You rotate the pitot until the reading returns to zero; the rotation angle <span class="tex">\alpha</span> is the flow’s yaw angle at that point.</p>
+  </section>
+
+  <figure class="bench wide" id="b-cyclonic">
+    <div class="bench-head">
+      <p class="bench-title">Null-angle check</p>
+      <p class="bench-hint">Rotate the pitot until the manometer reads 0.00, then record the angle.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="cyc-svg" class="dg" viewBox="0 0 1000 360" role="img" aria-label="View along the probe showing the pitot head and gas flow direction, an inclined manometer, and a plan view of recorded angles"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="cy-theta">Pitot rotation <span class="ctl-value" id="cy-theta-out"></span></label>
+          <input type="range" id="cy-theta" min="-90" max="90" step="1" value="0">
+        </div>
+        <div class="bench-row">
+          <button type="button" class="btn small" id="cy-record">Record α at this point</button>
+          <button type="button" class="btn ghost small" id="cy-fill">Fill the rest</button>
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cy-swirl">Swirl in this stack <span class="ctl-value" id="cy-swirl-out"></span></label>
+          <input type="range" id="cy-swirl" min="0" max="45" step="1" value="14">
+          <span class="ctl-help">Changing the swirl starts a new check.</span>
+        </div>
+        <div class="readouts">
+          <div class="readout"><div class="readout-label">Point</div><div class="readout-value" id="cy-point">—</div></div>
+          <div class="readout is-gauge"><div class="readout-label">Manometer</div><div class="readout-value" id="cy-dp">—</div></div>
+          <div class="readout is-caution"><div class="readout-label">Average |α|</div><div class="readout-value" id="cy-avg">—</div></div>
+        </div>
+        <div id="cy-status" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Points that need no rotation count as α = 0° and stay in the average. If the average of the absolute angles is more than 20°, the site fails: straighten the flow with vanes, move to another location, or use an approved alternative such as the three-dimensional pitot methods (Methods 2F and 2G).</p></div>
+  </figure>
+
+  <div class="eq">
+    <p class="eq-name">Cyclonic flow criterion</p>
+    <div class="eq-body"><div class="tex">\bar{\alpha} = \frac{1}{N}\sum_{i=1}^{N}\lvert\alpha_i\rvert \;\le\; 20^\circ</div></div>
+  </div>
+
+  <section class="prose">
+    <h2 id="criteria" data-short="Criteria">Acceptance criteria</h2>
+  </section>
+  <div class="callout criteria">
+    <p class="callout-title">Method 1 at a glance</p>
+    <ul>
+      <li>Stack diameter greater than 12 in. (0.30 m), or cross-section greater than 113 in.² (0.071 m²). Otherwise use Method 1A.</li>
+      <li>Ideal site: at least 8 diameters downstream and 2 diameters upstream of any disturbance.</li>
+      <li>Absolute minimum: 2 diameters downstream and 0.5 diameters upstream.</li>
+      <li>Particulate traverses: up to 24 points (circular) or 25 (rectangular) from Figure 1-1.</li>
+      <li>Points no closer to the wall than 1.0 in. (stacks over 24 in.) or 0.5 in. (24 in. and under), or the nozzle inside diameter if larger.</li>
+      <li>Rectangular elements with a length-to-width ratio between 1.0 and 2.0.</li>
+      <li>Average absolute yaw angle no more than 20°.</li>
+    </ul>
+  </div>
+
+  <section class="prose">
+    <h2 id="mistakes" data-short="Field mistakes">Field mistakes that cost runs</h2>
+  </section>
+  <div class="callout pitfall">
+    <p class="callout-title">Measuring from the wrong reference</p>
+    <p>Point distances in Table 1-2 are from the inside wall, but you mark the probe from the outside face of the port. Forget to add the nipple length and wall thickness and every point shifts toward the far wall.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Forgetting the stack exit</p>
+    <p>The top of the stack is a disturbance. A port 1.5 diameters below the exit fails the 2-diameter upstream criterion even if the inlet is far below.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Trusting the drawings</p>
+    <p>Measure the inside diameter at the ports. Stacks get relined, refractory erodes, and some are not round. Check the distance to the far wall through both ports.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Skipping the cyclonic check after a scrubber</p>
+    <p>Wet scrubbers, cyclones, and tangential inlets are classic sources of swirl. Run the null check before you commit to the location, not after three runs.</p>
+  </div>
+
+  <div class="quiz" data-title="Check yourself">
+    <script type="application/json">
+    [
+      {"q":"A 6 ft diameter stack has its port 33 ft above the breeching inlet and 15 ft below the exit. Does it meet the 8-and-2 rule?",
+       "options":["Yes: 5.5 diameters downstream and 2.5 upstream","No: it is only 5.5 diameters downstream of the inlet","Yes: the total straight run is 8 diameters","No: it is less than 2 diameters below the exit"],
+       "answer":1,
+       "why":"Distance B is 33 ÷ 6 = 5.5 diameters, short of the 8 needed. Distance A is 15 ÷ 6 = 2.5 diameters, which is fine. From Figure 1-1, B = 5.5 calls for 20 points; A = 2.5 calls for the minimum, so you sample 20."},
+      {"q":"Why do equal-area traverse points crowd toward the stack wall?",
+       "options":["Velocity is highest near the wall","The outer rings are thin but hold as much area as the wide inner rings","The method wants extra points where the pitot is least accurate","So the probe does not have to reach the far side"],
+       "answer":1,
+       "why":"Area grows with the square of radius, so a thin ring near the wall contains as much area as a wide ring near the center. Each point represents equal area."},
+      {"q":"For a 12-point circular traverse (6 points per diameter), where is point 1?",
+       "options":["4.4% of the diameter from the wall","6.7% of the diameter from the wall","14.6% of the diameter from the wall","1.0 in. from the wall, always"],
+       "answer":0,
+       "why":"With n = 6, <span class=\"tex\">P_1 = 50[1-\\sqrt{5/6}] = 4.4\\%</span>. On a 48 in. stack that is 2.1 in. from the wall, so no adjustment is needed."},
+      {"q":"At a 12-point cyclonic check, three points needed 25°, 30° and 35° of rotation. The other nine read null at 0°. What is the result?",
+       "options":["Fail: the average of the three is 30°","Pass: the average over all 12 points is 7.5°","Fail: any point above 20° fails the site","Pass, but only if you drop the 35° point"],
+       "answer":1,
+       "why":"Null points count as α = 0° and stay in the average: (25 + 30 + 35) ÷ 12 = 7.5°, well under 20°."},
+      {"q":"A 20 in. stack is 10 diameters from both disturbances. How many particulate traverse points?",
+       "options":["12","8","24","9"],
+       "answer":1,
+       "why":"The 8-and-2 rule is met and the stack is between 12 and 24 in., so the minimum is 8 points (two diameters of four)."}
+    ]
+    </script>
+  </div>
+
+  <div id="lesson-end"></div>
+</main>
+</div>
+<footer id="site-footer"></footer>
+</body>
+</html>

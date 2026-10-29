@@ -1,0 +1,37 @@
+/* Method 2 page */
+
+/* KaTeX draws tall radicals with an SVG that must not be clamped by the global max-width rule */
+.katex svg { max-width: none; }
+.bench-stage .katex svg { height: inherit; }
+
+.m2-calc-stage { place-items: stretch; padding: 1.25rem; }
+.m2-eqs { display: grid; gap: 0.55rem; width: 100%; min-width: 0; }
+.m2-eqline {
+  display: grid; grid-template-columns: 10.5rem minmax(0, 1fr); align-items: center; gap: 1rem;
+  background: var(--panel); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  padding: 0.3rem 1rem;
+}
+.m2-eqlabel { font-size: 0.86rem; color: var(--ink-2); }
+.m2-tex { overflow-x: auto; overflow-y: hidden; min-width: 0; }
+.m2-tex .katex-display { margin: 0.35rem 0; text-align: left; }
+.m2-tex .katex-display > .katex { text-align: left; }
+.m2-eqs .readouts { margin-top: 0.65rem; }
+@media (max-width: 700px) {
+  .m2-eqline { grid-template-columns: minmax(0, 1fr); gap: 0; padding-top: 0.5rem; }
+}
+
+.m2-trav-stage { display: block; place-items: stretch; padding: 1rem 1.25rem 1.25rem; }
+.m2-trav-readouts { grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); }
+.m2-trav-readouts { margin-top: 1rem; }
+.m2-trav-table { margin: 0; }
+.m2-trav-table table.data { font-size: 0.9rem; }
+.m2-trav-table th, .m2-trav-table td { padding: 0.28rem 0.45rem; }
+.m2-trav-table td { vertical-align: middle; }
+.m2-trav-table .field { width: 4.6rem; padding: 0.22rem 0.4rem; text-align: right; }
+.m2-trav-table tfoot td { font-weight: 650; border-bottom: 0; border-top: 2px solid var(--ink); }
+.m2-trav-note { margin: 1.1rem 0 0; font-size: 0.95rem; color: var(--ink-2); max-width: 36rem; }
+.m2-trav-note strong { color: var(--ink); }
+@media (max-width: 640px) {
+  .m2-trav-table .field { width: 3.7rem; }
+  .m2-trav-table th, .m2-trav-table td { padding: 0.25rem 0.3rem; }
+}

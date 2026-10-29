@@ -1,0 +1,107 @@
+/* Overview lesson: lifecycle stepper and test-day timeline */
+
+/* ---------- Who is involved ---------- */
+.roles {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0;
+  border: 1px solid var(--rule); border-radius: var(--radius); background: var(--panel);
+  margin: 1.5rem 0 2rem;
+}
+.roles > div { padding: 1rem 1.2rem; border-bottom: 1px solid var(--rule); }
+.roles > div:nth-child(odd) { border-right: 1px solid var(--rule); }
+.roles > div:nth-last-child(-n + 2) { border-bottom: 0; }
+.roles dt { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; line-height: 1.2; margin-bottom: 0.2rem; }
+.roles dd { margin: 0; font-size: 0.94rem; color: var(--ink-2); line-height: 1.5; }
+@media (max-width: 640px) {
+  .roles { grid-template-columns: minmax(0, 1fr); }
+  .roles > div:nth-child(odd) { border-right: 0; }
+  .roles > div:nth-last-child(2) { border-bottom: 1px solid var(--rule); }
+}
+
+/* ---------- Lifecycle stepper ---------- */
+.life { padding: 1.4rem 1.25rem 1.2rem; }
+.life-track {
+  position: relative; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr));
+  margin: 0 0 1.4rem;
+}
+.life-line {
+  position: absolute; left: calc(100% / 18); right: calc(100% / 18); top: calc(1.075rem - 1.5px);
+  height: 3px; background: var(--rule); border-radius: 3px;
+}
+.life-fill {
+  display: block; height: 100%; width: 0; background: var(--accent); border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.life-step {
+  position: relative; z-index: 1; display: grid; justify-items: center; align-content: start; gap: 0.45rem;
+  background: none; border: 0; padding: 0 0.15rem; cursor: pointer; font: inherit; color: var(--ink-2);
+}
+.life-step:focus-visible { outline: none; }
+.life-step:focus-visible .life-dot { outline: 3px solid var(--focus); outline-offset: 2px; }
+.life-dot {
+  width: 2.15rem; height: 2.15rem; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; line-height: 1;
+  background: var(--panel); border: 2px solid var(--rule-strong); color: var(--ink-2);
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s, transform 0.3s;
+}
+.life-step:hover .life-dot { border-color: var(--accent); }
+.life-step.is-past .life-dot { border-color: var(--accent); color: var(--accent); }
+.life-step[aria-selected="true"] .life-dot {
+  background: var(--accent); border-color: var(--accent); color: var(--paper); transform: scale(1.12);
+}
+.life-name { font-size: 0.8rem; line-height: 1.25; text-align: center; }
+.life-step[aria-selected="true"] .life-name { color: var(--ink); font-weight: 650; }
+
+.life-panel {
+  display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 1.25rem 2.25rem;
+  padding: 1.25rem 1.35rem; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--paper);
+}
+.life-panel:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.life-panel.is-entering { animation: life-in 0.35s ease; }
+@keyframes life-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.life-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem 0.85rem; margin-bottom: 0.6rem; }
+.life-head h3 { margin: 0; font-size: 1.8rem; }
+.life-body p { font-size: 0.98rem; }
+.life-body p:last-child { margin-bottom: 0; }
+.life-lists { display: grid; gap: 1.1rem; align-content: start; }
+.life-lists h4 {
+  font-family: var(--font-body); font-size: 0.85rem; font-weight: 650; color: var(--ink-2);
+  margin: 0 0 0.4rem; line-height: 1.3;
+}
+.life-lists ul { margin: 0; font-size: 0.94rem; line-height: 1.45; }
+.life-checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.4rem; }
+.life-checks li { margin: 0; }
+.life-checks label { display: flex; gap: 0.55rem; align-items: flex-start; cursor: pointer; font-size: 0.94rem; line-height: 1.4; }
+.life-checks input { accent-color: var(--gas); width: 1.05rem; height: 1.05rem; margin: 0.12rem 0 0; flex: none; cursor: pointer; }
+.life-checks input:checked + span { color: var(--ink-2); text-decoration: line-through; text-decoration-color: var(--ink-3); }
+.life-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 1rem; }
+.life-count { font-size: 0.88rem; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 760px) {
+  .life { padding: 1.1rem 0.75rem 0.9rem; }
+  .life-panel { grid-template-columns: minmax(0, 1fr); padding: 1rem; }
+  .life-nav .btn { padding-left: 0.65rem; padding-right: 0.65rem; }
+  .life-name { display: none; }
+  .life-dot { width: 1.9rem; height: 1.9rem; font-size: 1rem; }
+  .life-line { top: calc(0.95rem - 1.5px); }
+}
+
+/* ---------- Test-day timeline ---------- */
+.day-clock-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 1.5rem; }
+.day-clock { font-family: var(--font-display); font-size: 2.3rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+.day-phase { font-size: 0.92rem; color: var(--ink-2); }
+.day-now { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem 1.75rem; }
+.day-lane { border-top: 3px solid var(--rule-strong); padding-top: 0.5rem; transition: border-color 0.25s; }
+.day-lane-name { font-size: 0.8rem; color: var(--ink-2); }
+.day-task { font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; line-height: 1.15; margin: 0.1rem 0 0.3rem; }
+.day-detail { font-size: 0.9rem; color: var(--ink-2); line-height: 1.5; margin: 0; }
+.day-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; font-size: 0.82rem; color: var(--ink-2); }
+.day-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.day-legend i { display: inline-block; width: 0.85rem; height: 0.85rem; border-radius: 3px; }
+#day-svg { touch-action: none; }
+.day-bar rect { transition: opacity 0.2s; }
+@media (max-width: 760px) {
+  .day-now { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---------- Method dependency chain: badges show method numbers ---------- */
+.chain > li::before { content: attr(data-badge); font-size: 1rem; }
+.nowrap-first td:first-child, .nowrap-first th:first-child { white-space: nowrap; }

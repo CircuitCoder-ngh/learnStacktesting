@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instrumental analyzer methods | Stack Testing Field Guide</title>
+<meta name="description" content="EPA Methods 3A, 6C, 7E, 10 and 25A explained interactively: the sampling system, calibration error, system bias and drift, stratification, unit conversions, and the CEMS RATA.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/instrumental.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/instrumental.js"></script>
+</head>
+<body data-page="instr" class="accent-gas">
+<header id="site-header"></header>
+<div class="layout">
+<aside id="rail" class="rail"></aside>
+<main id="main" class="lesson">
+
+  <div class="lesson-hero">
+    <div class="numeral" aria-hidden="true">7E</div>
+    <div>
+      <h1>Instrumental analyzer methods</h1>
+      <p class="cite">EPA Methods 3A, 6C, 7E, 10 and 25A, 40 CFR Part 60, Appendix A</p>
+      <p class="lede">Instead of collecting a sample to weigh later, these methods pipe stack gas continuously to analyzers and read concentrations in real time. The numbers are only as good as the calibration checks that bracket every run.</p>
+    </div>
+  </div>
+
+  <dl class="glance">
+    <div><dt>Answers</dt><dd>What are the O₂, CO₂, NOₓ, SO₂, CO and hydrocarbon concentrations, minute by minute?</dd></div>
+    <div><dt>Equipment</dt><dd>Heated probe and line, gas conditioner, pump, analyzers, data system, EPA Protocol calibration gases</dd></div>
+    <div><dt>Produces</dt><dd>Bias-corrected average concentrations for each run, in ppmvd or percent</dd></div>
+    <div><dt>Feeds into</dt><dd>Emission rates with Method 2 flow, O₂-corrected limits, F-factor rates, CEMS audits</dd></div>
+  </dl>
+
+  <section class="prose">
+    <h2 id="family" data-short="The method family">One procedure, many analyzers</h2>
+    <p>Method 7E was written for nitrogen oxides, but its sampling and quality-assurance procedure became the template for the other gas methods. Methods 3A, 6C and 10 each name their own analyzer types and then point back to Method 7E for how to set up, calibrate, and check the system. Learn 7E once and you know most of the family.</p>
+  </section>
+
+  <div class="table-wrap">
+    <table class="data">
+      <caption>Instrumental reference methods and common analyzer principles</caption>
+      <thead><tr><th>Method</th><th>Measures</th><th>Typical analyzer principle</th></tr></thead>
+      <tbody>
+        <tr><td><strong>3A</strong></td><td>O₂ and CO₂</td><td>Paramagnetic or electrochemical (O₂); nondispersive infrared, NDIR (CO₂)</td></tr>
+        <tr><td><strong>6C</strong></td><td>SO₂</td><td>Ultraviolet absorption, NDIR, or UV fluorescence</td></tr>
+        <tr><td><strong>7E</strong></td><td>NOₓ (NO + NO₂)</td><td>Chemiluminescence, with a converter that turns NO₂ into NO</td></tr>
+        <tr><td><strong>10</strong></td><td>CO</td><td>NDIR or gas filter correlation</td></tr>
+        <tr><td><strong>25A</strong></td><td>Total gaseous organics</td><td>Flame ionization detector (FID), calibrated with propane</td></tr>
+        <tr><td><strong>320</strong></td><td>Many gases at once (HCl, NH₃, formaldehyde and more)</td><td>Extractive Fourier transform infrared (FTIR), from 40 CFR 63 Appendix A</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="prose">
+    <p>A chemiluminescence analyzer only sees NO: it reacts NO with ozone and counts the light given off. To report total NOₓ, the sample first passes through a heated converter that reduces NO₂ to NO. Method 7E requires showing the converter is at least <strong>90% efficient</strong>.</p>
+
+    <h2 id="system" data-short="Sampling system">The sampling system</h2>
+    <p>An extractive system pulls gas out of the stack and delivers it clean and dry to the analyzers. Every part of the path can change the sample: a cold spot condenses water that dissolves SO₂ and NO₂, a leak dilutes the gas with air, and a dirty filter can react with what passes through it. That is why the method checks the whole system, not just the analyzers.</p>
+    <ul>
+      <li><strong>Probe and heated filter</strong> pull gas from the measurement point and remove particulate.</li>
+      <li><strong>Heated sample line</strong> carries the gas to the trailer above its dew point so nothing condenses on the way.</li>
+      <li><strong>Gas conditioner</strong>, a chiller or permeation dryer, removes moisture so the analyzers read on a dry basis. Hot, wet systems skip this step and report wet concentrations.</li>
+      <li><strong>Pump and manifold</strong> keep a steady flow and split it between analyzers, venting the excess.</li>
+      <li><strong>Data system</strong> logs every analyzer at short intervals and averages each run.</li>
+    </ul>
+  </section>
+
+  <figure class="bench wide" id="b-system">
+    <div class="bench-head">
+      <p class="bench-title">Where the gas goes</p>
+      <p class="bench-hint">Switch between sampling and the two calibration paths.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="sys-svg" class="dg" viewBox="0 0 1000 330" role="img" aria-label="Diagram of an extractive analyzer sampling system from the stack probe to the data system, with calibration gas paths"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl span-all">
+          <span class="ctl-label">Flow path</span>
+          <div class="seg" id="sys-mode">
+            <button type="button" data-value="sample" aria-pressed="true">Sampling stack gas</button>
+            <button type="button" data-value="direct" aria-pressed="false">Direct calibration</button>
+            <button type="button" data-value="system" aria-pressed="false">System bias check</button>
+          </div>
+        </div>
+        <div class="span-all" id="sys-text" aria-live="polite"></div>
+      </div>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="gases" data-short="Calibration gases">Calibration gases and span</h2>
+    <p>Analyzers are checked against <strong>EPA Protocol gases</strong>: cylinders whose concentration is certified traceable to national standards. Before testing you choose a <strong>calibration span</strong>, the top of the range you will check, and three gases to go with it:</p>
+    <ul>
+      <li><strong>Low-level gas</strong>, under 20% of the span. Usually a zero gas such as nitrogen.</li>
+      <li><strong>Mid-level gas</strong>, 40 to 60% of the span.</li>
+      <li><strong>High-level gas</strong>, equal to the span. Its concentration defines the span.</li>
+    </ul>
+    <p>Pick the span to suit the source: high enough that readings stay under it, low enough that the readings are not a sliver at the bottom of the range. A span ten times higher than the emissions makes every percent-of-span criterion ten times easier to pass, and ten times less meaningful.</p>
+
+    <h2 id="checks" data-short="Calibration checks">Calibration error, system bias, and drift</h2>
+    <p>Three checks bracket the data. Each is expressed as a percent of the calibration span.</p>
+    <ol class="steps">
+      <li><strong>Analyzer calibration error</strong> Once at the start, inject zero, mid and high gases straight into the analyzer. The response must match each cylinder’s certified value.</li>
+      <li><strong>System bias</strong> Before and after every run, inject zero gas and an upscale gas (mid or high, whichever is closer to the stack concentration) at the probe. Compare the response through the whole system with the direct response for the same gas.</li>
+      <li><strong>Drift</strong> Compare each run’s post-run bias response with its pre-run response. A big change means the analyzer moved during the run.</li>
+    </ol>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Analyzer calibration error, system bias, and drift (% of calibration span)</p>
+    <div class="eq-body"><div class="tex">ACE = \frac{C_{Dir} - C_V}{CS}\times 100 \qquad SB = \frac{C_S - C_{Dir}}{CS}\times 100 \qquad D = \lvert SB_{final} - SB_{i}\rvert</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">C_V</span></dt><dd>certified concentration of the calibration gas</dd>
+      <dt><span class="tex">C_{Dir}</span></dt><dd>analyzer response when the gas goes directly to the analyzer</dd>
+      <dt><span class="tex">C_S</span></dt><dd>analyzer response when the gas goes through the whole sampling system</dd>
+      <dt><span class="tex">CS</span></dt><dd>calibration span</dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-cal">
+    <div class="bench-head">
+      <p class="bench-title">Calibration checks for one run</p>
+      <p class="bench-hint">Push the analyzer, system and drift errors and watch which checks fail.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="cal-svg" class="dg" viewBox="0 0 1000 330" role="img" aria-label="Chart of calibration error, system bias and drift as a percent of span, with acceptance bands"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <span class="ctl-label">Calibration span, ppm NOₓ</span>
+          <div class="seg" id="cal-span">
+            <button type="button" data-value="10" aria-pressed="false">10</button>
+            <button type="button" data-value="50" aria-pressed="false">50</button>
+            <button type="button" data-value="100" aria-pressed="true">100</button>
+            <button type="button" data-value="500" aria-pressed="false">500</button>
+          </div>
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cal-ea">Analyzer error at mid gas <span class="ctl-value" id="cal-ea-out"></span></label>
+          <input type="range" id="cal-ea" min="-4" max="4" step="0.1" value="0.8">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cal-sb">System bias (sample loss or leak) <span class="ctl-value" id="cal-sb-out"></span></label>
+          <input type="range" id="cal-sb" min="-8" max="8" step="0.1" value="-1.5">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cal-dr">Drift during the run <span class="ctl-value" id="cal-dr-out"></span></label>
+          <input type="range" id="cal-dr" min="-5" max="5" step="0.1" value="1.0">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="cal-avg">Raw run average <span class="ctl-value" id="cal-avg-out"></span></label>
+          <input type="range" id="cal-avg" min="10" max="95" step="1" value="45">
+        </div>
+        <div class="readouts">
+          <div class="readout"><div class="readout-label">Raw average</div><div class="readout-value" id="cal-raw">—</div></div>
+          <div class="readout is-gas"><div class="readout-label">Bias-corrected</div><div class="readout-value" id="cal-corr">—</div></div>
+        </div>
+        <div class="span-all" id="cal-status" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin:0">
+      <table class="data" id="cal-table"></table>
+    </div>
+    <div class="bench-foot"><p>Each check also passes if the absolute difference is 0.5 ppmv or less, which matters on low spans: try the 10 ppm span, where 0.5 ppm is already 5% of span.</p></div>
+  </figure>
+
+  <div class="eq">
+    <p class="eq-name">Bias-corrected run concentration (Method 7E, Equation 7E-5)</p>
+    <div class="eq-body"><div class="tex">C_{Gas} = \left(\bar{C} - C_O\right)\frac{C_{MA}}{C_M - C_O}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">\bar{C}</span></dt><dd>average analyzer reading over the run</dd>
+      <dt><span class="tex">C_O</span></dt><dd>average of the pre- and post-run system responses to the zero gas</dd>
+      <dt><span class="tex">C_M</span></dt><dd>average of the pre- and post-run system responses to the upscale gas</dd>
+      <dt><span class="tex">C_{MA}</span></dt><dd>certified concentration of that upscale gas</dd>
+    </dl>
+  </div>
+
+  <div class="callout criteria">
+    <p class="callout-title">Method 7E calibration limits</p>
+    <ul>
+      <li>Analyzer calibration error: within 2.0% of the calibration span, or 0.5 ppmv absolute.</li>
+      <li>System bias: within 5.0% of the span, or 0.5 ppmv, before and after each run.</li>
+      <li>Drift: within 3.0% of the span, or 0.5 ppmv, between pre- and post-run checks.</li>
+      <li>NO₂-to-NO converter efficiency: at least 90%.</li>
+    </ul>
+    <p>A failed post-run system bias check invalidates the run. A failed drift check means recalibrating before the next run. Confirm the corrective actions in the current method text and your protocol.</p>
+  </div>
+
+  <section class="prose">
+    <h2 id="running" data-short="Running the test">Running the test</h2>
+    <p>With the system calibrated, the probe goes into the stack. The <strong>system response time</strong>, measured during the first bias check, is how long the analyzer takes to settle after a step change in concentration. It sets the pace of the run: at each sampling point, wait at least <strong>two response times</strong> before counting data, so the reading reflects that point and not the last one.</p>
+    <p>Each analyzer also needs an <strong>interference check</strong>, showing that other gases in the stream, such as CO₂ or water vapor, do not shift its reading. It is typically done once per analyzer rather than every test.</p>
+  </section>
+
+  <section class="prose">
+    <h2 id="strat" data-short="Stratification">Stratification: how many points?</h2>
+    <p>Gas analyzers measure concentration, not velocity, so they do not need a full velocity-weighted traverse if the concentration is uniform across the stack. The <strong>stratification test</strong> decides. Sample a full Method 1 traverse (commonly 12 points) and compare each point with the average:</p>
+    <ul>
+      <li>Every point within <strong>±5%</strong> of the mean (or ±0.5 ppm; ±0.3% O₂ or CO₂): sample at a <strong>single point</strong>.</li>
+      <li>Every point within <strong>±10%</strong> (or ±1.0 ppm; ±0.5% O₂ or CO₂): sample at <strong>3 points</strong> on one line, at 16.7, 50.0 and 83.3% of the diameter. For stacks wider than 7.8 ft (2.4 m), use points 0.4, 1.2 and 2.0 m from the wall.</li>
+      <li>Otherwise the gas is stratified: sample at every point of the Method 1 traverse.</li>
+    </ul>
+  </section>
+
+  <figure class="bench wide" id="b-strat">
+    <div class="bench-head">
+      <p class="bench-title">Stratification test</p>
+      <p class="bench-hint">Increase the stratification and watch the decision change.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="strat-svg" class="dg" viewBox="0 0 1000 320" role="img" aria-label="Plan view of 12 traverse points colored by concentration and a chart of each point's deviation from the mean"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <span class="ctl-label">Gas</span>
+          <div class="seg" id="st-gas">
+            <button type="button" data-value="nox" aria-pressed="true">NOₓ, 40 ppm</button>
+            <button type="button" data-value="o2" aria-pressed="false">O₂, 5%</button>
+          </div>
+        </div>
+        <div class="ctl">
+          <span class="ctl-label">Pattern</span>
+          <div class="seg" id="st-pattern">
+            <button type="button" data-value="side" aria-pressed="true">Side to side</button>
+            <button type="button" data-value="core" aria-pressed="false">Core vs wall</button>
+          </div>
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="st-amt">Stratification <span class="ctl-value" id="st-amt-out"></span></label>
+          <input type="range" id="st-amt" min="0" max="25" step="0.5" value="6">
+        </div>
+        <div class="readouts">
+          <div class="readout"><div class="readout-label">Mean</div><div class="readout-value" id="st-mean">—</div></div>
+          <div class="readout is-caution"><div class="readout-label">Largest deviation</div><div class="readout-value" id="st-max">—</div></div>
+        </div>
+        <div class="span-all" id="st-status" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Notice how O₂ passes more easily: the absolute allowance of 0.3% O₂ is larger than 5% of a 5% reading.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="thc" data-short="Hydrocarbons (25A)">Total hydrocarbons: Method 25A</h2>
+    <p>Method 25A uses a flame ionization detector. Organic compounds burned in a hydrogen flame produce ions, and the current is roughly proportional to the number of carbon atoms passing through. The FID cannot tell compounds apart, so the method reports a single total.</p>
+    <ul>
+      <li><strong>Propane is the calibration gas.</strong> Results are reported “as propane,” or multiplied by three and reported “as carbon.” Always check which basis your permit limit uses.</li>
+      <li><strong>The sample stays hot and wet.</strong> Chilling would condense heavier organics, so the line and analyzer are heated and results are on a wet basis. Convert with Method 4 moisture if the limit is dry.</li>
+      <li><strong>It counts methane too.</strong> If the limit is for non-methane organics, pair it with a methane measurement (for example Method 18 or an analyzer with a methane cutter).</li>
+    </ul>
+    <p>Method 25A has its own calibration levels and limits that differ from Method 7E. Work from the current method text when setting up.</p>
+  </section>
+
+  <section class="prose">
+    <h2 id="units" data-short="Units">From ppm to permit units</h2>
+    <p>Analyzers report concentration by volume. Permits usually want mass rates, concentrations at a reference O₂ level, or mass per unit of heat input. Three conversions cover most cases.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Mass concentration and mass rate (68 °F, 29.92 in. Hg)</p>
+    <div class="eq-body"><div class="tex">C_{lb/dscf} = \frac{C_{ppmvd}\times MW}{385.3\times 10^{6}} \qquad E_{lb/hr} = C_{lb/dscf}\times Q_{sd}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">385.3</span></dt><dd>ft³ occupied by one lb-mole of ideal gas at 68 °F and 1 atm</dd>
+      <dt><span class="tex">MW</span></dt><dd>molecular weight; NOₓ is reported as NO₂ (46.01)</dd>
+      <dt><span class="tex">Q_{sd}</span></dt><dd>dry standard flow rate from Method 2, dscf/hr</dd>
+    </dl>
+  </div>
+
+  <div class="eq">
+    <p class="eq-name">Correction to a reference O₂ level, and Method 19 heat-input rate</p>
+    <div class="eq-body"><div class="tex">C_{@X\%O_2} = C\,\frac{20.9 - X}{20.9 - \%O_{2d}} \qquad E_{lb/MMBtu} = C_{lb/dscf}\,F_d\,\frac{20.9}{20.9 - \%O_{2d}}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">X</span></dt><dd>reference O₂: 7% is common for boilers and incinerators, 15% for combustion turbines</dd>
+      <dt><span class="tex">F_d</span></dt><dd>dry F-factor: dscf of combustion gas per million Btu of fuel at 0% excess air</dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-conv">
+    <div class="bench-head">
+      <p class="bench-title">Unit converter</p>
+      <p class="bench-hint">Enter a run result and see it in permit units.</p>
+    </div>
+    <div class="bench-body even">
+      <div class="bench-side" style="border-left:0">
+        <div class="ins-fields">
+          <label class="ctl"><span class="ctl-label">Pollutant</span>
+            <select class="field" id="cv-pol">
+              <option value="46.01">NOₓ as NO₂ (MW 46.01)</option>
+              <option value="64.06">SO₂ (MW 64.06)</option>
+              <option value="28.01">CO (MW 28.01)</option>
+              <option value="44.10">THC as propane (MW 44.10)</option>
+            </select>
+          </label>
+          <label class="ctl"><span class="ctl-label">Concentration, ppmvd</span><input class="field" id="cv-c" type="number" value="42" min="0" step="0.1"></label>
+          <label class="ctl"><span class="ctl-label">O₂, % dry</span><input class="field" id="cv-o2" type="number" value="4.0" min="0" max="20.8" step="0.1"></label>
+          <label class="ctl"><span class="ctl-label">Flow, dscfm</span><input class="field" id="cv-q" type="number" value="35000" min="0" step="100"></label>
+          <label class="ctl"><span class="ctl-label"><span>Fuel, F<sub>d</sub> in dscf/MMBtu</span></span>
+            <select class="field" id="cv-fuel">
+              <option value="8710">Natural gas (8,710)</option>
+              <option value="9190">Oil (9,190)</option>
+              <option value="9780">Bituminous coal (9,780)</option>
+            </select>
+          </label>
+          <div class="ctl"><span class="ctl-label">Reference O₂</span>
+            <div class="seg" id="cv-ref">
+              <button type="button" data-value="3" aria-pressed="false">3%</button>
+              <button type="button" data-value="7" aria-pressed="true">7%</button>
+              <button type="button" data-value="15" aria-pressed="false">15%</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bench-side">
+        <div class="readouts">
+          <div class="readout is-gas"><div class="readout-label">Mass rate</div><div class="readout-value" id="cv-lbhr">—</div></div>
+          <div class="readout is-accent"><div class="readout-label" id="cv-ref-label">At 7% O₂</div><div class="readout-value" id="cv-corr">—</div></div>
+          <div class="readout is-caution"><div class="readout-label">Heat-input rate</div><div class="readout-value" id="cv-mmbtu">—</div></div>
+        </div>
+        <div class="ins-work" id="cv-work"></div>
+      </div>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="rata" data-short="RATA">Certifying a CEMS: the RATA</h2>
+    <p>Many sources run a continuous emission monitoring system (CEMS) all year. To prove it reads correctly, a test crew runs the reference method side by side with it in a <strong>relative accuracy test audit</strong>. For SO₂ and NOₓ monitors, Performance Specification 2 (40 CFR 60 Appendix B) sets the procedure:</p>
+    <ul>
+      <li>Run at least <strong>9 paired runs</strong>, typically 21 minutes or longer each. You may run more and discard up to 3, but at least 9 must remain, and every run must be reported.</li>
+      <li>Compute the difference for each pair, the mean difference, and a confidence coefficient from the spread of the differences.</li>
+      <li>The relative accuracy usually must be no more than <strong>20% of the mean reference method value</strong>. Low-emitting sources may qualify for an alternative limit based on the emission standard.</li>
+    </ul>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Relative accuracy (Performance Specification 2)</p>
+    <div class="eq-body"><div class="tex">RA = \frac{\lvert\bar{d}\rvert + \lvert CC\rvert}{\overline{RM}}\times 100 \qquad CC = t_{0.975}\,\frac{S_d}{\sqrt{n}}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">\bar{d}</span></dt><dd>mean of the differences between reference method and CEMS values</dd>
+      <dt><span class="tex">S_d</span></dt><dd>standard deviation of the differences</dd>
+      <dt><span class="tex">t_{0.975}</span></dt><dd>Student’s t at n − 1 degrees of freedom: 2.306 for 9 runs, 2.262 for 10, 2.228 for 11, 2.201 for 12</dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-rata">
+    <div class="bench-head">
+      <p class="bench-title">RATA calculator</p>
+      <p class="bench-hint">Edit the run data or drop up to three runs.</p>
+    </div>
+    <div class="bench-body">
+      <div class="bench-stage">
+        <svg id="rata-svg" class="dg" viewBox="0 0 560 360" role="img" aria-label="Paired reference method and CEMS values for each run"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <span class="ctl-label">Runs performed</span>
+          <div class="seg" id="rata-n">
+            <button type="button" data-value="9" aria-pressed="true">9</button>
+            <button type="button" data-value="10" aria-pressed="false">10</button>
+            <button type="button" data-value="11" aria-pressed="false">11</button>
+            <button type="button" data-value="12" aria-pressed="false">12</button>
+          </div>
+        </div>
+        <div class="readouts">
+          <div class="readout"><div class="readout-label">Mean difference</div><div class="readout-value" id="rata-d">—</div></div>
+          <div class="readout"><div class="readout-label">Confidence coefficient</div><div class="readout-value" id="rata-cc">—</div></div>
+          <div class="readout is-accent"><div class="readout-label">Relative accuracy</div><div class="readout-value" id="rata-ra">—</div></div>
+        </div>
+        <div id="rata-status" aria-live="polite"></div>
+        <p class="ctl-help" id="rata-help"></p>
+      </div>
+    </div>
+    <div class="table-wrap" style="margin:0">
+      <table class="data ins-rata" id="rata-table"></table>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="criteria" data-short="Criteria">Acceptance criteria</h2>
+  </section>
+  <div class="callout criteria">
+    <p class="callout-title">Instrumental methods at a glance</p>
+    <ul>
+      <li>EPA Protocol calibration gases: low under 20% of span, mid 40–60%, high equal to the span.</li>
+      <li>Analyzer calibration error within 2.0% of span (or 0.5 ppmv).</li>
+      <li>System bias within 5.0% of span (or 0.5 ppmv), before and after every run.</li>
+      <li>Drift within 3.0% of span (or 0.5 ppmv) across each run.</li>
+      <li>NO₂-to-NO converter efficiency of at least 90% (Method 7E).</li>
+      <li>At each point, sample at least two system response times before recording data.</li>
+      <li>Stratification: ±5% for a single point, ±10% for three points, otherwise a full traverse.</li>
+      <li>RATA (PS-2): at least 9 runs; relative accuracy generally no more than 20% of the mean reference value.</li>
+    </ul>
+  </div>
+
+  <section class="prose">
+    <h2 id="mistakes" data-short="Field mistakes">Field mistakes that cost runs</h2>
+  </section>
+  <div class="callout pitfall">
+    <p class="callout-title">A cold spot in the heated line</p>
+    <p>Where the heat trace fails, water condenses and dissolves SO₂ and NO₂. Readings drop, and the post-run system bias check often catches it only after an hour of testing is lost.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Choosing a lazy span</p>
+    <p>A 500 ppm span on a 20 ppm source makes the checks easy to pass and the data hard to defend. Size the span to the emissions.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Calibrating at the analyzer only</p>
+    <p>Direct calibration proves the analyzer works. It says nothing about leaks, a saturated filter, or a failing conditioner. The system bias check through the probe is the one that protects the data.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Moving too fast between points</p>
+    <p>If the response time is 90 seconds, data from the first three minutes at a new point still belong partly to the old one.</p>
+  </div>
+
+  <div class="quiz" data-title="Check yourself">
+    <script type="application/json">
+    [
+      {"q":"Which check uses calibration gas injected at the probe and drawn through the whole sampling system?",
+       "options":["Analyzer calibration error","System bias","Converter efficiency","Interference check"],
+       "answer":1,
+       "why":"System bias compares the response through the full system with the direct analyzer response for the same gas. It catches leaks, absorption and conditioner losses."},
+      {"q":"With a 100 ppm span, the direct response to a 50.0 ppm mid gas is 51.6 ppm. Does the analyzer pass calibration error?",
+       "options":["Yes: 1.6% of span is within 2.0%","No: the error is 3.2% of the gas value","No: any error over 0.5 ppm fails","Yes: only the high gas matters"],
+       "answer":0,
+       "why":"Calibration error is a percent of the span: (51.6 − 50.0) ÷ 100 × 100 = 1.6%, within the 2.0% limit."},
+      {"q":"Pre-run zero and upscale system responses are 0.4 and 48.6 ppm; post-run they are 0.6 and 49.4 ppm. The upscale gas is 50.0 ppm and the raw run average is 40.0 ppm. What is the bias-corrected result?",
+       "options":["40.0 ppm","40.7 ppm","41.2 ppm","39.5 ppm"],
+       "answer":1,
+       "why":"<span class=\"tex\">C_O = 0.5</span>, <span class=\"tex\">C_M = 49.0</span>, so <span class=\"tex\">C_{Gas} = (40.0-0.5)\\times 50.0/(49.0-0.5) = 40.7</span> ppm."},
+      {"q":"In a stratification test, every NOₓ point is within 7% of the mean but two points exceed 5%. How many points must you sample?",
+       "options":["One point","Three points on one line","Every point of the Method 1 traverse","It depends on the stack diameter"],
+       "answer":1,
+       "why":"Within ±10% but not all within ±5% (and not within the ppm allowances) means a 3-point line at 16.7, 50.0 and 83.3% of the diameter."},
+      {"q":"A RATA has 9 runs with a mean difference of 1.2 ppm, a confidence coefficient of 0.9 ppm and a mean reference value of 40 ppm. What is the relative accuracy?",
+       "options":["3.0%","5.3%","2.3%","7.5%"],
+       "answer":1,
+       "why":"RA = (|1.2| + |0.9|) ÷ 40 × 100 = 5.25%, comfortably under 20%."}
+    ]
+    </script>
+  </div>
+
+  <div id="lesson-end"></div>
+</main>
+</div>
+<footer id="site-footer"></footer>
+</body>
+</html>

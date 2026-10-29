@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method 5: Particulate matter | Stack Testing Field Guide</title>
+<meta name="description" content="EPA Method 5 explained interactively: the sampling train, isokinetic sampling, nozzle and K-factor selection, leak checks, sample recovery, and the calculations from field data to pounds per hour.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/method-5.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/method-5.js"></script>
+</head>
+<body data-page="m5" class="accent-soot">
+<header id="site-header"></header>
+<div class="layout">
+<aside id="rail" class="rail"></aside>
+<main id="main" class="lesson">
+
+  <div class="lesson-hero">
+    <div class="numeral" aria-hidden="true">5</div>
+    <div>
+      <h1>Particulate matter</h1>
+      <p class="cite">EPA Method 5, 40 CFR Part 60, Appendix A-3</p>
+      <p class="lede">Method 5 pulls a sample from every traverse point at exactly the speed of the gas around the nozzle, catches the particulate on a heated filter, and weighs it. It is the method that ties Methods 1 through 4 together.</p>
+    </div>
+  </div>
+
+  <dl class="glance">
+    <div><dt>Answers</dt><dd>How much filterable particulate is in the gas, and how many pounds per hour leave the stack?</dd></div>
+    <div><dt>Equipment</dt><dd>Nozzle, heated probe and filter, impingers in an ice bath, meter box with dry gas meter and orifice</dd></div>
+    <div><dt>Produces</dt><dd>PM concentration (gr/dscf) and emission rate (lb/hr), plus moisture and the isokinetic rate</dd></div>
+    <div><dt>Depends on</dt><dd>Method 1 points, Method 2 velocity, Method 3 molecular weight, Method 4 moisture</dd></div>
+  </dl>
+
+  <section class="prose">
+    <h2 id="what" data-short="What it measures">What counts as particulate</h2>
+    <p>Method 5 measures <strong>filterable particulate matter</strong>: everything that is caught on a glass-fiber filter held at <strong>248 ± 25 °F (120 ± 14 °C)</strong>, plus whatever settles in the nozzle, probe, and the front half of the filter holder on the way there. That temperature is part of the definition. Material that is still a vapor at 248 °F passes through the filter and is not Method 5 particulate, even if it would condense into particles once it leaves the stack.</p>
+    <p>Everything upstream of the filter is called the <strong>front half</strong> and is the Method 5 sample. The impingers behind the filter are the <strong>back half</strong>; in Method 5 they only collect water for the moisture measurement. Condensable particulate in the back half is measured separately with <a href="more-methods.html">Method 202</a>.</p>
+  </section>
+
+  <section class="prose">
+    <h2 id="train" data-short="The sampling train">The sampling train</h2>
+    <p>The train is a straight line from the stack to the meter box. Gas enters the nozzle, travels through the heated probe to the filter, loses its water in the iced impingers, and is measured dry by the meter box. Select any part to see what it does.</p>
+  </section>
+
+  <figure class="bench wide" id="b-train">
+    <div class="bench-head">
+      <p class="bench-title">Method 5 sampling train</p>
+      <p class="bench-hint">Select a component in the drawing or from the list.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage scroll-sm">
+        <svg id="train-svg" class="dg" viewBox="0 0 1000 380" role="group" aria-label="Diagram of the Method 5 sampling train from the stack to the meter box"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="span-all m5-chips" id="train-chips" role="group" aria-label="Train components"></div>
+        <div class="span-all m5-desc" id="train-desc" aria-live="polite"></div>
+      </div>
+    </div>
+    <div class="bench-foot"><p>Soot-colored dots stop on the filter, blue dots condense in the impingers, and teal gas continues to the dry gas meter. The meter only ever sees dry gas, which is why the moisture catch matters for every calculation.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="isokinetic" data-short="Isokinetic sampling">Sampling isokinetically</h2>
+    <p><em>Isokinetic</em> means “same speed.” The gas entering the nozzle must move at the same velocity as the stack gas approaching it. Gas molecules and very fine particles follow the gas wherever it goes, but larger particles carry momentum and keep going straight.</p>
+    <ul>
+      <li><strong>Too slow (sub-isokinetic).</strong> Gas piles up at the nozzle and spills around it, but heavy particles cannot turn and fly in anyway. The sample gets more particles than its share of gas: the result is <strong>biased high</strong>.</li>
+      <li><strong>Too fast (super-isokinetic).</strong> The nozzle pulls in gas from a wider area, but heavy particles from the edges cannot turn in. The sample gets extra gas without its particles: the result is <strong>biased low</strong>.</li>
+    </ul>
+    <p>Because velocity changes from point to point, the operator re-sets the sampling rate at every traverse point, using the pitot reading at that point.</p>
+  </section>
+
+  <figure class="bench wide" id="b-iso">
+    <div class="bench-head">
+      <p class="bench-title">Isokinetic simulator</p>
+      <p class="bench-hint">Change the sampling speed and watch which particles end up in the nozzle.</p>
+    </div>
+    <div class="bench-body stacked">
+      <div class="bench-stage m5-iso-stage">
+        <canvas id="iso-canvas" aria-label="Gas streamlines and particles approaching a sampling nozzle" role="img"></canvas>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="iso-r">Nozzle velocity ÷ stack velocity <span class="ctl-value" id="iso-r-out"></span></label>
+          <input type="range" id="iso-r" min="50" max="150" step="1" value="70">
+          <div class="bench-row" style="margin-top:.35rem">
+            <button type="button" class="btn ghost small" data-iso="70">Too slow</button>
+            <button type="button" class="btn ghost small" data-iso="100">Isokinetic</button>
+            <button type="button" class="btn ghost small" data-iso="135">Too fast</button>
+          </div>
+          <div id="iso-status" aria-live="polite" style="margin-top:.6rem"></div>
+        </div>
+        <div>
+          <p class="m5-sub">Measured ÷ true concentration, by particle size</p>
+          <div class="bias-list" id="iso-bias"></div>
+        </div>
+      </div>
+    </div>
+    <div class="bench-foot">
+      <p>Bias from the Belyaev–Levin correlation, <span class="tex">c/c_0 = 1 + (U_0/U - 1)\left[1 - \frac{1}{1 + (2 + 0.62\,U/U_0)\,\mathrm{Stk}}\right]</span>, for unit-density particles, 49 ft/s stack gas, and a 0.25 in. nozzle. The correlation was fitted for Stokes numbers of about 0.18 to 2; values outside that range are indicative only.</p>
+    </div>
+  </figure>
+
+  <div class="callout tip">
+    <p class="callout-title">Gas results do not care about isokinetics</p>
+    <p>Gases and sub-micron particles follow the streamlines, so their measured concentration is right at any sampling rate. Isokinetic sampling only matters for particles big enough to have inertia, which is exactly what Method 5 is after.</p>
+  </div>
+
+  <section class="prose">
+    <h2 id="setup" data-short="Nozzle and K-factor">Setting up: nozzle and K-factor</h2>
+    <p>Before the first run the crew uses preliminary data—a Method 2 velocity traverse, stack temperature, a moisture estimate, and the gas composition—to choose a nozzle. The goal is a nozzle that lets the meter box run near a comfortable sampling rate (often around 0.75 cfm) across the whole range of velocities in the stack.</p>
+    <p>The isokinetic condition then reduces to a single multiplier. For each traverse point the operator reads the pitot Δp, multiplies by the <strong>K-factor</strong>, and sets the orifice pressure drop ΔH to that value. Field calculators and the classic nomograph both do this.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Isokinetic orifice setting</p>
+    <div class="eq-body"><div class="tex">\Delta H = \underbrace{846.72\,D_n^4\,\Delta H_@\,C_p^2\,(1-B_{ws})^2\,\frac{M_d}{M_s}\,\frac{T_m}{T_s}\,\frac{P_s}{P_m}}_{K}\;\Delta p</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">D_n</span></dt><dd>nozzle inside diameter, in.</dd>
+      <dt><span class="tex">\Delta H_@</span></dt><dd>orifice coefficient: the ΔH that gives 0.75 cfm of air at 68 °F and 29.92 in. Hg, from the meter box calibration</dd>
+      <dt><span class="tex">C_p</span></dt><dd>pitot tube coefficient</dd>
+      <dt><span class="tex">M_d,\ M_s</span></dt><dd>dry and wet molecular weight of the stack gas, lb/lb-mole</dd>
+      <dt><span class="tex">T_m,\ T_s</span></dt><dd>meter and stack temperature, °R</dd>
+      <dt><span class="tex">P_m,\ P_s</span></dt><dd>meter and stack absolute pressure, in. Hg</dd>
+    </dl>
+  </div>
+
+  <figure class="bench wide" id="b-nozzle">
+    <div class="bench-head">
+      <p class="bench-title">Nozzle and K-factor calculator</p>
+      <p class="bench-hint">Enter preliminary data, then pick a nozzle.</p>
+    </div>
+    <div class="m5-pad">
+      <div class="form-grid" id="nz-form"></div>
+    </div>
+    <div class="m5-pad m5-split">
+      <div>
+        <div class="readouts">
+          <div class="readout is-gauge"><div class="readout-label">Stack velocity at average Δp</div><div class="readout-value" id="nz-vs">—</div></div>
+          <div class="readout is-accent"><div class="readout-label">Ideal nozzle diameter</div><div class="readout-value" id="nz-ideal">—</div></div>
+          <div class="readout"><div class="readout-label">K-factor</div><div class="readout-value" id="nz-k">—</div></div>
+          <div class="readout is-gas"><div class="readout-label">Meter rate at average Δp</div><div class="readout-value" id="nz-q">—</div></div>
+        </div>
+        <div class="ctl" style="margin-top:1.1rem">
+          <span class="ctl-label">Nozzle to install</span>
+          <div class="seg" id="nz-pick"></div>
+        </div>
+        <div id="nz-status" aria-live="polite" style="margin-top:.75rem"></div>
+      </div>
+      <div class="table-wrap" style="margin:0">
+        <table class="data" id="nz-table"></table>
+      </div>
+    </div>
+    <div class="eq" style="margin:0 1.25rem 1.25rem"><div class="eq-body"><div id="nz-eq"></div></div></div>
+    <div class="bench-foot"><p>Meter pressure in the K-factor depends on ΔH itself, so the calculator iterates. Nozzles come in 1/16 in. steps; a smaller nozzle needs a higher ΔH for the same velocity, a larger one a lower ΔH.</p></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="run" data-short="Running a test">Running a test run</h2>
+    <p>A run visits every traverse point from Method 1, spending the same amount of time at each one. The applicable rule sets the minimum run length and sample volume; many standards ask for at least an hour and roughly 30 dscf per run, and most compliance tests use three runs.</p>
+    <ol class="steps">
+      <li><strong>Leak check the train.</strong> A pre-test check, commonly at 15 in. Hg vacuum, is recommended. Also leak check the pitot lines.</li>
+      <li><strong>Heat up and record initial readings.</strong> Bring the probe and filter box to temperature, ice the impingers, and record the starting dry gas meter volume.</li>
+      <li><strong>Position the nozzle at the first point, pointing straight into the flow, and start the pump immediately.</strong> Seal the gap around the probe at the port so outside air cannot dilute the sample.</li>
+      <li><strong>At each point, read Δp and set ΔH.</strong> Multiply Δp by K, set the orifice reading with the coarse and fine valves, and record Δp, ΔH, stack temperature, meter volume and temperatures, vacuum, and box temperatures.</li>
+      <li><strong>Keep the clock running between points.</strong> Re-set ΔH as soon as the nozzle reaches the next point. To change ports, shut off the pump, withdraw the probe, and leak check if any component is changed.</li>
+      <li><strong>Watch the train.</strong> Rising vacuum means the filter is loading. Keep the filter at 248 ± 25 °F and the gas leaving the last impinger at 68 °F or colder by adding ice.</li>
+      <li><strong>Finish with the post-test leak check.</strong> Run it at a vacuum at least as high as the highest reached during the run, and leak check the pitot lines again.</li>
+    </ol>
+  </section>
+
+  <div class="callout criteria">
+    <p class="callout-title">Leak checks</p>
+    <ul>
+      <li>Allowable leak rate: <strong>0.020 cfm (0.00057 m³/min) or 4% of the average sampling rate, whichever is less.</strong></li>
+      <li>The post-test leak check is mandatory and is run at a vacuum equal to or greater than the maximum vacuum reached during the run.</li>
+      <li>Leak check before any component change during a run (a filter or probe swap), at the highest vacuum reached so far.</li>
+      <li>A failed post-test check does not automatically end the discussion: Method 5 gives a volume correction, or the run is voided. Your protocol and the agency decide which.</li>
+    </ul>
+  </div>
+
+  <figure class="bench wide" id="b-leak">
+    <div class="bench-head">
+      <p class="bench-title">Post-test leak check</p>
+      <p class="bench-hint">Set the run's sampling rate and the leak check result.</p>
+    </div>
+    <div class="bench-body">
+      <div class="bench-stage">
+        <svg id="leak-svg" class="dg" viewBox="0 0 560 230" role="img" aria-label="Bar comparing the measured leak rate with the allowable leak rate"></svg>
+      </div>
+      <div class="bench-side">
+        <div class="ctl">
+          <label class="ctl-label" for="lk-rate">Average sampling rate <span class="ctl-value" id="lk-rate-out"></span></label>
+          <input type="range" id="lk-rate" min="0.3" max="1.0" step="0.01" value="0.40">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="lk-leak">Measured leak rate <span class="ctl-value" id="lk-leak-out"></span></label>
+          <input type="range" id="lk-leak" min="0" max="0.04" step="0.001" value="0.012">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="lk-max">Highest vacuum during the run <span class="ctl-value" id="lk-max-out"></span></label>
+          <input type="range" id="lk-max" min="2" max="20" step="0.5" value="8">
+        </div>
+        <div class="ctl">
+          <label class="ctl-label" for="lk-vac">Leak check vacuum <span class="ctl-value" id="lk-vac-out"></span></label>
+          <input type="range" id="lk-vac" min="2" max="20" step="0.5" value="10">
+        </div>
+        <div id="lk-status" aria-live="polite"></div>
+      </div>
+    </div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="recovery" data-short="Sample recovery">Recovering the sample</h2>
+    <p>Recovery happens in a clean area, usually a trailer lab, as soon as the train comes down. Every fraction goes into its own labeled, sealed container, and anything that touched sample gets rinsed into the right one.</p>
+    <ol class="steps">
+      <li><strong>Cap everything.</strong> Once the probe cools enough to handle, wipe the outside and cap the nozzle and probe inlet. Cap the filter holder openings.</li>
+      <li><strong>Container 1: the filter.</strong> With tweezers and clean gloves, move the filter into its labeled petri dish. Brush any particulate or filter fibers stuck to the gasket into the dish. Seal.</li>
+      <li><strong>Container 2: the front-half rinse.</strong> Rinse and brush the nozzle, probe fittings, probe liner, and the front half of the filter holder with acetone into a glass jar. Brush the probe repeatedly, at least three times, until no visible particles remain, then a final rinse. Mark the liquid level.</li>
+      <li><strong>Impinger water.</strong> Measure the liquid in the impingers by volume or weight. In Method 5 this is the moisture catch, not part of the PM sample.</li>
+      <li><strong>Container 3: silica gel.</strong> Weigh the silica gel, or return it to its original container to weigh later.</li>
+      <li><strong>Acetone blank.</strong> Bottle a sample of the same acetone used for rinsing so the lab can subtract its residue.</li>
+      <li><strong>Chain of custody.</strong> Record each container, its contents, and liquid levels, and keep custody records through the lab.</li>
+    </ol>
+  </section>
+
+  <section class="prose">
+    <h2 id="analysis" data-short="Lab analysis">Lab analysis</h2>
+    <p>Method 5 is gravimetric: the answer is a weight. The lab desiccates the filter and weighs it on an analytical balance until two weighings at least six hours apart agree within 0.5 mg (or uses the oven-drying option the method allows). The acetone rinse is evaporated at room temperature and pressure in a tared beaker, desiccated, and weighed to constant weight the same way.</p>
+    <p>The acetone blank is weighed too, and its residue is subtracted from the rinse weight. The method caps how much blank can be subtracted, which is why crews use low-residue acetone and keep it in glass. The total particulate mass, <span class="tex">m_n</span>, is the filter gain plus the blank-corrected rinse residue.</p>
+  </section>
+
+  <section class="prose">
+    <h2 id="calc" data-short="Calculations">From field data to pounds per hour</h2>
+    <p>The data sheet holds everything needed. The walkthrough below runs the Method 5 equations on one run. Change any field value to see every result update.</p>
+  </section>
+
+  <figure class="bench wide" id="b-calc">
+    <div class="bench-head">
+      <p class="bench-title">Results walkthrough</p>
+      <p class="bench-hint">Edit the field data. Each step uses the results above it.</p>
+    </div>
+    <div class="m5-pad">
+      <div class="form-grid" id="rc-form"></div>
+      <div class="bench-row" style="margin-top:1rem"><button type="button" class="btn ghost small" id="rc-reset">Reset to the example run</button></div>
+    </div>
+    <ol class="calc-steps" id="rc-steps"></ol>
+    <div class="bench-foot" id="rc-foot"></div>
+  </figure>
+
+  <section class="prose">
+    <h2 id="criteria" data-short="Criteria">Acceptance criteria</h2>
+  </section>
+  <div class="callout criteria">
+    <p class="callout-title">Method 5 at a glance</p>
+    <ul>
+      <li>Isokinetic rate between <strong>90% and 110%</strong> for each run.</li>
+      <li>Filter held at <strong>248 ± 25 °F (120 ± 14 °C)</strong>, unless the applicable rule sets another temperature.</li>
+      <li>Gas leaving the last impinger at <strong>68 °F (20 °C)</strong> or colder.</li>
+      <li>Post-test leak rate no more than <strong>0.020 cfm or 4% of the average sampling rate</strong>, whichever is less, at or above the run's maximum vacuum.</li>
+      <li>Nozzle inside diameter measured three times on different diameters to 0.001 in.; the three must agree within <strong>0.004 in.</strong></li>
+      <li>Equal sampling time at every traverse point.</li>
+      <li>Post-test dry gas meter check: the meter factor Y must still agree with the pre-test calibration (the method allows a 5% difference).</li>
+      <li>Run length and minimum sample volume as set by the applicable standard.</li>
+    </ul>
+    <p>When a run falls outside 90–110% isokinetic but the PM result is low compared with the standard, the method lets the agency decide whether to accept it.</p>
+  </div>
+
+  <section class="prose">
+    <h2 id="mistakes" data-short="Field mistakes">Field mistakes that cost runs</h2>
+  </section>
+  <div class="callout pitfall">
+    <p class="callout-title">Leaving the nozzle in the flow with the pump off</p>
+    <p>A nozzle facing into the gas without suction collects particulate it should not, and on a positive-pressure stack gas can push back through the train. Start sampling as soon as the nozzle is in position, and keep the time between pump-off and withdrawal short.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Scraping the nozzle on the port</p>
+    <p>Dragging the nozzle across a port lip or the stack wall knocks deposits into the sample. Insert and withdraw carefully, and keep the nozzle covered until it is in the stack.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Running out of ice</p>
+    <p>If the impingers warm up, water vapor gets past them and the dry gas meter reads a wet volume. Moisture is understated and the isokinetic rate drifts. Check the exit temperature at every reading.</p>
+  </div>
+  <div class="callout pitfall">
+    <p class="callout-title">Using the wrong K-factor after conditions change</p>
+    <p>The K-factor depends on stack temperature, moisture, and meter temperature. A K set in the cool morning can push a hot afternoon run out of the 90–110% window. Re-calculate whenever conditions shift.</p>
+  </div>
+
+  <div class="quiz" data-title="Check yourself">
+    <script type="application/json">
+    [
+      {"q":"An operator samples at 80% of the isokinetic rate in a stack carrying mostly coarse particulate. How will the measured concentration compare with the truth?",
+       "options":["Biased high","Biased low","Unbiased, because concentration is per cubic foot","It depends only on the filter temperature"],
+       "answer":0,
+       "why":"Sub-isokinetic sampling lets gas spill around the nozzle while heavy particles keep coming in, so the sample holds too many particles for its gas volume."},
+      {"q":"Which of these is not part of the Method 5 particulate catch?",
+       "options":["The acetone rinse of the probe liner","The filter","The rinse of the front half of the filter holder","The water collected in the impingers"],
+       "answer":3,
+       "why":"The impinger water is the Method 4 moisture catch. Condensable particulate in the back half is a separate measurement, Method 202."},
+      {"q":"A run averaged 0.70 cfm. What is the maximum allowable post-test leak rate?",
+       "options":["0.028 cfm","0.020 cfm","0.040 cfm","0.014 cfm"],
+       "answer":1,
+       "why":"4% of 0.70 cfm is 0.028 cfm, but the limit is whichever is less of that and 0.020 cfm, so 0.020 cfm."},
+      {"q":"Why is the filter held at 248 °F?",
+       "options":["To burn off organic material","Because the temperature defines what counts as filterable PM and keeps water from condensing on the filter","To protect the glass-fiber filter from cracking","So the meter box reads standard conditions"],
+       "answer":1,
+       "why":"Method 5 particulate is whatever is solid or liquid at the filter temperature. A fixed temperature makes results comparable, and staying above the dew point keeps the filter from getting wet."},
+      {"q":"At one traverse point Δp is 0.40 in. H₂O and K is 2.5. At the next point Δp is 0.80. What ΔH should the operator set at the second point?",
+       "options":["1.00 in. H₂O","1.41 in. H₂O","2.00 in. H₂O","4.00 in. H₂O"],
+       "answer":2,
+       "why":"ΔH = K·Δp, so 2.5 × 0.80 = 2.00 in. H₂O. Doubling Δp doubles ΔH; the sampling rate itself goes up by √2, matching the √2 rise in velocity."}
+    ]
+    </script>
+  </div>
+
+  <div id="lesson-end"></div>
+</main>
+</div>
+<footer id="site-footer"></footer>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Worked example: a Method 5 test | Stack Testing Field Guide</title>
+<meta name="description" content="A complete three-run Method 5 calculation, from field data sheet to grains per dry standard cubic foot, pounds per hour, isokinetic rate and pounds per million Btu.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/calculator.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/calculator.js"></script>
+</head>
+<body data-page="calc" class="accent-geom">
+<header id="site-header"></header>
+<div class="layout">
+<aside id="rail" class="rail"></aside>
+<main id="main" class="lesson">
+
+  <div class="lesson-hero">
+    <div class="numeral is-text" aria-hidden="true">Σ</div>
+    <div>
+      <h1>Worked example: a Method 5 test</h1>
+      <p class="cite">Methods 1 through 5 and Method 19, three runs from field data to pounds per hour</p>
+      <p class="lede">This is the arithmetic a test report is built on. Change any number on the field data sheet and follow it through moisture, molecular weight, velocity, flow, concentration, emission rate and the isokinetic check.</p>
+    </div>
+  </div>
+
+  <dl class="glance">
+    <div><dt>Source</dt><dd>A coal-fired boiler with a 72 in. stack, sampled at 24 points for 96 minutes per run</dd></div>
+    <div><dt>Inputs</dt><dd>One field data sheet per run, plus the lab weight of the particulate catch</dd></div>
+    <div><dt>Outputs</dt><dd>gr/dscf, mg/dscm, lb/hr, lb/MMBtu and the isokinetic rate</dd></div>
+    <div><dt>Uses</dt><dd>Method 1 area, Method 2 velocity and flow, Method 3 molecular weight, Method 4 moisture, Method 5 concentration, Method 19 F-factor</dd></div>
+  </dl>
+
+  <section class="prose">
+    <h2 id="how" data-short="How to use">How to use this example</h2>
+    <p>The data sheet on the left holds one run’s averages and totals, the numbers a crew carries off the platform. The column on the right works through the calculation in the order a report does, with every equation shown twice: once in symbols and once with this run’s numbers plugged in.</p>
+    <p>Switch between runs with the tabs. Edits are kept for each run until you reset them, and the three-run summary below updates as you go. Try nudging the meter volume and watch the isokinetic rate, or raise the stack temperature and see how velocity and flow respond.</p>
+  </section>
+
+  <section class="prose">
+    <h2 id="calc" data-short="The calculation">Field data to results</h2>
+  </section>
+
+  <div class="calc wide" id="calc-app">
+    <div class="calc-bar">
+      <div class="seg" id="calc-run" role="group" aria-label="Choose run">
+        <button type="button" data-value="0" aria-pressed="true">Run 1</button>
+        <button type="button" data-value="1" aria-pressed="false">Run 2</button>
+        <button type="button" data-value="2" aria-pressed="false">Run 3</button>
+      </div>
+      <div class="bench-row">
+        <button type="button" class="btn ghost small" id="calc-reset">Reset to example data</button>
+        <button type="button" class="btn small" id="calc-csv">Download results as CSV</button>
+      </div>
+    </div>
+    <div class="calc-grid">
+      <form class="calc-inputs" id="calc-form" aria-label="Field data for the selected run" novalidate></form>
+      <div class="calc-steps">
+        <div id="calc-alerts" aria-live="polite"></div>
+        <div id="calc-steps"></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="prose">
+    <h2 id="summary" data-short="Three-run summary">Three-run summary</h2>
+    <p>A compliance test is normally the average of three runs, and the average is what gets compared with the limit. Each run still has to stand on its own: a run outside 90–110% isokinetic, or with a failed leak check, is not averaged in. It has to be repeated or the agency has to accept it.</p>
+  </section>
+
+  <div class="table-wrap wide">
+    <table class="data" id="sum-table"></table>
+  </div>
+
+  <section class="prose">
+    <h2 id="mmbtu" data-short="Pounds per MMBtu">Pounds per million Btu</h2>
+    <p>Boiler limits are often written per unit of heat input rather than per hour, so a large boiler and a small one are held to the same standard. Method 19 converts a dry concentration to lb/MMBtu without measuring fuel flow, using an <strong>F-factor</strong>: the volume of dry flue gas produced by burning one million Btu of a given fuel with no excess air. The O₂ term scales the result back to zero excess air.</p>
+  </section>
+
+  <div class="eq">
+    <p class="eq-name">Emission rate in lb/MMBtu from a dry concentration and dry O₂ (Method 19)</p>
+    <div class="eq-body"><div class="tex">E = C_d\,F_d\,\frac{20.9}{20.9 - \%O_{2d}}</div></div>
+    <dl class="eq-where">
+      <dt><span class="tex">C_d</span></dt><dd>pollutant concentration, lb/dscf (gr/dscf ÷ 7,000)</dd>
+      <dt><span class="tex">F_d</span></dt><dd>dry F-factor, dscf/MMBtu: natural gas 8,710; bituminous coal 9,780; fuel oil 9,190</dd>
+      <dt><span class="tex">\%O_{2d}</span></dt><dd>oxygen on a dry basis, percent, from Method 3 or 3A</dd>
+    </dl>
+  </div>
+
+  <div class="callout tip">
+    <p class="callout-title">Reading a results table</p>
+    <ul>
+      <li>Check the isokinetic rate first. If a run fails it, nothing else on that run counts.</li>
+      <li>Check moisture against the other runs. A run that reads much drier than the rest often had a leak or a warm ice bath.</li>
+      <li>Compare flow between runs. At a steady process the dscfm should agree within a few percent.</li>
+      <li>Only then compare the average emission rate with the limit, in the limit’s own units.</li>
+    </ul>
+  </div>
+
+  <div class="quiz" data-title="Check yourself">
+    <script type="application/json">
+    [
+      {"q":"On Run 1, raise the meter volume <span class=\"tex\">V_m</span> by 5% and leave everything else alone. What happens to the isokinetic rate?",
+       "options":["It rises by roughly 5%","It falls by roughly 5%","It does not change","It doubles"],
+       "answer":0,
+       "why":"The isokinetic rate compares the gas you sampled with the gas that passed through the nozzle area. More sampled volume for the same velocity and time means a higher rate."},
+      {"q":"Why does the emission rate in lb/hr use <span class=\"tex\">Q_{sd}</span>, the dry standard flow, rather than the actual flow in acfm?",
+       "options":["Because the concentration is in grains per dry standard cubic foot, so the flow must be in the same basis","Because acfm is always larger","Because Method 5 does not measure temperature","Because dry gas weighs more"],
+       "answer":0,
+       "why":"Concentration and flow must be on the same basis. <span class=\"tex\">c_s</span> is per dscf, so it multiplies a flow in dscf/hr."},
+      {"q":"A run collects 85.4 mg of particulate in 70.08 dscf. What is the concentration in gr/dscf?",
+       "options":["0.0188","1.22","0.0012","0.188"],
+       "answer":0,
+       "why":"<span class=\"tex\">c_s = 0.0154 \\times 85.4 / 70.08 = 0.0188</span> gr/dscf. The 0.0154 converts milligrams to grains."},
+      {"q":"Two runs have the same concentration, but Run B has 10% higher dscfm. How does Run B’s lb/hr compare?",
+       "options":["About 10% higher","About 10% lower","The same","About 21% higher"],
+       "answer":0,
+       "why":"Emission rate is concentration times flow, so with equal concentration it scales directly with flow."},
+      {"q":"For lb/MMBtu, why is the O₂ correction factor <span class=\"tex\">20.9/(20.9 - \\%O_2)</span> always greater than 1?",
+       "options":["It adds back the dilution from excess air, because the F-factor assumes none","It converts wet O₂ to dry O₂","It corrects for moisture in the fuel","It converts grains to pounds"],
+       "answer":0,
+       "why":"Excess air dilutes the flue gas. The F-factor describes flue gas with no excess air, so the measured concentration is scaled up to that undiluted condition."}
+    ]
+    </script>
+  </div>
+
+  <div id="lesson-end"></div>
+</main>
+</div>
+<footer id="site-footer"></footer>
+</body>
+</html>
