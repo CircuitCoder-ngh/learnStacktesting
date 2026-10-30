@@ -266,7 +266,7 @@
       for (let k = 0; k <= 6; k++) { const x = sx - 40 + (k * (sw + 80)) / 6; ln(x, py, x, py - 28, C.dim, 1.2); }
       rr(sx + sw - 4, py - 20, 16, 9, 1, C.gauge);
     });
-    plume(sx + sw / 2, top - 8, t, 1.15, seg(t, 2.0, 3.6), 46, 7);
+    plume(sx + sw / 2, top - 8, amb, 1.15, seg(t, 2.0, 3.6), 46, 7);
     const a1 = out(seg(t, 1.9, 3.1)), a2 = out(seg(t, 2.7, 3.9)), a3 = out(seg(t, 4.8, 6.0));
     txt('Stack testing', 110, 300 + (1 - a1) * 26, { disp: true, w: 700, size: 124, a: a1 });
     txt('from the port to the report.', 114, 372 + (1 - a2) * 20, { disp: true, w: 600, size: 58, a: a2, c: C.ink2 });
@@ -280,7 +280,7 @@
         rr(150, 380, 160, 100, 4, C.panel, C.faint);
         rr(268, 250, 28, 130, 2, C.stack, C.faint);
         for (let i = 0; i < 3; i++) rr(166 + i * 34, 410, 20, 18, 2, 'rgba(244,193,61,0.16)');
-        plume(282, 246, t, 0.45, 1, 22, 3);
+        plume(282, 246, amb, 0.45, 1, 22, 3);
         ln(110, 480, 360, 480, C.faint, 2);
         txt('Facility', 230, 520, { al: 'center', size: 20, c: C.ink2 });
       });
@@ -405,7 +405,7 @@
       txt('Inlet', 84, yd - 10, { size: 16, c: C.dim });
     });
     ctx.fillStyle = C.panel2; ctx.fillRect(L, top, D, yb - top);
-    streaks(L, top, D, yb - top, 14, t, { speed: 120, seed: 4, a: 0.9 });
+    streaks(L, top, D, yb - top, 14, amb, { speed: 120, seed: 4, a: 0.9 });
     ln(L, top, L, yd, C.ink2, 2); ln(R, top, R, yb, C.ink2, 2);
     ln(60, yb, R + 90, yb, C.faint, 2);
     A(seg(t, 1.2, 1.8), () => txt('Exit', R + 12, ye + 6, { size: 16, c: C.dim }));
@@ -484,7 +484,7 @@
       ctx.fillStyle = C.panel2; ctx.fillRect(PX - 110, PY - 110, 220, 220);
       const ar = (alpha * Math.PI) / 180, dir = [Math.sin(ar), -Math.cos(ar)], perp = [Math.cos(ar), Math.sin(ar)];
       for (let i = 0; i < 28; i++) {
-        const al = ((rnd(i) + t * 0.35) % 1) * 260 - 130, ac = rnd(i + 50) * 240 - 120;
+        const al = ((rnd(i) + amb * 0.35) % 1) * 260 - 130, ac = rnd(i + 50) * 240 - 120;
         const x = PX + perp[0] * ac + dir[0] * al, y = PY + perp[1] * ac + dir[1] * al;
         ln(x, y, x - dir[0] * 16, y - dir[1] * 16, `rgba(${C.gasRGB},0.55)`, 2);
       }
@@ -506,7 +506,7 @@
   function sM2(t) {
     const x0 = 110, x1 = 450, y0 = 100, y1 = 600, py = 330, hx = 280;
     ctx.fillStyle = C.panel2; ctx.fillRect(x0, y0, x1 - x0, y1 - y0);
-    streaks(x0, y0, x1 - x0, y1 - y0, 70, t, { speed: 170, profile: true, seed: 9 });
+    streaks(x0, y0, x1 - x0, y1 - y0, 70, amb, { speed: 170, profile: true, seed: 9 });
     wall(x0 - 12, y0, 12, y1 - y0);
     wall(x1, y0, 12, py - 18 - y0);
     wall(x1, py + 18, 12, y1 - py - 18);
@@ -581,7 +581,7 @@
     rr(380 - bw / 2 + 10, 320 - bh / 2, bw, bh, Math.min(bw, bh) * 0.45, `rgba(${C.gasRGB},0.14)`, C.gas, 2);
     txt('Integrated bag sample', 390, 470, { al: 'center', size: 18, c: C.ink2, a: seg(t, 1.2, 2.0) });
     if (inf > 0.05 && inf < 0.999) for (let i = 0; i < 6; i++) {
-      const s = (rnd(i) + t * 0.8) % 1;
+      const s = (rnd(i) + amb * 0.8) % 1;
       circ(lerp(80, 300, s), 300, 3, C.gas);
     }
 
@@ -646,7 +646,7 @@
         const h = [60 + 72 * p, 60 + 22 * p, 10 * p][i];
         ctx.fillStyle = `rgba(${C.waterRGB},0.55)`; ctx.fillRect(x - hw, bot - h, hw * 2, h);
         if (i < 2) for (let b = 0; b < 7; b++) {
-          const s = (rnd(b + i * 11) + t * 0.9) % 1;
+          const s = (rnd(b + i * 11) + amb * 0.9) % 1;
           circ(x - 6 + rnd(b + 4) * 12, bot - 14 - s * (h - 16), 2.5 + rnd(b) * 2, 'rgba(227,236,239,0.7)');
         }
       } else {
@@ -669,7 +669,7 @@
     // Meter box
     txt('Dry gas meter', 800, 230, { al: 'center', size: 15, c: C.dim });
     rr(700, 240, 170, 160, 10, C.panel, C.ink2);
-    dial(785, 302, 40, t * 2.4);
+    dial(785, 302, 40, amb * 2.4);
     txt(`${fmtN(73.0 * p, 1)} ft³`, 785, 388, { al: 'center', size: 22, disp: true, w: 600 });
 
     // Moisture fraction
@@ -702,7 +702,7 @@
       const show = (at) => out(seg(t, at, at + 0.7));
       // stack and nozzle
       ctx.fillStyle = C.panel2; ctx.fillRect(20, 120, 100, 420);
-      streaks(20, 120, 100, 420, 22, t, { speed: 140, seed: 21 });
+      streaks(20, 120, 100, 420, 22, amb, { speed: 140, seed: 21 });
       wall(120, 120, 14, 166); wall(120, 314, 14, 226);
       A(show(0.4), () => {
         ctx.save(); ctx.strokeStyle = C.steelHi; ctx.lineWidth = 5; ctx.lineCap = 'round';
@@ -747,7 +747,7 @@
           ln(x + 34, y + 6, x + 180, y - 6, C.ink2, 7);
           ln(x + 34, y + 6, lerp(x + 34, x + 180, i ? 0.62 : 0.38), lerp(y + 6, y - 6, i ? 0.62 : 0.38), C.gauge, 4);
         });
-        dial(1110, 380, 46, t * 2.2);
+        dial(1110, 380, 46, amb * 2.2);
         txt('Meter box', 1110, 580, { al: 'center', size: 17, w: 600 });
       });
       A(out(seg(t, 5.0, 5.8)), () => {
@@ -757,7 +757,7 @@
       // what goes where
       const flow = seg(t, 6, 6.8);
       if (flow > 0) {
-        const tt = t - 6;
+        const tt = amb;
         for (let i = 0; i < 18; i++) {
           const s = (rnd(i + 1) + tt * 0.2) % 1;
           const [x, y] = along(TRAIN.soot, s);
@@ -816,7 +816,7 @@
           // Large particles fly straight: the nozzle catches those within its own height
           for (let i = 0; i < 9; i++) {
             const yy = (i - 4) * 15 + (rnd(i + pn.x) - 0.5) * 6;
-            const s = (rnd(i * 3 + pn.x) + t * 0.32) % 1;
+            const s = (rnd(i * 3 + pn.x) + amb * 0.32) % 1;
             const x = x0 + s * (xn - x0 + 20);
             circ(x, yc + yy, 5, C.soot);
           }
@@ -839,7 +839,7 @@
       A(out(seg(t, 24.3, 25.0)), () => chip('Post-test leak check: 0.004 cfm, under the 0.020 cfm limit', 640, 132, { size: 17 }));
       // probe liner being brushed
       rr(110, 262, 470, 36, 16, 'rgba(213,222,226,0.12)', C.ink2, 2);
-      const bx = 160 + (Math.sin((t - 24) * 3) * 0.5 + 0.5) * 340;
+      const bx = 160 + (Math.sin(amb * 3) * 0.5 + 0.5) * 340;
       ln(bx, 280, 640, 280, C.dim, 2.5);
       for (let k = 0; k < 9; k++) ln(bx - 18 + k * 2.5, 268, bx - 18 + k * 2.5, 292, C.soot, 1.4);
       txt('Brush and acetone rinse', 345, 240, { al: 'center', size: 17, w: 600 });
@@ -849,7 +849,7 @@
       rr(72, 458 - 70 * fillR, 76, 70 * fillR, 8, 'rgba(216,174,126,0.4)');
       rr(82, 348, 56, 14, 3, C.ink2);
       for (let i = 0; i < 4; i++) {
-        const s = (rnd(i + 9) + t * 0.9) % 1;
+        const s = (rnd(i + 9) + amb * 0.9) % 1;
         circ(110, lerp(300, 440, s), 3, C.soot);
       }
       txt('Container 2: rinse', 110, 490, { al: 'center', size: 15, c: C.dim });
@@ -878,7 +878,7 @@
     wall(50, 180, 18, 300);
     ln(68, 330, 150, 330, C.steelHi, 5);
     rr(150, 312, 44, 36, 6, C.panel, C.gauge);
-    ctx.save(); ctx.strokeStyle = C.gauge; ctx.lineWidth = 6; ctx.setLineDash([10, 6]); ctx.lineDashOffset = -t * 30;
+    ctx.save(); ctx.strokeStyle = C.gauge; ctx.lineWidth = 6; ctx.setLineDash([10, 6]); ctx.lineDashOffset = -amb * 30;
     ctx.beginPath(); ctx.moveTo(194, 330); ctx.lineTo(330, 330); ctx.stroke(); ctx.restore();
     txt('Heated line', 262, 312, { al: 'center', size: 14, c: C.dim });
     rr(330, 290, 92, 80, 8, C.panel, C.water, 1.8);
@@ -895,12 +895,12 @@
       ln(505, y + 37, 520, y + 37, C.dim, 2.5);
       rr(520, y, 250, 76, 8, C.panel, C.ink2);
       txt(n, 538, y + 46, { size: 30, disp: true, w: 600 });
-      const jit = v * (1 + 0.012 * Math.sin(t * 1.7 + i * 2) + 0.006 * Math.sin(t * 5.1 + i));
+      const jit = v * (1 + 0.012 * Math.sin(amb * 1.7 + i * 2) + 0.006 * Math.sin(amb * 5.1 + i));
       rr(612, y + 14, 140, 34, 5, '#081114');
       txt(`${fmtN(jit, 1)} ${u}`, 744, y + 38, { al: 'right', size: 22, disp: true, w: 600, c: C.gas });
       ctx.save(); ctx.strokeStyle = `rgba(${C.gasRGB},0.7)`; ctx.lineWidth = 1.5; ctx.beginPath();
       for (let k = 0; k <= 40; k++) {
-        const x = 612 + k * 3.5, tt = t - (40 - k) * 0.08;
+        const x = 612 + k * 3.5, tt = amb - (40 - k) * 0.08;
         ctx.lineTo(x, y + 64 - 6 * (0.5 + 0.5 * Math.sin(tt * 1.7 + i * 2)) - 3 * Math.sin(tt * 5.1 + i));
       }
       ctx.stroke(); ctx.restore();
@@ -1105,7 +1105,9 @@
   /* =========================================================
      Rendering
      ========================================================= */
-  let scale = 1, T = 0, poster = true;
+  // T is the film's timeline; amb is an ambient clock for background motion
+  // (gas, bubbles, dials) that keeps running while the timeline waits for the narrator.
+  let scale = 1, T = 0, poster = true, amb = POSTER_T;
   function sceneAt(time) {
     for (let i = SCENES.length - 1; i >= 0; i--) if (time >= SCENES[i].start) return SCENES[i];
     return SCENES[0];
@@ -1154,6 +1156,65 @@
   const endEl = $('#film-end'), list = $('#film-chapters');
   let playing = false, raf = 0, last = 0, lastCap = null, lastScene = -1;
 
+  /* ---------- Voiceover: the browser's speech synthesis reads each caption ---------- */
+  const CUES = [];
+  SCENES.forEach((s) => s.cap.forEach(([at, text]) => CUES.push({ time: s.start + at, text, first: at === 0 })));
+  const cueAt = (time) => { let k = -1; CUES.forEach((c, i) => { if (c.time <= time + 1e-6) k = i; }); return k; };
+  /** Where the timeline waits while cue i is still being read: just before the next cue, or before the scene fades out. */
+  const holdPoint = (i) => { const nx = CUES[i + 1]; return nx ? nx.time - (nx.first ? 0.5 : 0.02) : TOTAL - 0.05; };
+  /** Spell out symbols the way a tester would say them. */
+  const spoken = (s) => s
+    .replace(/CO₂/g, 'C O 2').replace(/SO₂/g, 'S O 2').replace(/NOₓ/g, 'N O X').replace(/O₂/g, 'O 2')
+    .replace(/\bCO\b/g, 'C O').replace(/B_ws/g, 'B W S').replace(/Δp/g, 'delta P')
+    .replace(/(\d+) ?°F/g, '$1 degrees Fahrenheit').replace(/(\d+)°/g, '$1 degrees')
+    .replace(/\bQA\b/g, 'Q A').replace(/Figure 1-1/g, 'Figure 1 1').replace(/S-type/g, 'S type');
+
+  const synth = window.speechSynthesis;
+  const voiceOK = !!(synth && window.SpeechSynthesisUtterance);
+  const voiceBtn = $('#film-voice');
+  let voiceOn = false, voice = null, utter = null, speaking = false, spokenIdx = -1, speakStart = 0, speakBudget = 0;
+  function pickVoice() {
+    const rank = (v) => (/natural|neural|online/i.test(v.name) ? 6 : 0) + (/google/i.test(v.name) ? 4 : 0)
+      + (/samantha|aria|jenny|guy|daniel|karen|moira|serena|ava|allison/i.test(v.name) ? 3 : 0)
+      + (/en[-_]US/i.test(v.lang) ? 2 : 0) + (v.localService ? 1 : 0);
+    const en = synth.getVoices().filter((v) => /^en([-_]|$)/i.test(v.lang));
+    en.sort((a, b) => rank(b) - rank(a));
+    voice = en[0] || null;
+  }
+  function speakCue(k) {
+    if (!voiceOn || k < 0) return;
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(spoken(CUES[k].text));
+    if (voice) { u.voice = voice; u.lang = voice.lang; } else u.lang = 'en-US';
+    u.rate = 1.02;
+    const done = () => { if (utter === u) { utter = null; speaking = false; } };
+    u.onend = done;
+    u.onerror = done;
+    utter = u;
+    speaking = true;
+    spokenIdx = k;
+    speakStart = performance.now();
+    // Safety net: some engines never fire onend, and the film must not wait forever.
+    speakBudget = CUES[k].text.split(/\s+/).length / 1.9 + 2;
+    synth.speak(u);
+  }
+  function hush() {
+    if (!voiceOK) return;
+    utter = null;
+    speaking = false;
+    synth.cancel();
+  }
+  const ICON_VOICE = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" fill="currentColor" stroke="none"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>';
+  const ICON_MUTE = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" fill="currentColor" stroke="none"/><path d="M16 9.5l5 5M21 9.5l-5 5"/></svg>';
+  function setVoice(on) {
+    voiceOn = voiceOK && on;
+    ST.store.set('film-voice', on);
+    voiceBtn.setAttribute('aria-pressed', String(voiceOn));
+    voiceBtn.innerHTML = voiceOn ? ICON_VOICE : ICON_MUTE;
+    if (!voiceOn) hush();
+    else if (playing) speakCue(cueAt(T));
+  }
+
   $('#film-total').textContent = mmss(TOTAL);
   $('#film-length').textContent = mmss(TOTAL);
   range.max = TOTAL;
@@ -1199,7 +1260,17 @@
     if (!playing) return;
     const dt = last ? Math.min(0.1, (now - last) / 1000) : 0;
     last = now;
-    T += dt;
+    amb += dt;
+    if (voiceOn) {
+      if (speaking && (now - speakStart) / 1000 > speakBudget) speaking = false;
+      let next = T + dt;
+      if (speaking) next = Math.min(next, Math.max(T, holdPoint(spokenIdx)));
+      T = next;
+      const k = cueAt(T);
+      if (k !== spokenIdx) speakCue(k);
+    } else {
+      T += dt;
+    }
     if (T >= TOTAL) {
       T = TOTAL;
       playing = false;
@@ -1219,12 +1290,18 @@
     big.hidden = true;
     endEl.hidden = true;
     paintPlay();
+    // Speaking inside the click handler also unlocks speech on mobile browsers.
+    if (voiceOn) speakCue(cueAt(T));
     if (!raf) raf = requestAnimationFrame(frame);
   }
-  function pause() { playing = false; paintPlay(); }
+  function pause() { playing = false; hush(); paintPlay(); }
   function toggle() { playing ? pause() : play(); }
   function seek(v) {
     T = ST.clamp(v, 0, TOTAL);
+    hush();
+    // Read the line if we land at its start; otherwise wait for the next one.
+    const k = cueAt(T);
+    spokenIdx = k >= 0 && T - CUES[k].time < 0.4 ? k - 1 : k;
     poster = false;
     big.hidden = true;
     endEl.hidden = T < TOTAL;
@@ -1260,8 +1337,19 @@
     } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && tag !== 'INPUT') {
       e.preventDefault(); seek(T + (e.key === 'ArrowRight' ? 5 : -5));
     } else if (e.key === 'c') { setCC(player.classList.contains('no-cc')); }
+    else if (e.key === 'v' && voiceOK) { setVoice(!voiceOn); }
     else if (e.key === 'f' && fsOK) { fsBtn.click(); }
   });
+
+  if (voiceOK) {
+    pickVoice();
+    if (synth.addEventListener) synth.addEventListener('voiceschanged', pickVoice);
+    setVoice(ST.store.get('film-voice', true));
+    voiceBtn.addEventListener('click', () => setVoice(!voiceOn));
+    window.addEventListener('pagehide', hush);
+  } else {
+    voiceBtn.hidden = true;
+  }
 
   paintPlay();
   new ResizeObserver(() => fit()).observe(canvas);
@@ -1270,5 +1358,5 @@
   ST.onTheme(() => render());
 
   // Hook for automated checks: render any moment of the film.
-  window.STFilm = { seek: (v) => { pause(); seek(v); }, total: TOTAL, scenes: SCENES.map((s) => ({ title: s.title, start: s.start, d: s.d })) };
+  window.STFilm = { seek: (v) => { pause(); seek(v); }, now: () => T, total: TOTAL, scenes: SCENES.map((s) => ({ title: s.title, start: s.start, d: s.d })) };
 })();

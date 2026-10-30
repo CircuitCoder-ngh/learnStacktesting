@@ -28,14 +28,14 @@
     <div>
       <h1>The movie</h1>
       <p class="cite">An animated summary of every lesson in this guide</p>
-      <p class="lede">Watch a stack test from the first plan to the final report. Each scene comes from a lesson, and the chapter list jumps straight to any part of the test.</p>
+      <p class="lede">Watch a stack test from the first plan to the final report, with a narrator reading each caption. Each scene comes from a lesson, and the chapter list jumps straight to any part of the test.</p>
     </div>
   </div>
 
   <section class="film wide" aria-labelledby="film-title">
     <h2 id="film-title" class="visually-hidden">Watch</h2>
     <div class="film-player" id="film">
-      <div class="film-stage" id="film-stage" tabindex="0" aria-label="Movie. Press Space to play or pause, arrow keys to skip, C for captions, F for full screen.">
+      <div class="film-stage" id="film-stage" tabindex="0" aria-label="Movie. Press Space to play or pause, arrow keys to skip, V for voiceover, C for captions, F for full screen.">
         <canvas id="film-canvas" role="img" aria-label="Animated summary of a stack test. Captions appear below the picture, and the full transcript is after the chapter list."></canvas>
         <div class="film-caption" aria-hidden="true"><span id="film-cap"></span></div>
         <button class="film-big" id="film-big" type="button"><span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Play the movie</span></button>
@@ -63,10 +63,13 @@
           <div class="film-ticks" id="film-ticks"></div>
           <input class="film-range" id="film-range" type="range" min="0" max="201" step="0.1" value="0" aria-label="Playback position">
         </div>
+        <button class="film-btn" id="film-voice" type="button" aria-pressed="true" aria-label="Voiceover"></button>
         <button class="film-btn" id="film-cc" type="button" aria-pressed="true" aria-label="Captions">CC</button>
         <button class="film-btn" id="film-fs" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
       </div>
     </div>
+
+    <p class="film-note">The voiceover uses your browser’s built-in speech, so the voice depends on your device. When the narrator needs a little longer, the picture holds on that scene until the line is finished. Turn it off with the speaker button or the V key.</p>
 
     <h3 class="film-sub">Chapters</h3>
     <ol class="film-chapters" id="film-chapters"></ol>
