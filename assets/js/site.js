@@ -31,6 +31,7 @@
       group: 'Put it together',
       items: [
         { id: 'calc', badge: 'Σ', title: 'Worked example', href: 'calculator.html' },
+        { id: 'movie', badge: '▶', title: 'The movie', href: 'movie.html' },
         { id: 'glossary', badge: 'A', title: 'Glossary', href: 'glossary.html' },
       ],
     },
@@ -150,6 +151,7 @@
           ${link('overview.html', 'Course', 'overview', 'hide-sm')}
           ${link('index.html#methods', 'Methods', '__', 'hide-sm')}
           ${link('calculator.html', 'Worked example', 'calc', 'hide-sm')}
+          ${link('movie.html', 'Movie', 'movie', 'hide-sm')}
           ${link('glossary.html', 'Glossary', 'glossary', 'hide-sm')}
           <button class="icon-btn theme-btn" type="button" aria-label="Switch color theme"></button>
         </nav>

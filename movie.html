@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The movie | Stack Testing Field Guide</title>
+<meta name="description" content="An animated summary of the whole Stack Testing Field Guide: planning, Methods 1 through 5, instrumental analyzers, calculations and the report, scene by scene.">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/movie.css">
+<script>try{var t=JSON.parse(localStorage.getItem('st:theme'));if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="assets/js/site.js"></script>
+<script defer src="assets/js/movie.js"></script>
+</head>
+<body data-page="movie" class="accent-gas">
+<header id="site-header"></header>
+<div class="layout">
+<aside id="rail" class="rail"></aside>
+<main id="main" class="lesson">
+
+  <div class="lesson-hero">
+    <div class="numeral is-text" aria-hidden="true" id="film-length">3:21</div>
+    <div>
+      <h1>The movie</h1>
+      <p class="cite">An animated summary of every lesson in this guide</p>
+      <p class="lede">Watch a stack test from the first plan to the final report. Each scene comes from a lesson, and the chapter list jumps straight to any part of the test.</p>
+    </div>
+  </div>
+
+  <section class="film wide" aria-labelledby="film-title">
+    <h2 id="film-title" class="visually-hidden">Watch</h2>
+    <div class="film-player" id="film">
+      <div class="film-stage" id="film-stage" tabindex="0" aria-label="Movie. Press Space to play or pause, arrow keys to skip, C for captions, F for full screen.">
+        <canvas id="film-canvas" role="img" aria-label="Animated summary of a stack test. Captions appear below the picture, and the full transcript is after the chapter list."></canvas>
+        <div class="film-caption" aria-hidden="true"><span id="film-cap"></span></div>
+        <button class="film-big" id="film-big" type="button"><span><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z" fill="currentColor"/></svg>Play the movie</span></button>
+        <div class="film-end" id="film-end" hidden>
+          <p class="film-end-title">Pick a step to explore</p>
+          <div class="film-end-links">
+            <a href="overview.html">The test, start to finish</a>
+            <a href="method-1.html">Method 1</a>
+            <a href="method-2.html">Method 2</a>
+            <a href="method-3.html">Method 3</a>
+            <a href="method-4.html">Method 4</a>
+            <a href="method-5.html">Method 5</a>
+            <a href="instrumental.html">Analyzers</a>
+            <a href="calculator.html">Worked example</a>
+          </div>
+          <button class="film-replay" id="film-replay" type="button">Watch again</button>
+        </div>
+      </div>
+      <div class="film-bar">
+        <button class="film-btn" id="film-play" type="button" aria-label="Play"></button>
+        <span class="film-time"><span id="film-now">0:00</span> / <span id="film-total">3:21</span></span>
+        <div class="film-scrub">
+          <div class="film-track"></div>
+          <div class="film-fill" id="film-fill"></div>
+          <div class="film-ticks" id="film-ticks"></div>
+          <input class="film-range" id="film-range" type="range" min="0" max="201" step="0.1" value="0" aria-label="Playback position">
+        </div>
+        <button class="film-btn" id="film-cc" type="button" aria-pressed="true" aria-label="Captions">CC</button>
+        <button class="film-btn" id="film-fs" type="button" aria-label="Full screen"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      </div>
+    </div>
+
+    <h3 class="film-sub">Chapters</h3>
+    <ol class="film-chapters" id="film-chapters"></ol>
+  </section>
+
+  <section class="prose">
+    <h2 id="transcript" data-short="Transcript">Transcript</h2>
+    <p>The narration from every scene, with a link to the lesson that covers it in depth.</p>
+    <div id="film-transcript" class="film-transcript"></div>
+  </section>
+
+  <div id="lesson-end"></div>
+</main>
+</div>
+<footer id="site-footer"></footer>
+</body>
+</html>

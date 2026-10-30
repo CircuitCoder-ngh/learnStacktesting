@@ -15,6 +15,7 @@ An interactive website that teaches stationary source emissions testing (stack t
 | `instrumental.html` | Methods 3A, 6C, 7E, 10, 25A: analyzer QA, stratification, RATA |
 | `more-methods.html` | Method finder for other pollutants (202, 26A, 29, 23, 9 and more) |
 | `calculator.html` | Worked three-run Method 5 calculation |
+| `movie.html` | Animated summary of the whole course, with chapters, captions and a transcript |
 | `glossary.html` | Terms and symbols |
 
 ## Running it locally
